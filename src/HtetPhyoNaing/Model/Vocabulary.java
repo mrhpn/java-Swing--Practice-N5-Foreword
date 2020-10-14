@@ -3,11 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package HtetPhyoNaing.Model;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
  * @author GIC
  */
-public class DBConnection {
-    
+public class Vocabulary {
+
 }

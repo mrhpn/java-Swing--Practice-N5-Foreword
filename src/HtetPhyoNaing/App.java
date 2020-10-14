@@ -5,7 +5,6 @@
  */
 package HtetPhyoNaing;
 
-import HtetPhyoNaing.Models.Lesson;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -77,17 +76,6 @@ public class App extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         cboxLessonInCreateVocabulary = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tableLessons = new javax.swing.JTable();
-        jLabel12 = new javax.swing.JLabel();
-        btnCreateLesson = new javax.swing.JButton();
-        txtCreateLesson = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        btnCreateLesson1 = new javax.swing.JButton();
-        btnCreateLesson2 = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Foreword");
@@ -319,6 +307,8 @@ public class App extends javax.swing.JFrame {
         jLabel8.setText("Pronounciation");
 
         cboxLessonInCreateVocabulary.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        cboxLessonInCreateVocabulary.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
+        cboxLessonInCreateVocabulary.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cboxLessonInCreateVocabulary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboxLessonInCreateVocabularyActionPerformed(evt);
@@ -349,9 +339,10 @@ public class App extends javax.swing.JFrame {
                             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtSearchBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel8)
-                                .addComponent(cboxLessonInCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel9))
+                                .addComponent(jLabel9)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(cboxLessonInCreateVocabulary, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGap(18, 18, 18)
                             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtSearchBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -393,116 +384,6 @@ public class App extends javax.swing.JFrame {
         );
 
         jTabbedPane.addTab("Vocabulary", jPanel8);
-
-        jPanel4.setBackground(new java.awt.Color(235, 241, 246));
-
-        tableLessons.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "No", "Name"
-            }
-        ));
-        jScrollPane2.setViewportView(tableLessons);
-        if (tableLessons.getColumnModel().getColumnCount() > 0) {
-            tableLessons.getColumnModel().getColumn(0).setMinWidth(40);
-            tableLessons.getColumnModel().getColumn(0).setMaxWidth(50);
-        }
-
-        jLabel12.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
-        jLabel12.setText("CREATE LESSON");
-
-        btnCreateLesson.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        btnCreateLesson.setText("Add");
-        btnCreateLesson.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCreateLesson.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateLessonActionPerformed(evt);
-            }
-        });
-
-        txtCreateLesson.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        txtCreateLesson.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCreateLessonActionPerformed(evt);
-            }
-        });
-
-        jLabel11.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        jLabel11.setText("Name");
-
-        jLabel13.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
-        jLabel13.setText("MANAGEMENT");
-
-        btnCreateLesson1.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        btnCreateLesson1.setText("Update");
-        btnCreateLesson1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCreateLesson1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateLesson1ActionPerformed(evt);
-            }
-        });
-
-        btnCreateLesson2.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        btnCreateLesson2.setText("Delete");
-        btnCreateLesson2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCreateLesson2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateLesson2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addGap(60, 60, 60)
-                        .addComponent(btnCreateLesson1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCreateLesson2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel11)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(txtCreateLesson, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCreateLesson, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(350, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel12)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCreateLesson, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCreateLesson, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCreateLesson1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCreateLesson2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(144, Short.MAX_VALUE))
-        );
-
-        jTabbedPane.addTab("Lesson", jPanel4);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -599,36 +480,8 @@ public class App extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchBox6ActionPerformed
 
-    private void txtCreateLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCreateLessonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCreateLessonActionPerformed
-
-    private void btnCreateLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateLessonActionPerformed
-        String name = txtCreateLesson.getText();
-        
-        Lesson lesson = new Lesson(name); 
-        lesson.insert(tableLessons);
-        lesson.repaintTable(tableLessons, "DESC");
-        
-        txtCreateLesson.setText("");
-    }//GEN-LAST:event_btnCreateLessonActionPerformed
-
-    private void btnCreateLesson1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateLesson1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCreateLesson1ActionPerformed
-
-    private void btnCreateLesson2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateLesson2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCreateLesson2ActionPerformed
-
     private void jTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneStateChanged
         // if the selected tab is "Create Lesson", 
-        if (jTabbedPane.getSelectedIndex() == 3)
-            new Lesson().repaintTable(tableLessons, "DESC");
-        
-        if (jTabbedPane.getSelectedIndex() == 2) {
-            new Lesson().getLessons(cboxLessonInCreateVocabulary);
-        }
     }//GEN-LAST:event_jTabbedPaneStateChanged
 
     private void cboxLessonInCreateVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxLessonInCreateVocabularyActionPerformed
@@ -672,9 +525,6 @@ public class App extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCloseWindow;
-    private javax.swing.JButton btnCreateLesson;
-    private javax.swing.JButton btnCreateLesson1;
-    private javax.swing.JButton btnCreateLesson2;
     private javax.swing.JLabel btnMinimizeWindow;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSearch1;
@@ -682,9 +532,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboxLessonInCreateVocabulary;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -695,19 +542,14 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JLabel labelTitle;
-    private javax.swing.JTable tableLessons;
     private javax.swing.JTable tableVocabularies;
-    private javax.swing.JTextField txtCreateLesson;
     private javax.swing.JTextField txtSearchBox;
     private javax.swing.JTextField txtSearchBox1;
     private javax.swing.JTextField txtSearchBox4;
