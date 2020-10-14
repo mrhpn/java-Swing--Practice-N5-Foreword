@@ -6,9 +6,15 @@
 package HtetPhyoNaing;
 
 import HtetPhyoNaing.Models.Lesson;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JFrame;
 
 /**
@@ -24,7 +30,20 @@ public class App extends javax.swing.JFrame {
     public App() {
         initComponents();
         this.setShape(new RoundRectangle2D.Double(0, 0, 1000, 600, 20, 20));
-        tableVocabularies.getColumnModel().getColumn(0).setPreferredWidth(5);
+        
+        try {
+            //create the font to use. Specify the size!
+            Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\cerebrisans-medium.ttf")).deriveFont(18f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+            
+            btnVocabulary.setFont(customFont);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch(FontFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -41,7 +60,7 @@ public class App extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         labelTitle = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        btnVocabulary = new javax.swing.JLabel();
         btnCloseWindow = new javax.swing.JLabel();
         btnMinimizeWindow = new javax.swing.JLabel();
         jTabbedPane = new javax.swing.JTabbedPane();
@@ -54,7 +73,6 @@ public class App extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jComboBox2 = new javax.swing.JComboBox<>();
         jPanel7 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtSearchBox1 = new javax.swing.JTextField();
@@ -118,11 +136,11 @@ public class App extends javax.swing.JFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(240, 52));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/listing.png"))); // NOI18N
-        jLabel1.setText("Vocabulary");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        btnVocabulary.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
+        btnVocabulary.setForeground(new java.awt.Color(255, 255, 255));
+        btnVocabulary.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/listing.png"))); // NOI18N
+        btnVocabulary.setText("Vocabulary");
+        jPanel3.add(btnVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 240, 52));
 
@@ -151,6 +169,8 @@ public class App extends javax.swing.JFrame {
                 jTabbedPaneStateChanged(evt);
             }
         });
+
+        jPanel6.setBackground(new java.awt.Color(235, 241, 246));
 
         txtSearchBox.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         txtSearchBox.addActionListener(new java.awt.event.ActionListener() {
@@ -238,26 +258,22 @@ public class App extends javax.swing.JFrame {
 
         jTabbedPane.addTab("List", jPanel6);
 
-        jLabel6.setText("2");
+        jPanel7.setBackground(new java.awt.Color(235, 241, 246));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(413, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addGap(343, 343, 343))
+            .addGap(0, 762, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(217, 217, 217)
-                .addComponent(jLabel6)
-                .addContainerGap(325, Short.MAX_VALUE))
+            .addGap(0, 556, Short.MAX_VALUE)
         );
 
         jTabbedPane.addTab("Favorites", jPanel7);
+
+        jPanel8.setBackground(new java.awt.Color(235, 241, 246));
 
         jLabel3.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         jLabel3.setText("Choose Lesson");
@@ -382,6 +398,8 @@ public class App extends javax.swing.JFrame {
         );
 
         jTabbedPane.addTab("Vocabulary", jPanel8);
+
+        jPanel4.setBackground(new java.awt.Color(235, 241, 246));
 
         tableLessons.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -656,10 +674,10 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JLabel btnMinimizeWindow;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSearch1;
+    private javax.swing.JLabel btnVocabulary;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -667,7 +685,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
