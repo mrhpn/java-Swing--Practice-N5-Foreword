@@ -15,6 +15,11 @@ import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 /**
@@ -30,20 +35,6 @@ public class App extends javax.swing.JFrame {
     public App() {
         initComponents();
         this.setShape(new RoundRectangle2D.Double(0, 0, 1000, 600, 20, 20));
-        
-        try {
-            //create the font to use. Specify the size!
-            Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\cerebrisans-medium.ttf")).deriveFont(18f);
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            //register the font
-            ge.registerFont(customFont);
-            
-            btnVocabulary.setFont(customFont);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch(FontFormatException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -84,7 +75,7 @@ public class App extends javax.swing.JFrame {
         txtSearchBox5 = new javax.swing.JTextField();
         txtSearchBox6 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cboxLessonInCreateVocabulary = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -327,8 +318,12 @@ public class App extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         jLabel8.setText("Pronounciation");
 
-        jComboBox3.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4" }));
+        cboxLessonInCreateVocabulary.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        cboxLessonInCreateVocabulary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxLessonInCreateVocabularyActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
         jLabel9.setText("CREATE VOCABULARY");
@@ -354,7 +349,7 @@ public class App extends javax.swing.JFrame {
                             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtSearchBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel8)
-                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cboxLessonInCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel3)
                                 .addComponent(jLabel9))
                             .addGap(18, 18, 18)
@@ -371,7 +366,7 @@ public class App extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addComponent(cboxLessonInCreateVocabulary, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
@@ -613,6 +608,7 @@ public class App extends javax.swing.JFrame {
         
         Lesson lesson = new Lesson(name); 
         lesson.insert(tableLessons);
+        lesson.repaintTable(tableLessons, "DESC");
         
         txtCreateLesson.setText("");
     }//GEN-LAST:event_btnCreateLessonActionPerformed
@@ -628,8 +624,16 @@ public class App extends javax.swing.JFrame {
     private void jTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneStateChanged
         // if the selected tab is "Create Lesson", 
         if (jTabbedPane.getSelectedIndex() == 3)
-            new Lesson().repaintTable(tableLessons);
+            new Lesson().repaintTable(tableLessons, "DESC");
+        
+        if (jTabbedPane.getSelectedIndex() == 2) {
+            new Lesson().getLessons(cboxLessonInCreateVocabulary);
+        }
     }//GEN-LAST:event_jTabbedPaneStateChanged
+
+    private void cboxLessonInCreateVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxLessonInCreateVocabularyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboxLessonInCreateVocabularyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -675,9 +679,9 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSearch1;
     private javax.swing.JLabel btnVocabulary;
+    private javax.swing.JComboBox<String> cboxLessonInCreateVocabulary;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
