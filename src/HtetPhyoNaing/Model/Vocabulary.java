@@ -84,4 +84,25 @@ public class Vocabulary {
            System.out.println(e.getMessage());
         }
     }
+    
+    public void repaintTable(JTable table, JLabel label, String column, String value, int lessonId) {
+        ResultSet resultSet;
+        
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT name, romaji, jp_mm, meaning FROM vocabularies WHERE lesson_id = " + lessonId + " AND " + column + " LIKE '%" + value + "%'",
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
+            resultSet = statement.executeQuery();
+            
+            // repaint table
+            table.setModel(DbUtils.resultSetToTableModel(resultSet));
+            
+            // total rows
+            resultSet.last();
+            label.setText("Total Rows: " + resultSet.getRow());
+        }
+        catch(SQLException e) {
+           System.out.println(e.getMessage());
+        }
+    }
 }
