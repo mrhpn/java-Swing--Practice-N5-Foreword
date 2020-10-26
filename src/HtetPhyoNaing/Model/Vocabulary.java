@@ -68,7 +68,7 @@ public class Vocabulary {
         ResultSet resultSet;
         
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT name, romaji, jp_mm, meaning FROM vocabularies WHERE lesson_id = " + lessonId + " ORDER BY id " + order,
+                "SELECT id as no, name as vocabulary, romaji, jp_mm as pronouncation, meaning FROM vocabularies WHERE lesson_id = " + lessonId + " ORDER BY id " + order,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             resultSet = statement.executeQuery();
@@ -85,11 +85,11 @@ public class Vocabulary {
         }
     }
     
-    public void repaintTable(JTable table, JLabel label, String column, String value, int lessonId) {
+    public void repaintTable(JTable table, JLabel label, String column, String value) {
         ResultSet resultSet;
         
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT name, romaji, jp_mm, meaning FROM vocabularies WHERE lesson_id = " + lessonId + " AND " + column + " LIKE '%" + value + "%'",
+                "SELECT id as no, name as vocabulary, romaji, jp_mm as pronouncation, meaning FROM vocabularies WHERE " + column + " LIKE '%" + value + "%'",
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             resultSet = statement.executeQuery();
@@ -103,6 +103,34 @@ public class Vocabulary {
         }
         catch(SQLException e) {
            System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean update(String id) {
+        int count = 0;
+        
+        try (PreparedStatement statement = connection.prepareStatement(
+                 "UPDATE vocabularies SET name=?, romaji=?, jp_mm=?, meaning=? WHERE id=" + id)) {
+            statement.setString(1, name);
+            statement.setString(2, romaji);
+            statement.setString(3, jp_mm);
+            statement.setString(4, meaning);
+            
+            count = statement.executeUpdate();
+        }
+        catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        return (count > 0);
+    }
+
+    public void delete(Integer id) {
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM vocabularies WHERE id=" + id);) {
+            statement.executeUpdate();
+        }
+        catch(SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 }
