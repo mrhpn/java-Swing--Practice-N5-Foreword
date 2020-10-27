@@ -23,7 +23,7 @@ public class Vocabulary {
     private String jp_mm;
     private String meaning;    
     private String lessonId;
-
+    private Boolean isFavorite;
     
     private final DBConnection DB_CONNECTION;
     Connection connection;
@@ -33,12 +33,13 @@ public class Vocabulary {
         connection = DB_CONNECTION.getConnection();
     }
     
-    public Vocabulary(String name, String romaji, String jp_mm, String meaning, String lessonId) {
+    public Vocabulary(String name, String romaji, String jp_mm, String meaning, String lessonId, Boolean isFavorite) {
         this.name = name;
         this.romaji = romaji;
         this.jp_mm = jp_mm;
         this.meaning = meaning;
         this.lessonId = lessonId;
+        this.isFavorite = isFavorite;
         
         DB_CONNECTION = new DBConnection();
         connection = DB_CONNECTION.getConnection();
@@ -48,11 +49,13 @@ public class Vocabulary {
         int count = 0;
         
         try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO vocabularies (name,romaji,jp_mm,meaning,lesson_id) VALUES (?,?,?,?," + lessonId + ")")) {
+                "INSERT INTO vocabularies (name, romaji, jp_mm, meaning, lesson_id, is_favorite) VALUES (?,?,?,?,?,?)")) {
             statement.setString(1, name);            
             statement.setString(2, romaji);
             statement.setString(3, jp_mm);
             statement.setString(4, meaning);
+            statement.setInt(5, Integer.parseInt(lessonId));
+            statement.setBoolean(6, isFavorite);
 
             count = statement.executeUpdate();
         } 
@@ -132,5 +135,36 @@ public class Vocabulary {
         catch(SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public Boolean isFavorite(Integer id) { 
+        Boolean isFav = false;
+        
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT is_favorite FROM vocabularies WHERE id=" + id);) {
+            ResultSet isFavorite = statement.executeQuery();
+            while(isFavorite.next()) {
+                isFav = isFavorite.getBoolean("is_favorite");
+            }
+        }
+        catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+                
+        return isFav;
+    }
+
+    public boolean toggleFavorite(boolean isFavorite, int id) {
+        int count = 0;
+        
+        try (PreparedStatement statement = connection.prepareStatement("UPDATE vocabularies SET is_favorite=? WHERE id=" + id);) {
+            statement.setBoolean(1, !isFavorite);
+            count = statement.executeUpdate();
+        }
+        catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+                
+        return (count > 0);
     }
 }
