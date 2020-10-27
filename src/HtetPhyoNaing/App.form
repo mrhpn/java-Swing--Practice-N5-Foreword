@@ -103,7 +103,7 @@
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/HtetPhyoNaing/win (1).png"/>
+                  <Image iconType="3" name="/HtetPhyoNaing/Resources/Images/logo.png"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -162,7 +162,7 @@
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/HtetPhyoNaing/listing.png"/>
+                      <Image iconType="3" name="/HtetPhyoNaing/Resources/Images/listing.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Vocabulary"/>
                   </Properties>
@@ -182,7 +182,7 @@
               <Color blue="ff" green="33" red="33" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/HtetPhyoNaing/img-btn-close_1.png"/>
+              <Image iconType="3" name="/HtetPhyoNaing/Resources/Images/img-btn-close.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="close"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -199,7 +199,7 @@
               <Color blue="ff" green="33" red="33" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/HtetPhyoNaing/img-btn-minimize_1.png"/>
+              <Image iconType="3" name="/HtetPhyoNaing/Resources/Images/img-btn-minimize.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="minimize"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -348,7 +348,7 @@
                       <Font name="Century" size="14" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/HtetPhyoNaing/img-btn-search.png"/>
+                      <Image iconType="3" name="/HtetPhyoNaing/Resources/Images/img-btn-search.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Search"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -515,7 +515,7 @@
                 <Component class="javax.swing.JButton" name="btnClearSearchText">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/HtetPhyoNaing/img-btn-close.png"/>
+                      <Image iconType="3" name="/HtetPhyoNaing/Resources/Images/close.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Clear search box text"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -532,7 +532,7 @@
                       <Font name="Century" size="14" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/HtetPhyoNaing/img-btn-delete.png"/>
+                      <Image iconType="3" name="/HtetPhyoNaing/Resources/Images/img-btn-delete.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Delete"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -549,7 +549,7 @@
                       <Font name="Century" size="14" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/HtetPhyoNaing/img-btn-update.png"/>
+                      <Image iconType="3" name="/HtetPhyoNaing/Resources/Images/img-btn-update.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Edit"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -801,7 +801,7 @@
                       <Font name="Century" size="18" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/HtetPhyoNaing/img-btn-go.png"/>
+                      <Image iconType="3" name="/HtetPhyoNaing/Resources/Images/img-btn-go.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Go"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
