@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -110,11 +109,12 @@ public class Vocabulary {
         int count = 0;
         
         try (PreparedStatement statement = connection.prepareStatement(
-                 "UPDATE vocabularies SET name=?, romaji=?, jp_mm=?, meaning=? WHERE id=" + id)) {
+                 "UPDATE vocabularies SET name=?, romaji=?, jp_mm=?, meaning=?, lesson_id=? WHERE id=" + id)) {
             statement.setString(1, name);
             statement.setString(2, romaji);
             statement.setString(3, jp_mm);
             statement.setString(4, meaning);
+            statement.setInt(5, Integer.parseInt(lessonId));
             
             count = statement.executeUpdate();
         }

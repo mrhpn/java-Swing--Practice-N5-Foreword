@@ -7,16 +7,30 @@ package HtetPhyoNaing;
 
 import HtetPhyoNaing.Model.Vocabulary;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
-import javafx.scene.effect.DropShadow;
+import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import javax.swing.text.Highlighter;
 
 /**
  *
@@ -24,11 +38,14 @@ import javax.swing.table.TableModel;
  */
 public class App extends javax.swing.JFrame {
     private Point mouseDownCompCoords = null;
+    private DefaultTableCellRenderer r;
+    private DefaultTableCellRenderer header;
+    private Font myanmarFont;
 
     /**
      * Creates new form App
      */
-    public App() {
+    public App() throws IOException, FontFormatException {
         initComponents();
         this.setShape(new RoundRectangle2D.Double(0, 0, 1000, 630, 20, 20));
         
@@ -51,6 +68,70 @@ public class App extends javax.swing.JFrame {
         });
         tableVocabularies.getColumnModel().getColumn(0).setMinWidth(50);
         tableVocabularies.getColumnModel().getColumn(0).setMaxWidth(60);
+   
+        Font jpFont;
+        Font customFont;
+        try {
+            //create the font to use. Specify the size!
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\cerebrisans-regular.ttf")).deriveFont(14f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+            
+            Font titleFont = customFont.deriveFont(18f);
+            
+            jpFont = Font.createFont(Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MS Gothic.ttf")).deriveFont(17f);
+           
+            myanmarFont = Font.createFont(Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\Pyidaungsu-1.8_regular.ttf")).deriveFont(15f);
+            
+            tabbedPaneVocabulary.setFont(customFont);
+            labelTotalRows.setFont(customFont);
+            labelFilterByLessonInVocaList.setFont(customFont);
+            cboxLessonList.setFont(customFont);
+            labelSearchInAllLessonsInVocaList.setFont(customFont);
+            cboxSearchBox.setFont(customFont);
+            labelCreateUpdateVocabulary.setFont(titleFont);
+            btnSearch.setFont(customFont);
+            btnUpdateVocabulary.setFont(customFont);
+            btnDeleteVocabulary.setFont(customFont);
+            labelChooseLessonInVocaCreate.setFont(customFont);
+            cboxLessonInCreateVocabulary.setFont(customFont);
+            labelVocaInHiraganaKatakanaInVocaCreate.setFont(customFont);
+            labelRomajiInVocaCreate.setFont(customFont);
+            labelPronounciationInVocaCreate.setFont(customFont);
+            labelMeaningInVocaCreate.setFont(customFont);
+            btnGoVocabulary.setFont(customFont);
+            txtVocabularyName.setFont(jpFont);
+            labelId.setFont(customFont);
+            labelVocabularyId.setFont(customFont);            
+            msgCreateVocabulary.setFont(customFont);
+            
+            tableVocabularies.setFont(myanmarFont);
+            
+            r = new DefaultTableCellRenderer() {
+                 Font mjpFont = Font.createFont(Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MS Gothic.ttf")).deriveFont(17f);
+
+                @Override
+                public Component getTableCellRendererComponent(JTable table,
+                        Object value, boolean isSelected, boolean hasFocus,
+                        int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+                            row, column);
+                    setFont(mjpFont);
+                    return this;
+                }
+            };
+            
+            tableVocabularies.getColumnModel().getColumn(1).setCellRenderer(r);
+            
+            txtSearchBox.setFont(jpFont);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch(FontFormatException e) {
+            e.printStackTrace();
+        }
+        
+        
     }
 
     /**
@@ -70,7 +151,7 @@ public class App extends javax.swing.JFrame {
         btnVocabulary = new javax.swing.JLabel();
         btnCloseWindow = new javax.swing.JLabel();
         btnMinimizeWindow = new javax.swing.JLabel();
-        jTabbedPane = new javax.swing.JTabbedPane();
+        tabbedPaneVocabulary = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         txtSearchBox = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
@@ -79,25 +160,25 @@ public class App extends javax.swing.JFrame {
         cboxLessonList = new javax.swing.JComboBox<>();
         jSeparator1 = new javax.swing.JSeparator();
         cboxSearchBox = new javax.swing.JComboBox<>();
-        txtTotalRows = new javax.swing.JLabel();
+        labelTotalRows = new javax.swing.JLabel();
         btnClearSearchText = new javax.swing.JButton();
         btnDeleteVocabulary = new javax.swing.JButton();
         btnUpdateVocabulary = new javax.swing.JButton();
-        txtTotalRows1 = new javax.swing.JLabel();
-        txtTotalRows2 = new javax.swing.JLabel();
+        labelFilterByLessonInVocaList = new javax.swing.JLabel();
+        labelSearchInAllLessonsInVocaList = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        labelChooseLessonInVocaCreate = new javax.swing.JLabel();
         txtVocabularyName = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        labelVocaInHiraganaKatakanaInVocaCreate = new javax.swing.JLabel();
+        labelRomajiInVocaCreate = new javax.swing.JLabel();
+        labelMeaningInVocaCreate = new javax.swing.JLabel();
         btnGoVocabulary = new javax.swing.JButton();
         txtVocabularyRomaji = new javax.swing.JTextField();
         txtVocabularyJpMm = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
+        labelPronounciationInVocaCreate = new javax.swing.JLabel();
         cboxLessonInCreateVocabulary = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
+        labelCreateUpdateVocabulary = new javax.swing.JLabel();
         msgCreateVocabulary = new javax.swing.JLabel();
         txtRequiredName = new javax.swing.JLabel();
         txtRequiredRomaji = new javax.swing.JLabel();
@@ -111,7 +192,6 @@ public class App extends javax.swing.JFrame {
         setTitle("Foreword");
         setBackground(new java.awt.Color(255, 255, 255));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1000, 700));
         setResizable(false);
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -127,20 +207,21 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(250, 250, 254));
+        jPanel1.setBackground(new java.awt.Color(245, 245, 245));
 
-        jPanel2.setBackground(new java.awt.Color(48, 0, 114));
+        jPanel2.setBackground(new java.awt.Color(94, 0, 126));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/win (1).png"))); // NOI18N
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 48, -1, -1));
 
-        labelTitle.setFont(new java.awt.Font("Magneto", 0, 24)); // NOI18N
+        labelTitle.setBackground(new java.awt.Color(63, 63, 63));
+        labelTitle.setFont(new java.awt.Font("Matura MT Script Capitals", 0, 36)); // NOI18N
         labelTitle.setForeground(new java.awt.Color(255, 255, 255));
         labelTitle.setText("Foreword");
-        jPanel2.add(labelTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(53, 118, -1, -1));
+        jPanel2.add(labelTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
 
-        jPanel3.setBackground(new java.awt.Color(118, 85, 250));
+        jPanel3.setBackground(new java.awt.Color(126, 63, 155));
         jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel3.setPreferredSize(new java.awt.Dimension(240, 52));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -154,7 +235,8 @@ public class App extends javax.swing.JFrame {
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 240, 52));
 
         btnCloseWindow.setForeground(new java.awt.Color(51, 51, 255));
-        btnCloseWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/close.png"))); // NOI18N
+        btnCloseWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/img-btn-close_1.png"))); // NOI18N
+        btnCloseWindow.setToolTipText("close");
         btnCloseWindow.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCloseWindow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -163,7 +245,8 @@ public class App extends javax.swing.JFrame {
         });
 
         btnMinimizeWindow.setForeground(new java.awt.Color(51, 51, 255));
-        btnMinimizeWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/minimize.png"))); // NOI18N
+        btnMinimizeWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/img-btn-minimize_1.png"))); // NOI18N
+        btnMinimizeWindow.setToolTipText("minimize");
         btnMinimizeWindow.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnMinimizeWindow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -171,14 +254,16 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        jTabbedPane.setBackground(new java.awt.Color(255, 255, 255));
-        jTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTabbedPane.setFont(new java.awt.Font("Century", 0, 16)); // NOI18N
-        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+        tabbedPaneVocabulary.setBackground(new java.awt.Color(255, 255, 255));
+        tabbedPaneVocabulary.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tabbedPaneVocabulary.setFont(new java.awt.Font("Century", 0, 16)); // NOI18N
+        tabbedPaneVocabulary.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jTabbedPaneStateChanged(evt);
+                tabbedPaneVocabularyStateChanged(evt);
             }
         });
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
         txtSearchBox.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
         txtSearchBox.addActionListener(new java.awt.event.ActionListener() {
@@ -187,16 +272,21 @@ public class App extends javax.swing.JFrame {
             }
         });
 
+        btnSearch.setBackground(new java.awt.Color(255, 255, 255));
         btnSearch.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/img-btn-search.png"))); // NOI18N
+        btnSearch.setText("Search");
         btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSearch.setMaximumSize(new java.awt.Dimension(101, 35));
+        btnSearch.setMinimumSize(new java.awt.Dimension(101, 35));
+        btnSearch.setPreferredSize(new java.awt.Dimension(101, 35));
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);
             }
         });
 
-        tableVocabularies.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
+        tableVocabularies.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableVocabularies.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -216,8 +306,19 @@ public class App extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tableVocabularies.setRowHeight(35);
+        tableVocabularies.setAlignmentY(0.3F);
+        tableVocabularies.setGridColor(new java.awt.Color(204, 204, 204));
+        tableVocabularies.setRowHeight(27);
+        tableVocabularies.setSelectionBackground(new java.awt.Color(237, 226, 240));
+        tableVocabularies.setSelectionForeground(new java.awt.Color(94, 0, 126));
         jScrollPane1.setViewportView(tableVocabularies);
+        if (tableVocabularies.getColumnModel().getColumnCount() > 0) {
+            tableVocabularies.getColumnModel().getColumn(0).setHeaderValue("No");
+            tableVocabularies.getColumnModel().getColumn(1).setHeaderValue("Name");
+            tableVocabularies.getColumnModel().getColumn(2).setHeaderValue("Romaji");
+            tableVocabularies.getColumnModel().getColumn(3).setHeaderValue("Jp-Mm");
+            tableVocabularies.getColumnModel().getColumn(4).setHeaderValue("Meaning");
+        }
 
         cboxLessonList.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         cboxLessonList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
@@ -242,8 +343,8 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        txtTotalRows.setFont(new java.awt.Font("Century", 0, 16)); // NOI18N
-        txtTotalRows.setText("jLabel1");
+        labelTotalRows.setFont(new java.awt.Font("Century", 0, 16)); // NOI18N
+        labelTotalRows.setText("jLabel1");
 
         btnClearSearchText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/img-btn-close.png"))); // NOI18N
         btnClearSearchText.setToolTipText("Clear search box text");
@@ -256,6 +357,7 @@ public class App extends javax.swing.JFrame {
 
         btnDeleteVocabulary.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         btnDeleteVocabulary.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/img-btn-delete.png"))); // NOI18N
+        btnDeleteVocabulary.setText("Delete");
         btnDeleteVocabulary.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDeleteVocabulary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,6 +367,7 @@ public class App extends javax.swing.JFrame {
 
         btnUpdateVocabulary.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         btnUpdateVocabulary.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/img-btn-update.png"))); // NOI18N
+        btnUpdateVocabulary.setText("Edit");
         btnUpdateVocabulary.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUpdateVocabulary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -272,107 +375,119 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        txtTotalRows1.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        txtTotalRows1.setText("Filter by Lesson");
-        txtTotalRows1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        labelFilterByLessonInVocaList.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelFilterByLessonInVocaList.setForeground(new java.awt.Color(94, 0, 126));
+        labelFilterByLessonInVocaList.setText("Filter by Lesson");
+        labelFilterByLessonInVocaList.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
-        txtTotalRows2.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        txtTotalRows2.setText("Search in All Lessons");
-        txtTotalRows2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        labelSearchInAllLessonsInVocaList.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelSearchInAllLessonsInVocaList.setForeground(new java.awt.Color(94, 0, 126));
+        labelSearchInAllLessonsInVocaList.setText("Search in All Lessons");
+        labelSearchInAllLessonsInVocaList.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(btnUpdateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDeleteVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGap(527, 527, 527)
+                            .addComponent(btnUpdateVocabulary)
+                            .addGap(6, 6, 6)
+                            .addComponent(btnDeleteVocabulary))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                            .addComponent(txtTotalRows, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addComponent(cboxLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(20, 20, 20)
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtTotalRows1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(labelTotalRows, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGap(220, 220, 220)
+                            .addComponent(labelFilterByLessonInVocaList, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(labelSearchInAllLessonsInVocaList, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGap(218, 218, 218)
+                            .addComponent(cboxLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addComponent(cboxSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnClearSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtTotalRows2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(48, Short.MAX_VALUE))
+                            .addComponent(cboxSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnClearSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(78, 78, 78))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTotalRows1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtTotalRows2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtTotalRows, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cboxLessonList, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cboxSearchBox, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtSearchBox, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnClearSearchText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnClearSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelFilterByLessonInVocaList, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelSearchInAllLessonsInVocaList))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboxLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cboxSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(labelTotalRows, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDeleteVocabulary, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                    .addComponent(btnUpdateVocabulary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(128, 128, 128))
+                    .addComponent(btnUpdateVocabulary)
+                    .addComponent(btnDeleteVocabulary))
+                .addContainerGap())
         );
 
-        jTabbedPane.addTab("List", jPanel6);
+        tabbedPaneVocabulary.addTab("List", jPanel6);
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 789, Short.MAX_VALUE)
+            .addGap(0, 820, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 658, Short.MAX_VALUE)
         );
 
-        jTabbedPane.addTab("Favorites", jPanel7);
+        tabbedPaneVocabulary.addTab("Favorites", jPanel7);
 
-        jLabel3.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        jLabel3.setText("Choose Lesson");
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
-        txtVocabularyName.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
+        labelChooseLessonInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelChooseLessonInVocaCreate.setText("Choose Lesson");
+
+        txtVocabularyName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtVocabularyName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtVocabularyNameActionPerformed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        jLabel4.setText("Vocabulary in Hiragana/Katakana");
+        labelVocaInHiraganaKatakanaInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelVocaInHiraganaKatakanaInVocaCreate.setText("Vocabulary in Hiragana/Katakana");
 
-        jLabel5.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        jLabel5.setText("Romaji");
+        labelRomajiInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelRomajiInVocaCreate.setText("Romaji");
 
-        jLabel7.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        jLabel7.setText("Meaning");
+        labelMeaningInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelMeaningInVocaCreate.setText("Meaning");
 
         btnGoVocabulary.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         btnGoVocabulary.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/img-btn-go.png"))); // NOI18N
@@ -398,8 +513,8 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        jLabel8.setText("Pronounciation");
+        labelPronounciationInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelPronounciationInVocaCreate.setText("Pronounciation");
 
         cboxLessonInCreateVocabulary.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         cboxLessonInCreateVocabulary.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
@@ -410,8 +525,8 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
-        jLabel9.setText("Create/Update Vocabulary");
+        labelCreateUpdateVocabulary.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
+        labelCreateUpdateVocabulary.setText("Create/Update Vocabulary");
 
         msgCreateVocabulary.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         msgCreateVocabulary.setForeground(new java.awt.Color(0, 153, 102));
@@ -448,34 +563,34 @@ public class App extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
+                    .addComponent(labelCreateUpdateVocabulary)
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel8Layout.createSequentialGroup()
-                            .addComponent(msgCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(msgCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnGoVocabulary))
                         .addGroup(jPanel8Layout.createSequentialGroup()
                             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtVocabularyJpMm, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel8)
+                                .addComponent(labelPronounciationInVocaCreate)
                                 .addComponent(txtRequiredPronounciation, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(21, 21, 21)
                             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel7)
+                                .addComponent(labelMeaningInVocaCreate)
                                 .addComponent(txtVocabularyMeaning, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtRequiredMeaning, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(cboxLessonInCreateVocabulary, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(labelChooseLessonInVocaCreate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
+                                .addComponent(labelVocaInHiraganaKatakanaInVocaCreate)
                                 .addComponent(txtVocabularyName, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtRequiredName, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
+                            .addComponent(labelRomajiInVocaCreate)
                             .addComponent(txtVocabularyRomaji, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtRequiredRomaji, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
@@ -484,46 +599,47 @@ public class App extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(labelVocabularyId, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(3, 3, 3)))))
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addContainerGap(202, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jLabel9)
+                .addComponent(labelCreateUpdateVocabulary)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(labelChooseLessonInVocaCreate)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboxLessonInCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboxLessonInCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
+                                .addComponent(labelVocaInHiraganaKatakanaInVocaCreate)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtVocabularyName, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtVocabularyName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtRequiredName, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
+                                .addComponent(labelRomajiInVocaCreate)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtVocabularyRomaji, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtVocabularyRomaji, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtRequiredRomaji, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(19, 19, 19)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel7))
+                            .addComponent(labelPronounciationInVocaCreate)
+                            .addComponent(labelMeaningInVocaCreate))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtVocabularyMeaning, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                            .addComponent(txtVocabularyJpMm))
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(txtVocabularyJpMm, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtRequiredPronounciation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(txtVocabularyMeaning, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtRequiredMeaning, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -534,10 +650,10 @@ public class App extends javax.swing.JFrame {
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelId, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelVocabularyId, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(274, Short.MAX_VALUE))
+                .addContainerGap(295, Short.MAX_VALUE))
         );
 
-        jTabbedPane.addTab("Vocabulary", jPanel8);
+        tabbedPaneVocabulary.addTab("Vocabulary", jPanel8);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -546,28 +662,28 @@ public class App extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(tabbedPaneVocabulary)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnMinimizeWindow)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCloseWindow)
-                        .addContainerGap())
-                    .addComponent(jTabbedPane)))
+                        .addGap(80, 80, 80))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMinimizeWindow)
                     .addComponent(btnCloseWindow))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabbedPaneVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(136, 136, 136))
         );
 
-        jTabbedPane.getAccessibleContext().setAccessibleName("List");
+        tabbedPaneVocabulary.getAccessibleContext().setAccessibleName("List");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -607,35 +723,19 @@ public class App extends javax.swing.JFrame {
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_btnMinimizeWindowMouseClicked
 
-    private void txtSearchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchBoxActionPerformed
-
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        int searchKey = cboxSearchBox.getSelectedIndex();
-        String searchValue = txtSearchBox.getText();
-        
-        String targetColumn = "";
-        if (searchKey == 0) targetColumn = "romaji";
-        else if (searchKey == 1) targetColumn = "name";
-        
-        Vocabulary vocabulary = new Vocabulary();
-        vocabulary.repaintTable(tableVocabularies, txtTotalRows, targetColumn, searchValue);
-        
-        tableVocabularies.getColumnModel().getColumn(0).setMinWidth(0);
-        tableVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
-        tableVocabularies.getColumnModel().getColumn(0).setWidth(0);
-    }//GEN-LAST:event_btnSearchActionPerformed
-
-    private void jTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneStateChanged
-        if(jTabbedPane.getSelectedIndex() == 0) {
-            new Vocabulary().repaintTable(tableVocabularies, txtTotalRows, "ASC", 1);
+    private void tabbedPaneVocabularyStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneVocabularyStateChanged
+        if(tabbedPaneVocabulary.getSelectedIndex() == 0) {
+            new Vocabulary().repaintTable(tableVocabularies, labelTotalRows, "ASC", 1);
             tableVocabularies.getColumnModel().getColumn(0).setMinWidth(0);
             tableVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
             tableVocabularies.getColumnModel().getColumn(0).setWidth(0);
-        } else if (jTabbedPane.getSelectedIndex() == 2) {
+            
+            tableVocabularies.setFont(myanmarFont);
+            tableVocabularies.getColumnModel().getColumn(1).setCellRenderer(r);
+        } else if (tabbedPaneVocabulary.getSelectedIndex() == 2) {
             labelId.setVisible(false);
             labelVocabularyId.setVisible(false);
+            txtVocabularyName.requestFocus();
         }
         
         labelId.setVisible(false);
@@ -648,22 +748,7 @@ public class App extends javax.swing.JFrame {
         txtVocabularyRomaji.setText("");
         txtVocabularyJpMm.setText("");
         txtVocabularyMeaning.setText("");
-    }//GEN-LAST:event_jTabbedPaneStateChanged
-
-    private void cboxLessonListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxLessonListActionPerformed
-        int selectedLesson = cboxLessonList.getSelectedIndex() + 1;
-        
-        Vocabulary vocabulary = new Vocabulary();
-        vocabulary.repaintTable(tableVocabularies, txtTotalRows, "ASC", selectedLesson);
-        
-        tableVocabularies.getColumnModel().getColumn(0).setMinWidth(0);
-        tableVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
-        tableVocabularies.getColumnModel().getColumn(0).setWidth(0);
-    }//GEN-LAST:event_cboxLessonListActionPerformed
-
-    private void cboxLessonListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboxLessonListPropertyChange
-        
-    }//GEN-LAST:event_cboxLessonListPropertyChange
+    }//GEN-LAST:event_tabbedPaneVocabularyStateChanged
 
     private void txtVocabularyMeaningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVocabularyMeaningActionPerformed
         // TODO add your handling code here:
@@ -722,47 +807,19 @@ public class App extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtVocabularyNameActionPerformed
 
-    private void btnClearSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearSearchTextActionPerformed
-        txtSearchBox.setText("");
-    }//GEN-LAST:event_btnClearSearchTextActionPerformed
-
-    private void cboxSearchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxSearchBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboxSearchBoxActionPerformed
-
-    private void btnDeleteVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteVocabularyActionPerformed
-        int selectedLesson = cboxLessonList.getSelectedIndex() + 1;
-        int selectedRow = tableVocabularies.getSelectedRow();
-        
-        TableModel tableModel = tableVocabularies.getModel();
-        Integer id = (Integer) tableModel.getValueAt(selectedRow, 0); 
-        
-        int confirm = JOptionPane.showConfirmDialog(
-            null, 
-            "Do you want to delete the select row?\n The operation cannot be undone once it is succeeded!", 
-            "Are you sure?", 
-            JOptionPane.YES_NO_CANCEL_OPTION
-        );
-        if (confirm == 0) {
-            new Vocabulary().delete(id);
-            Vocabulary vocabulary = new Vocabulary();
-            vocabulary.repaintTable(tableVocabularies, txtTotalRows, "ASC", selectedLesson);
-        }
-    }//GEN-LAST:event_btnDeleteVocabularyActionPerformed
-
     // Update Vocabulary
     private void btnUpdateVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateVocabularyActionPerformed
         int selectedRow = tableVocabularies.getSelectedRow();
-        
+
         TableModel tableModel = tableVocabularies.getModel();
-        Integer id = (Integer) tableModel.getValueAt(selectedRow, 0); 
+        Integer id = (Integer) tableModel.getValueAt(selectedRow, 0);
         String name = (String) tableModel.getValueAt(selectedRow, 1);
         String romaji = (String) tableModel.getValueAt(selectedRow, 2);
         String jpMm = (String) tableModel.getValueAt(selectedRow, 3);
         String meaning = (String) tableModel.getValueAt(selectedRow, 4);
-        
-        jTabbedPane.setSelectedIndex(2);
-                
+
+        tabbedPaneVocabulary.setSelectedIndex(2);
+
         txtVocabularyName.setText(name);
         txtVocabularyRomaji.setText(romaji);
         txtVocabularyJpMm.setText(jpMm);
@@ -772,6 +829,87 @@ public class App extends javax.swing.JFrame {
         labelVocabularyId.setVisible(true);
         labelVocabularyId.setText(id.toString());
     }//GEN-LAST:event_btnUpdateVocabularyActionPerformed
+
+    private void btnDeleteVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteVocabularyActionPerformed
+        int selectedLesson = cboxLessonList.getSelectedIndex() + 1;
+        int selectedRow = tableVocabularies.getSelectedRow();
+
+        TableModel tableModel = tableVocabularies.getModel();
+        Integer id = (Integer) tableModel.getValueAt(selectedRow, 0);
+
+        int confirm = JOptionPane.showConfirmDialog(
+            null,
+            "Do you want to delete the select row?\n The operation cannot be undone once it is succeeded!",
+            "Are you sure?",
+            JOptionPane.YES_NO_CANCEL_OPTION
+        );
+        if (confirm == 0) {
+            new Vocabulary().delete(id);
+            Vocabulary vocabulary = new Vocabulary();
+            vocabulary.repaintTable(tableVocabularies, labelTotalRows, "ASC", selectedLesson);
+            
+            tableVocabularies.getColumnModel().getColumn(0).setMinWidth(0);
+            tableVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
+            tableVocabularies.getColumnModel().getColumn(0).setWidth(0);
+
+            tableVocabularies.setFont(myanmarFont);
+            tableVocabularies.getColumnModel().getColumn(1).setCellRenderer(r);
+        }
+    }//GEN-LAST:event_btnDeleteVocabularyActionPerformed
+
+    private void btnClearSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearSearchTextActionPerformed
+        txtSearchBox.setText("");
+    }//GEN-LAST:event_btnClearSearchTextActionPerformed
+
+    private void cboxSearchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxSearchBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboxSearchBoxActionPerformed
+
+    private void cboxLessonListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboxLessonListPropertyChange
+
+    }//GEN-LAST:event_cboxLessonListPropertyChange
+
+    private void cboxLessonListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxLessonListActionPerformed
+        int selectedLesson = cboxLessonList.getSelectedIndex() + 1;
+
+        Vocabulary vocabulary = new Vocabulary();
+        vocabulary.repaintTable(tableVocabularies, labelTotalRows, "ASC", selectedLesson);
+
+        tableVocabularies.getColumnModel().getColumn(0).setMinWidth(0);
+        tableVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
+        tableVocabularies.getColumnModel().getColumn(0).setWidth(0);
+        
+        tableVocabularies.setFont(myanmarFont);
+        tableVocabularies.getColumnModel().getColumn(1).setCellRenderer(r);
+    }//GEN-LAST:event_cboxLessonListActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        int searchKey = cboxSearchBox.getSelectedIndex();
+        String searchValue = txtSearchBox.getText();
+        
+        if ("".equals(searchValue)) {
+            txtSearchBox.requestFocus();
+            return;
+        }
+
+        String targetColumn = "";
+        if (searchKey == 0) targetColumn = "romaji";
+        else if (searchKey == 1) targetColumn = "name";
+
+        Vocabulary vocabulary = new Vocabulary();
+        vocabulary.repaintTable(tableVocabularies, labelTotalRows, targetColumn, searchValue);
+
+        tableVocabularies.getColumnModel().getColumn(0).setMinWidth(0);
+        tableVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
+        tableVocabularies.getColumnModel().getColumn(0).setWidth(0);
+        
+        tableVocabularies.setFont(myanmarFont);
+        tableVocabularies.getColumnModel().getColumn(1).setCellRenderer(r);
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtSearchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -802,8 +940,28 @@ public class App extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            
             public void run() {
-                new App().setVisible(true);
+                UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels(); 
+                try {
+                    UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                try {
+                    new App().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FontFormatException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -821,12 +979,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboxLessonList;
     private javax.swing.JComboBox<String> cboxSearchBox;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -835,20 +987,26 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTabbedPane jTabbedPane;
+    private javax.swing.JLabel labelChooseLessonInVocaCreate;
+    private javax.swing.JLabel labelCreateUpdateVocabulary;
+    private javax.swing.JLabel labelFilterByLessonInVocaList;
     private javax.swing.JLabel labelId;
+    private javax.swing.JLabel labelMeaningInVocaCreate;
+    private javax.swing.JLabel labelPronounciationInVocaCreate;
+    private javax.swing.JLabel labelRomajiInVocaCreate;
+    private javax.swing.JLabel labelSearchInAllLessonsInVocaList;
     private javax.swing.JLabel labelTitle;
+    private javax.swing.JLabel labelTotalRows;
+    private javax.swing.JLabel labelVocaInHiraganaKatakanaInVocaCreate;
     private javax.swing.JLabel labelVocabularyId;
     private javax.swing.JLabel msgCreateVocabulary;
+    private javax.swing.JTabbedPane tabbedPaneVocabulary;
     private javax.swing.JTable tableVocabularies;
     private javax.swing.JLabel txtRequiredMeaning;
     private javax.swing.JLabel txtRequiredName;
     private javax.swing.JLabel txtRequiredPronounciation;
     private javax.swing.JLabel txtRequiredRomaji;
     private javax.swing.JTextField txtSearchBox;
-    private javax.swing.JLabel txtTotalRows;
-    private javax.swing.JLabel txtTotalRows1;
-    private javax.swing.JLabel txtTotalRows2;
     private javax.swing.JTextField txtVocabularyJpMm;
     private javax.swing.JTextField txtVocabularyMeaning;
     private javax.swing.JTextField txtVocabularyName;
