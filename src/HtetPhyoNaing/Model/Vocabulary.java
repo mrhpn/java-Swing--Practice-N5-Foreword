@@ -70,7 +70,34 @@ public class Vocabulary {
         ResultSet resultSet;
         
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT id as no, name as vocabulary, romaji, jp_mm as pronouncation, meaning FROM vocabularies WHERE lesson_id = " + lessonId + " ORDER BY id " + order,
+                "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, jp_mm AS Pronouncation, meaning AS Meaning FROM vocabularies WHERE lesson_id = " + lessonId + " ORDER BY id " + order,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
+            resultSet = statement.executeQuery();
+            
+            // repaint table
+            table.setModel(DbUtils.resultSetToTableModel(resultSet));
+            
+            // total rows
+            resultSet.last();
+            label.setText("Total Rows: " + resultSet.getRow());
+        }
+        catch(SQLException e) {
+           System.out.println(e.getMessage());
+        }
+    }
+    
+    public void repaintFavTable(JTable table, JLabel label, int lessonId) {
+        ResultSet resultSet;
+        String query;
+        
+        if (lessonId == 0)
+            query = "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, jp_mm AS Pronouncation, meaning AS Meaning FROM vocabularies WHERE is_favorite = true";
+        else 
+            query = "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, jp_mm AS Pronouncation, meaning AS Meaning FROM vocabularies WHERE lesson_id = " + lessonId + " AND is_favorite = true";
+        
+        try(PreparedStatement statement = connection.prepareStatement(
+                query,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             resultSet = statement.executeQuery();
@@ -91,7 +118,7 @@ public class Vocabulary {
         ResultSet resultSet;
         
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT id as no, name as vocabulary, romaji, jp_mm as pronouncation, meaning FROM vocabularies WHERE " + column + " LIKE '%" + value + "%'",
+                "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, jp_mm AS Pronouncation, meaning AS Meaning FROM vocabularies WHERE " + column + " LIKE '%" + value + "%'",
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             resultSet = statement.executeQuery();
