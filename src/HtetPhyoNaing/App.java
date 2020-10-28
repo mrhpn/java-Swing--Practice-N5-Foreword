@@ -13,13 +13,19 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
@@ -47,6 +53,8 @@ public class App extends javax.swing.JFrame {
         initComponents();
         
         this.setShape(new RoundRectangle2D.Double(0, 0, 1000, 620, 20, 20));
+        
+        tabbedPaneVocabulary.addTab("Practice", new Practice());
         
         configureShowOnTableRowSelectionButtons();
         setUpTable();
@@ -194,6 +202,10 @@ public class App extends javax.swing.JFrame {
         checkBoxMarkAsFavorite.setFont(customFont);
         labelTotalRowsFav.setFont(customFont);
         labelFilterByLessonInFavVocaList.setFont(customFont);
+        labelImportVocabulary.setFont(titleFont);
+        btnImportCSV.setFont(customFont);
+        labelCSVImportPath.setFont(customFont);
+        cboxFavLessonList.setFont(customFont);
     }
 
     /**
@@ -256,6 +268,10 @@ public class App extends javax.swing.JFrame {
         labelId = new javax.swing.JLabel();
         labelVocabularyId = new javax.swing.JLabel();
         checkBoxMarkAsFavorite = new javax.swing.JCheckBox();
+        jSeparator2 = new javax.swing.JSeparator();
+        labelImportVocabulary = new javax.swing.JLabel();
+        btnImportCSV = new javax.swing.JButton();
+        labelCSVImportPath = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Foreword");
@@ -304,26 +320,39 @@ public class App extends javax.swing.JFrame {
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 240, 52));
 
         btnCloseWindow.setForeground(new java.awt.Color(51, 51, 255));
-        btnCloseWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-close.png"))); // NOI18N
+        btnCloseWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/close.png"))); // NOI18N
         btnCloseWindow.setToolTipText("close");
         btnCloseWindow.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCloseWindow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCloseWindowMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCloseWindowMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCloseWindowMouseExited(evt);
+            }
         });
 
         btnMinimizeWindow.setForeground(new java.awt.Color(51, 51, 255));
-        btnMinimizeWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-minimize.png"))); // NOI18N
+        btnMinimizeWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-minimize_1.png"))); // NOI18N
         btnMinimizeWindow.setToolTipText("minimize");
         btnMinimizeWindow.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnMinimizeWindow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnMinimizeWindowMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMinimizeWindowMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMinimizeWindowMouseExited(evt);
+            }
         });
 
         tabbedPaneVocabulary.setBackground(new java.awt.Color(255, 255, 255));
+        tabbedPaneVocabulary.setToolTipText("");
         tabbedPaneVocabulary.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tabbedPaneVocabulary.setFont(new java.awt.Font("Century", 0, 16)); // NOI18N
         tabbedPaneVocabulary.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -720,74 +749,105 @@ public class App extends javax.swing.JFrame {
             }
         });
 
+        labelImportVocabulary.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
+        labelImportVocabulary.setText("Bulk Create Vocabulary");
+
+        btnImportCSV.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
+        btnImportCSV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-import-csv.png"))); // NOI18N
+        btnImportCSV.setText("Import CSV");
+        btnImportCSV.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnImportCSV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportCSVActionPerformed(evt);
+            }
+        });
+
+        labelCSVImportPath.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelCSVImportPath.setMaximumSize(new java.awt.Dimension(400, 0));
+        labelCSVImportPath.setPreferredSize(new java.awt.Dimension(200, 0));
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(labelCreateUpdateVocabulary))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(labelChooseLessonInVocaCreate))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(cboxLessonInCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(labelVocaInHiraganaKatakanaInVocaCreate)
-                        .addGap(75, 75, 75)
-                        .addComponent(labelRomajiInVocaCreate))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(txtVocabularyName, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtVocabularyRomaji, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(txtRequiredName, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(216, 216, 216)
-                        .addComponent(txtRequiredRomaji, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(labelPronounciationInVocaCreate)
-                        .addGap(206, 206, 206)
-                        .addComponent(labelMeaningInVocaCreate))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(txtVocabularyJpMm, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
-                        .addComponent(txtVocabularyMeaning, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(txtRequiredPronounciation, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(219, 219, 219)
-                        .addComponent(txtRequiredMeaning, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(checkBoxMarkAsFavorite, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(284, 284, 284)
-                        .addComponent(msgCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(labelVocabularyId, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnGoVocabulary)
+                                .addGap(29, 29, 29)
+                                .addComponent(labelCreateUpdateVocabulary))
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(labelId, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(201, 201, 201))
+                                .addGap(29, 29, 29)
+                                .addComponent(labelChooseLessonInVocaCreate))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(cboxLessonInCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(labelVocaInHiraganaKatakanaInVocaCreate)
+                                .addGap(75, 75, 75)
+                                .addComponent(labelRomajiInVocaCreate))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(txtRequiredName, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(216, 216, 216)
+                                .addComponent(txtRequiredRomaji, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(labelPronounciationInVocaCreate)
+                                .addGap(206, 206, 206)
+                                .addComponent(labelMeaningInVocaCreate))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(txtRequiredPronounciation, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(219, 219, 219)
+                                .addComponent(txtRequiredMeaning, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(284, 284, 284)
+                                .addComponent(msgCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel8Layout.createSequentialGroup()
+                                        .addGap(36, 36, 36)
+                                        .addComponent(labelVocabularyId, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnGoVocabulary)
+                                    .addGroup(jPanel8Layout.createSequentialGroup()
+                                        .addGap(2, 2, 2)
+                                        .addComponent(labelId, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(checkBoxMarkAsFavorite, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel8Layout.createSequentialGroup()
+                                        .addComponent(txtVocabularyName, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtVocabularyRomaji, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel8Layout.createSequentialGroup()
+                                        .addComponent(txtVocabularyJpMm, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(21, 21, 21)
+                                        .addComponent(txtVocabularyMeaning, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(jPanel8Layout.createSequentialGroup()
+                            .addGap(30, 30, 30)
+                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel8Layout.createSequentialGroup()
+                                    .addComponent(labelImportVocabulary)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(jPanel8Layout.createSequentialGroup()
+                                    .addComponent(btnImportCSV)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(labelCSVImportPath, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(labelCreateUpdateVocabulary)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelChooseLessonInVocaCreate)
                 .addGap(6, 6, 6)
                 .addComponent(cboxLessonInCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -828,7 +888,15 @@ public class App extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(msgCreateVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnGoVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(217, 217, 217))
+                .addGap(21, 21, 21)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelImportVocabulary)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnImportCSV, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelCSVImportPath, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
 
         tabbedPaneVocabulary.addTab("Vocabulary", jPanel8);
@@ -1109,6 +1177,51 @@ public class App extends javax.swing.JFrame {
         setUpFavTable();
     }//GEN-LAST:event_cboxFavLessonListActionPerformed
 
+    private void btnCloseWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseEntered
+        btnCloseWindow.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\img-btn-close.png"));
+    }//GEN-LAST:event_btnCloseWindowMouseEntered
+
+    private void btnCloseWindowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseExited
+        btnCloseWindow.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\close.png"));
+    }//GEN-LAST:event_btnCloseWindowMouseExited
+
+    private void btnMinimizeWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeWindowMouseEntered
+       btnMinimizeWindow.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\img-btn-minimize.png"));
+    }//GEN-LAST:event_btnMinimizeWindowMouseEntered
+
+    private void btnMinimizeWindowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeWindowMouseExited
+       btnMinimizeWindow.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\img-btn-minimize_1.png"));
+    }//GEN-LAST:event_btnMinimizeWindowMouseExited
+
+    private void btnImportCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportCSVActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.showOpenDialog(null);
+        File file = fileChooser.getSelectedFile();
+        
+        String filePath = file.getAbsolutePath();
+        if(filePath.length() > 55) {
+            labelCSVImportPath.setText("..." + filePath.substring(filePath.length() - 55));
+        } else {
+            labelCSVImportPath.setText(filePath);
+        }
+        
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            String line;
+            String[] values;
+            
+            while((line = br.readLine()) != null) {
+                values = line.split(",");
+                System.out.println(Arrays.toString(values));
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnImportCSVActionPerformed
+
     private void clearLabelsAndTextFieldsInCreateVoca() {
         getLabelVocabularyId().setVisible(false);
         getTxtRequiredName().setText("");
@@ -1185,6 +1298,7 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton btnDeleteVocabulary;
     private javax.swing.JButton btnFavoriteVocabulary;
     private javax.swing.JButton btnGoVocabulary;
+    private javax.swing.JButton btnImportCSV;
     private javax.swing.JLabel btnMinimizeWindow;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateVocabulary;
@@ -1204,11 +1318,14 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel labelCSVImportPath;
     private javax.swing.JLabel labelChooseLessonInVocaCreate;
     private javax.swing.JLabel labelCreateUpdateVocabulary;
     private javax.swing.JLabel labelFilterByLessonInFavVocaList;
     private javax.swing.JLabel labelFilterByLessonInVocaList;
     private javax.swing.JLabel labelId;
+    private javax.swing.JLabel labelImportVocabulary;
     private javax.swing.JLabel labelMeaningInVocaCreate;
     private javax.swing.JLabel labelPronounciationInVocaCreate;
     private javax.swing.JLabel labelRomajiInVocaCreate;
