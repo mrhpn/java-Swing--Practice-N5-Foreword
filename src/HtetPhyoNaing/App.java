@@ -45,6 +45,7 @@ public class App extends javax.swing.JFrame {
     private Font jpFont;
     private Font myanmarFont;
     private Font titleFont;
+    private final Practice practicePanel;
 
     /**
      * Creates new form App
@@ -54,7 +55,8 @@ public class App extends javax.swing.JFrame {
         
         this.setShape(new RoundRectangle2D.Double(0, 0, 1000, 620, 20, 20));
         
-        tabbedPaneVocabulary.addTab("Practice", new Practice());
+        practicePanel = new Practice();
+        tabbedPaneVocabulary.addTab("Practice", practicePanel);
         
         configureShowOnTableRowSelectionButtons();
         setUpTable();
@@ -206,6 +208,16 @@ public class App extends javax.swing.JFrame {
         btnImportCSV.setFont(customFont);
         labelCSVImportPath.setFont(customFont);
         cboxFavLessonList.setFont(customFont);
+        practicePanel.getLabelPracticeChooseTypeOfPractice().setFont(customFont);
+        practicePanel.getLabelPracticeChooseTypeOfPracticeFrom().setFont(customFont);
+        practicePanel.getLabelPracticeChooseTypeOfPracticeInfoMsg().setFont(customFont);
+        practicePanel.getLabelPracticeChooseTypeOfPracticeTo().setFont(customFont);
+        practicePanel.getCboxPracticeChooseAllOrFav().setFont(customFont);
+        practicePanel.getCboxPracticeFromLesson().setFont(customFont);
+        practicePanel.getCboxPracticeLessonTo().setFont(customFont);
+        practicePanel.getBtnPracticeVoca().setFont(customFont);
+        practicePanel.getLabelPracticeIWantToSee().setFont(customFont);
+        practicePanel.getCboxPracticeFromWantToSee().setFont(customFont);
     }
 
     /**
