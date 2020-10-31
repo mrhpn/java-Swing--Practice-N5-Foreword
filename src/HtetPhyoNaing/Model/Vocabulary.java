@@ -20,7 +20,6 @@ import net.proteanit.sql.DbUtils;
 public class Vocabulary {
     private String name;    
     private String romaji;
-    private String jp_mm;
     private String meaning;    
     private String lessonId;
     private Boolean isFavorite;
@@ -33,10 +32,9 @@ public class Vocabulary {
         connection = DB_CONNECTION.getConnection();
     }
     
-    public Vocabulary(String name, String romaji, String jp_mm, String meaning, String lessonId, Boolean isFavorite) {
+    public Vocabulary(String name, String romaji, String meaning, String lessonId, Boolean isFavorite) {
         this.name = name;
         this.romaji = romaji;
-        this.jp_mm = jp_mm;
         this.meaning = meaning;
         this.lessonId = lessonId;
         this.isFavorite = isFavorite;
@@ -49,13 +47,12 @@ public class Vocabulary {
         int count = 0;
         
         try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO vocabularies (name, romaji, jp_mm, meaning, lesson_id, is_favorite) VALUES (?,?,?,?,?,?)")) {
+                "INSERT INTO vocabularies (name, romaji, meaning, lesson_id, is_favorite) VALUES (?,?,?,?,?,?)")) {
             statement.setString(1, name);            
             statement.setString(2, romaji);
-            statement.setString(3, jp_mm);
-            statement.setString(4, meaning);
-            statement.setInt(5, Integer.parseInt(lessonId));
-            statement.setBoolean(6, isFavorite);
+            statement.setString(3, meaning);
+            statement.setInt(4, Integer.parseInt(lessonId));
+            statement.setBoolean(5, isFavorite);
 
             count = statement.executeUpdate();
         } 
@@ -70,7 +67,7 @@ public class Vocabulary {
         ResultSet resultSet;
         
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, jp_mm AS Pronouncation, meaning AS Meaning FROM vocabularies WHERE lesson_id = " + lessonId + " ORDER BY id " + order,
+                "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, meaning AS Meaning FROM vocabularies WHERE lesson_id = " + lessonId + " ORDER BY id " + order,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             resultSet = statement.executeQuery();
@@ -92,9 +89,9 @@ public class Vocabulary {
         String query;
         
         if (lessonId == 0)
-            query = "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, jp_mm AS Pronouncation, meaning AS Meaning FROM vocabularies WHERE is_favorite = true";
+            query = "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, meaning AS Meaning FROM vocabularies WHERE is_favorite = true";
         else 
-            query = "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, jp_mm AS Pronouncation, meaning AS Meaning FROM vocabularies WHERE lesson_id = " + lessonId + " AND is_favorite = true";
+            query = "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, meaning AS Meaning FROM vocabularies WHERE lesson_id = " + lessonId + " AND is_favorite = true";
         
         try(PreparedStatement statement = connection.prepareStatement(
                 query,
@@ -118,7 +115,7 @@ public class Vocabulary {
         ResultSet resultSet;
         
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, jp_mm AS Pronouncation, meaning AS Meaning FROM vocabularies WHERE " + column + " LIKE '%" + value + "%'",
+                "SELECT id AS No, name AS Vocabulary, romaji AS Romaji, meaning AS Meaning FROM vocabularies WHERE " + column + " LIKE '%" + value + "%'",
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             resultSet = statement.executeQuery();
@@ -139,12 +136,12 @@ public class Vocabulary {
         int count = 0;
         
         try (PreparedStatement statement = connection.prepareStatement(
-                 "UPDATE vocabularies SET name=?, romaji=?, jp_mm=?, meaning=?, lesson_id=? WHERE id=" + id)) {
+                 "UPDATE vocabularies SET name=?, romaji=?, meaning=?, lesson_id=? is_favorite=? WHERE id=" + id)) {
             statement.setString(1, name);
             statement.setString(2, romaji);
-            statement.setString(3, jp_mm);
-            statement.setString(4, meaning);
-            statement.setInt(5, Integer.parseInt(lessonId));
+            statement.setString(3, meaning);
+            statement.setInt(4, Integer.parseInt(lessonId));
+            statement.setBoolean(5, isFavorite);
             
             count = statement.executeUpdate();
         }
@@ -193,5 +190,26 @@ public class Vocabulary {
         }
                 
         return (count > 0);
+    }
+
+    public void generate(int from, int to, JTable table, JLabel label) {
+        ResultSet resultSet;
+        
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT name AS Vocabulary, meaning AS Meaning FROM vocabularies WHERE lesson_id = " + from + " OR lesson_id = " + to,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
+            resultSet = statement.executeQuery();
+            
+            // repaint table
+            table.setModel(DbUtils.resultSetToTableModel(resultSet));
+            
+            // total rows
+            resultSet.last();
+            label.setText("Total Rows: " + resultSet.getRow());
+        }
+        catch(SQLException e) {
+           System.out.println(e.getMessage());
+        }
     }
 }

@@ -5,11 +5,49 @@
  */
 package HtetPhyoNaing;
 
+import HtetPhyoNaing.Model.Vocabulary;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+
 /**
  *
  * @author GIC
  */
 public class Practice extends javax.swing.JPanel {
+
+    /**
+     * @return the labelPracticeTotalRows
+     */
+    public javax.swing.JLabel getLabelPracticeTotalRows() {
+        return labelPracticeTotalRows;
+    }
+
+    /**
+     * @param labelPracticeTotalRows the labelPracticeTotalRows to set
+     */
+    public void setLabelPracticeTotalRows(javax.swing.JLabel labelPracticeTotalRows) {
+        this.labelPracticeTotalRows = labelPracticeTotalRows;
+    }
+
+    /**
+     * @return the tablePracticeVoca
+     */
+    public javax.swing.JTable getTablePracticeVoca() {
+        return tablePracticeVoca;
+    }
+
+    /**
+     * @param tablePracticeVoca the tablePracticeVoca to set
+     */
+    public void setTablePracticeVoca(javax.swing.JTable tablePracticeVoca) {
+        this.tablePracticeVoca = tablePracticeVoca;
+    }
 
     /**
      * @return the cboxPracticeFromWantToSee
@@ -150,6 +188,10 @@ public class Practice extends javax.swing.JPanel {
     public void setLabelPracticeChooseTypeOfPracticeTo(javax.swing.JLabel labelPracticeChooseTypeOfPracticeTo) {
         this.labelPracticeChooseTypeOfPracticeTo = labelPracticeChooseTypeOfPracticeTo;
     }
+    
+    private Font jpFont;
+    private Font myanmarFont;
+    private DefaultTableCellRenderer tableCellRenderer;
 
     /**
      * Creates new form Practice
@@ -178,6 +220,9 @@ public class Practice extends javax.swing.JPanel {
         btnPracticeVoca = new javax.swing.JButton();
         cboxPracticeFromWantToSee = new javax.swing.JComboBox<>();
         labelPracticeIWantToSee = new javax.swing.JLabel();
+        labelPracticeTotalRows = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablePracticeVoca = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(820, 658));
@@ -244,6 +289,33 @@ public class Practice extends javax.swing.JPanel {
         labelPracticeIWantToSee.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         labelPracticeIWantToSee.setText("I want to see");
 
+        labelPracticeTotalRows.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelPracticeTotalRows.setText("Total Rows: 0");
+
+        tablePracticeVoca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tablePracticeVoca.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablePracticeVoca.setAlignmentY(0.3F);
+        tablePracticeVoca.setGridColor(new java.awt.Color(204, 204, 204));
+        tablePracticeVoca.setRowHeight(27);
+        tablePracticeVoca.setSelectionBackground(new java.awt.Color(237, 226, 240));
+        tablePracticeVoca.setSelectionForeground(new java.awt.Color(94, 0, 126));
+        tablePracticeVoca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablePracticeVocaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablePracticeVoca);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -268,8 +340,10 @@ public class Practice extends javax.swing.JPanel {
                                 .addComponent(btnPracticeVoca, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(labelPracticeIWantToSee)))
                     .addComponent(labelPracticeChooseTypeOfPractice, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboxPracticeChooseAllOrFav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(82, 240, Short.MAX_VALUE))
+                    .addComponent(cboxPracticeChooseAllOrFav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelPracticeTotalRows, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,7 +370,11 @@ public class Practice extends javax.swing.JPanel {
                             .addComponent(btnPracticeVoca, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(7, 7, 7)
                 .addComponent(labelPracticeChooseTypeOfPracticeInfoMsg)
-                .addContainerGap(478, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(labelPracticeTotalRows)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(169, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -305,21 +383,71 @@ public class Practice extends javax.swing.JPanel {
     }//GEN-LAST:event_cboxPracticeChooseAllOrFavActionPerformed
 
     private void cboxPracticeFromLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxPracticeFromLessonActionPerformed
-        // TODO add your handling code here:
+//        int from = cboxPracticeFromLesson.getSelectedIndex(); // 0 - Select(return)
+//        if (from == 0) btnPracticeVoca.setEnabled(false);
     }//GEN-LAST:event_cboxPracticeFromLessonActionPerformed
 
     private void cboxPracticeLessonToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxPracticeLessonToActionPerformed
-        // TODO add your handling code here:
+//       int to = cboxPracticeLessonTo.getSelectedIndex(); // 0 - Select(return)
+//       if (to == 0) btnPracticeVoca.setEnabled(false);
     }//GEN-LAST:event_cboxPracticeLessonToActionPerformed
 
     private void btnPracticeVocaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPracticeVocaActionPerformed
+        int practiceType = cboxPracticeChooseAllOrFav.getSelectedIndex(); // 0 - All, 1 - Fav
+        int from = cboxPracticeFromLesson.getSelectedIndex() + 1;
+        int to = cboxPracticeLessonTo.getSelectedIndex() + 1;
+        int seen = cboxPracticeFromWantToSee.getSelectedIndex(); // 0 - myanmar, 1 - japanese
         
+        tablePracticeVoca.setVisible(true);
+        Vocabulary vocabulary = new Vocabulary();
+        vocabulary.generate(from, to, tablePracticeVoca, labelPracticeTotalRows);
+        setUpPracticeTable();   
+        
+        if (seen == 0) {
+            
+        }
     }//GEN-LAST:event_btnPracticeVocaActionPerformed
 
     private void cboxPracticeFromWantToSeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxPracticeFromWantToSeeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboxPracticeFromWantToSeeActionPerformed
 
+    private void tablePracticeVocaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePracticeVocaMouseClicked
+        int row = tablePracticeVoca.rowAtPoint(evt.getPoint());
+        int col = tablePracticeVoca.columnAtPoint(evt.getPoint());
+        
+        System.out.println(row);
+        System.out.println(col);
+    }//GEN-LAST:event_tablePracticeVocaMouseClicked
+
+    private void setUpPracticeTable() {        
+        try {
+            jpFont = Font.createFont(
+                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MS Gothic.ttf")).deriveFont(20f);
+            myanmarFont = Font.createFont(
+                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\Pyidaungsu-1.8_regular.ttf")).deriveFont(15f);
+            
+            tableCellRenderer = new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    setFont(jpFont);
+                    return this;
+                }
+            };
+            
+            // set fonts for table column except Jp character column
+            tablePracticeVoca.setFont(myanmarFont);
+//            tableFavoriteVocabularies.setFont(myanmarFont);
+            
+            // set font for table column which is Jp characters exist
+            tablePracticeVoca.getColumnModel().getColumn(0).setCellRenderer(tableCellRenderer);
+//            tableFavoriteVocabularies.getColumnModel().getColumn(1).setCellRenderer(tableCellRenderer);
+             
+        } catch (IOException | FontFormatException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPracticeVoca;
@@ -327,10 +455,13 @@ public class Practice extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cboxPracticeFromLesson;
     private javax.swing.JComboBox<String> cboxPracticeFromWantToSee;
     private javax.swing.JComboBox<String> cboxPracticeLessonTo;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelPracticeChooseTypeOfPractice;
     private javax.swing.JLabel labelPracticeChooseTypeOfPracticeFrom;
     private javax.swing.JLabel labelPracticeChooseTypeOfPracticeInfoMsg;
     private javax.swing.JLabel labelPracticeChooseTypeOfPracticeTo;
     private javax.swing.JLabel labelPracticeIWantToSee;
+    private javax.swing.JLabel labelPracticeTotalRows;
+    private javax.swing.JTable tablePracticeVoca;
     // End of variables declaration//GEN-END:variables
 }
