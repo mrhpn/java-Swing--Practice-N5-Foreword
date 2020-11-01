@@ -47,7 +47,7 @@ public class Vocabulary {
         int count = 0;
         
         try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO vocabularies (name, romaji, meaning, lesson_id, is_favorite) VALUES (?,?,?,?,?,?)")) {
+                "INSERT INTO vocabularies (name, romaji, meaning, lesson_id, is_favorite) VALUES (?,?,?,?,?)")) {
             statement.setString(1, name);            
             statement.setString(2, romaji);
             statement.setString(3, meaning);
@@ -135,8 +135,10 @@ public class Vocabulary {
     public boolean update(String id) {
         int count = 0;
         
+        System.out.println(isFavorite);
+        
         try (PreparedStatement statement = connection.prepareStatement(
-                 "UPDATE vocabularies SET name=?, romaji=?, meaning=?, lesson_id=? is_favorite=? WHERE id=" + id)) {
+                 "UPDATE vocabularies SET name=?, romaji=?, meaning=?, lesson_id=?, is_favorite=? WHERE id=" + id)) {
             statement.setString(1, name);
             statement.setString(2, romaji);
             statement.setString(3, meaning);

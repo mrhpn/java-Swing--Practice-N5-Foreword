@@ -6,11 +6,17 @@
 package HtetPhyoNaing;
 
 import HtetPhyoNaing.Model.Vocabulary;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
+import java.awt.LayoutManager;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.BufferedReader;
@@ -21,6 +27,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -40,11 +47,15 @@ import javax.swing.table.TableModel;
  */
 public class App extends javax.swing.JFrame {
     private Point mouseDownCompCoords = null;
-    private DefaultTableCellRenderer tableCellRenderer;
+    private DefaultTableCellRenderer tableCellRendererForJp;
+    private DefaultTableCellRenderer tableCellRendererForRomoji;
+    private DefaultTableCellRenderer tableCellRendererForMm;
     private Font customFont;
     private Font jpFont;
     private Font myanmarFont;
     private Font titleFont;
+    private Font subTitleFont;
+    private Font leadFont;
     private final Practice practicePanel;
 
     /**
@@ -61,6 +72,7 @@ public class App extends javax.swing.JFrame {
         configureShowOnTableRowSelectionButtons();
         setUpTable();
         setUpFonts();
+        panelVersionMoreInfo.setVisible(false);
     }
     
     private void configureShowOnTableRowSelectionButtons() {
@@ -102,35 +114,58 @@ public class App extends javax.swing.JFrame {
         tableVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
         tableVocabularies.getColumnModel().getColumn(0).setWidth(0);
         
+//        tableVocabularies.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         try {
             customFont = Font.createFont(
                     Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\cerebrisans-regular.ttf")).deriveFont(14f);
             jpFont = Font.createFont(
-                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MS Gothic.ttf")).deriveFont(20f);
+                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MHGKyokashotaiTHK-Light.ttf")).deriveFont(22f);
             myanmarFont = Font.createFont(
                     Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\Pyidaungsu-1.8_regular.ttf")).deriveFont(15f);
+            
+            
             titleFont = customFont.deriveFont(18f);
+            subTitleFont = customFont.deriveFont(13f);
             
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customFont);
             
-            tableCellRenderer = new DefaultTableCellRenderer() {
+            jpFont.deriveFont(Font.BOLD);
+            
+            tableCellRendererForJp = new DefaultTableCellRenderer() {
                 @Override
                 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                     super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                     setFont(jpFont);
+                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
                     return this;
                 }
             };
             
-            // set fonts for table column except Jp character column
-            tableVocabularies.setFont(myanmarFont);
-//            tableFavoriteVocabularies.setFont(myanmarFont);
+            tableCellRendererForRomoji = new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    setFont(customFont);
+                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+                    return this;
+                }
+            };
             
-            // set font for table column which is Jp characters exist
-            tableVocabularies.getColumnModel().getColumn(1).setCellRenderer(tableCellRenderer);
-//            tableFavoriteVocabularies.getColumnModel().getColumn(1).setCellRenderer(tableCellRenderer);
-             
+            tableCellRendererForMm = new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    setFont(myanmarFont);
+                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+                    return this;
+                }
+            };
+            
+            tableVocabularies.getColumnModel().getColumn(1).setCellRenderer(tableCellRendererForJp);
+            tableVocabularies.getColumnModel().getColumn(2).setCellRenderer(tableCellRendererForRomoji);
+            tableVocabularies.getColumnModel().getColumn(3).setCellRenderer(tableCellRendererForMm);
+            
             txtSearchBox.setFont(jpFont);
         } catch (IOException | FontFormatException e) {
             System.out.println(e.getMessage());
@@ -151,24 +186,44 @@ public class App extends javax.swing.JFrame {
             myanmarFont = Font.createFont(
                     Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\Pyidaungsu-2.5.3_Regular.ttf")).deriveFont(15f);
             titleFont = customFont.deriveFont(18f);
+            subTitleFont = customFont.deriveFont(13f);
             
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customFont);
             
-            tableCellRenderer = new DefaultTableCellRenderer() {
+            tableCellRendererForJp = new DefaultTableCellRenderer() {
                 @Override
                 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                     super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                     setFont(jpFont);
+                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
                     return this;
                 }
             };
             
-            // set fonts for table column except Jp character column
-            tableFavoriteVocabularies.setFont(myanmarFont);
+            tableCellRendererForRomoji = new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    setFont(customFont);
+                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+                    return this;
+                }
+            };
             
-            // set font for table column which is Jp characters exist
-            tableFavoriteVocabularies.getColumnModel().getColumn(1).setCellRenderer(tableCellRenderer);
+            tableCellRendererForMm = new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    setFont(myanmarFont);
+                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+                    return this;
+                }
+            };
+            
+            tableFavoriteVocabularies.getColumnModel().getColumn(1).setCellRenderer(tableCellRendererForJp);
+            tableFavoriteVocabularies.getColumnModel().getColumn(2).setCellRenderer(tableCellRendererForRomoji);
+            tableFavoriteVocabularies.getColumnModel().getColumn(3).setCellRenderer(tableCellRendererForMm);
         } catch (IOException | FontFormatException e) {
             System.out.println(e.getMessage());
         }
@@ -205,6 +260,17 @@ public class App extends javax.swing.JFrame {
         labelCSVImportPath.setFont(customFont);
         cboxFavLessonList.setFont(customFont);
         txtVocabularyMeaning.setFont(myanmarFont);
+        labelDeveloperMail.setFont(subTitleFont);
+        labelAppVersion.setFont(subTitleFont);
+        txtSearchBox.setFont(customFont);
+        
+        labelAppInfoLanguage.setFont(customFont);
+        labelAppInfoUIComponents.setFont(customFont);
+        labelAppInfoDevelopedTime.setFont(customFont);
+        labelAppInfoAbout.setFont(customFont);
+        labelAppInfoAck.setFont(customFont);
+        labelAppInfoAckBody.setFont(customFont);
+        
         practicePanel.getLabelPracticeChooseTypeOfPractice().setFont(customFont);
         practicePanel.getLabelPracticeChooseTypeOfPracticeFrom().setFont(customFont);
         practicePanel.getLabelPracticeChooseTypeOfPracticeInfoMsg().setFont(customFont);
@@ -216,6 +282,8 @@ public class App extends javax.swing.JFrame {
         practicePanel.getBtnPracticeVoca().setFont(customFont);
         practicePanel.getLabelPracticeIWantToSee().setFont(customFont);
         practicePanel.getCboxPracticeFromWantToSee().setFont(customFont);
+        practicePanel.getLabelPracticeVocaJPAnswer().setFont(jpFont);
+        practicePanel.getLabelPracticeVocaMMAnswer().setFont(myanmarFont);
     }
 
     /**
@@ -228,11 +296,20 @@ public class App extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        panelVersionMoreInfo = new javax.swing.JPanel();
+        labelAppInfoLanguage = new javax.swing.JLabel();
+        labelAppInfoDevelopedTime = new javax.swing.JLabel();
+        labelAppInfoAbout = new javax.swing.JLabel();
+        labelAppInfoUIComponents = new javax.swing.JLabel();
+        labelAppInfoAck = new javax.swing.JLabel();
+        labelAppInfoAckBody = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         labelTitle = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnVocabulary = new javax.swing.JLabel();
+        labelDeveloperMail = new javax.swing.JLabel();
+        labelAppVersion = new javax.swing.JLabel();
         btnCloseWindow = new javax.swing.JLabel();
         btnMinimizeWindow = new javax.swing.JLabel();
         tabbedPaneVocabulary = new javax.swing.JTabbedPane();
@@ -301,18 +378,71 @@ public class App extends javax.swing.JFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(245, 245, 245));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelVersionMoreInfo.setBackground(new java.awt.Color(126, 63, 155));
+
+        labelAppInfoLanguage.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoLanguage.setText("Language: Java");
+
+        labelAppInfoDevelopedTime.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoDevelopedTime.setText("Developed time: 2 weeks");
+
+        labelAppInfoAbout.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoAbout.setText("About: Japanese Vocabulary Trainer");
+
+        labelAppInfoUIComponents.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoUIComponents.setText("UI Components: Swing");
+
+        labelAppInfoAck.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoAck.setText("Acknowledgement:");
+
+        labelAppInfoAckBody.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoAckBody.setText("Thanks a million to Tutor Ma Nyunt Nyunt Hlaing, Ma Su Su Lin and my sister Hnin Hnin for data entry.");
+
+        javax.swing.GroupLayout panelVersionMoreInfoLayout = new javax.swing.GroupLayout(panelVersionMoreInfo);
+        panelVersionMoreInfo.setLayout(panelVersionMoreInfoLayout);
+        panelVersionMoreInfoLayout.setHorizontalGroup(
+            panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelVersionMoreInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelAppInfoLanguage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoDevelopedTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoAbout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoUIComponents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoAck, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoAckBody, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelVersionMoreInfoLayout.setVerticalGroup(
+            panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelVersionMoreInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelAppInfoLanguage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoUIComponents)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoDevelopedTime)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoAbout)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoAck)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoAckBody)
+                .addGap(34, 34, 34))
+        );
+
+        jPanel1.add(panelVersionMoreInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 386, 680, 170));
 
         jPanel2.setBackground(new java.awt.Color(94, 0, 126));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/logo.png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 48, -1, -1));
 
         labelTitle.setBackground(new java.awt.Color(63, 63, 63));
         labelTitle.setFont(new java.awt.Font("Matura MT Script Capitals", 0, 36)); // NOI18N
         labelTitle.setForeground(new java.awt.Color(255, 255, 255));
         labelTitle.setText("Foreword");
-        jPanel2.add(labelTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(126, 63, 155));
         jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -325,7 +455,62 @@ public class App extends javax.swing.JFrame {
         btnVocabulary.setText("Vocabulary");
         jPanel3.add(btnVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 240, 52));
+        labelDeveloperMail.setForeground(new java.awt.Color(204, 255, 255));
+        labelDeveloperMail.setText("mr.htetphyonaing@gmail.com");
+
+        labelAppVersion.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppVersion.setText("Version 1.0.0");
+        labelAppVersion.setToolTipText("");
+        labelAppVersion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelAppVersion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelAppVersionMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                labelAppVersionMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                labelAppVersionMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelTitle)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jLabel2))))
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(labelAppVersion))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(labelDeveloperMail))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(labelTitle))
+                    .addComponent(jLabel2))
+                .addGap(21, 21, 21)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(328, 328, 328)
+                .addComponent(labelAppVersion)
+                .addGap(6, 6, 6)
+                .addComponent(labelDeveloperMail))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 233, 680));
 
         btnCloseWindow.setForeground(new java.awt.Color(51, 51, 255));
         btnCloseWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/close.png"))); // NOI18N
@@ -342,6 +527,7 @@ public class App extends javax.swing.JFrame {
                 btnCloseWindowMouseExited(evt);
             }
         });
+        jPanel1.add(btnCloseWindow, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 10, -1, -1));
 
         btnMinimizeWindow.setForeground(new java.awt.Color(51, 51, 255));
         btnMinimizeWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-minimize_1.png"))); // NOI18N
@@ -358,6 +544,7 @@ public class App extends javax.swing.JFrame {
                 btnMinimizeWindowMouseExited(evt);
             }
         });
+        jPanel1.add(btnMinimizeWindow, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 10, -1, -1));
 
         tabbedPaneVocabulary.setBackground(new java.awt.Color(255, 255, 255));
         tabbedPaneVocabulary.setToolTipText("");
@@ -406,7 +593,7 @@ public class App extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                true, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -414,7 +601,8 @@ public class App extends javax.swing.JFrame {
             }
         });
         tableVocabularies.setAlignmentY(0.3F);
-        tableVocabularies.setGridColor(new java.awt.Color(204, 204, 204));
+        tableVocabularies.setFocusable(false);
+        tableVocabularies.setGridColor(new java.awt.Color(243, 235, 245));
         tableVocabularies.setRowHeight(27);
         tableVocabularies.setSelectionBackground(new java.awt.Color(237, 226, 240));
         tableVocabularies.setSelectionForeground(new java.awt.Color(94, 0, 126));
@@ -436,7 +624,7 @@ public class App extends javax.swing.JFrame {
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         cboxSearchBox.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        cboxSearchBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Romaji", "Name" }));
+        cboxSearchBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Romaji", "Japanese" }));
         cboxSearchBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboxSearchBoxActionPerformed(evt);
@@ -534,7 +722,7 @@ public class App extends javax.swing.JFrame {
                             .addGap(7, 7, 7)
                             .addComponent(btnDeleteVocabulary))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(26, 26, 26))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -561,14 +749,14 @@ public class App extends javax.swing.JFrame {
                             .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnClearSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(6, 6, 6)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnFavoriteVocabulary)
                     .addComponent(btnUpdateVocabulary)
                     .addComponent(btnDeleteVocabulary))
-                .addContainerGap())
+                .addContainerGap(171, Short.MAX_VALUE))
         );
 
         tabbedPaneVocabulary.addTab("List", jPanel6);
@@ -628,35 +816,34 @@ public class App extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
                         .addComponent(labelTotalRowsFav, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(447, 447, 447)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(cboxFavLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(1, 1, 1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
-                                .addComponent(labelFilterByLessonInFavVocaList, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(cboxFavLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addContainerGap(26, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)))
-                .addContainerGap())
+                                .addComponent(labelFilterByLessonInFavVocaList))))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
+                .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(labelTotalRowsFav, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(labelFilterByLessonInFavVocaList, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboxFavLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(labelTotalRowsFav, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboxFavLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(13, 13, 13)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
 
         tabbedPaneVocabulary.addTab("Favorites", jPanel7);
@@ -789,34 +976,7 @@ public class App extends javax.swing.JFrame {
 
         tabbedPaneVocabulary.addTab("Vocabulary", jPanel8);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tabbedPaneVocabulary)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnMinimizeWindow)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCloseWindow)
-                        .addGap(26, 26, 26))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMinimizeWindow)
-                    .addComponent(btnCloseWindow))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabbedPaneVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(136, 136, 136))
-        );
-
+        jPanel1.add(tabbedPaneVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
         tabbedPaneVocabulary.getAccessibleContext().setAccessibleName("List");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -828,8 +988,8 @@ public class App extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 726, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 2, Short.MAX_VALUE))
         );
 
         pack();
@@ -855,9 +1015,12 @@ public class App extends javax.swing.JFrame {
         switch (getTabbedPaneVocabulary().getSelectedIndex()) {
             case 0:
                 int selectedLesson = cboxLessonList.getSelectedIndex() + 1;
-                new Vocabulary().repaintTable(tableVocabularies, getLabelTotalRows(), "ASC", selectedLesson);
-                setUpTable();
+                if ("".equals(txtSearchBox.getText())) {
+                    new Vocabulary().repaintTable(tableVocabularies, getLabelTotalRows(), "ASC", selectedLesson);
+                    setUpTable();
+                }
                 break;
+                //haha
             case 1:
                 int selectedFavLesson = cboxFavLessonList.getSelectedIndex();
                 vocabulary = new Vocabulary();
@@ -1007,10 +1170,26 @@ public class App extends javax.swing.JFrame {
 
     private void btnClearSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearSearchTextActionPerformed
         getTxtSearchBox().setText("");
+        int selectedLesson = cboxLessonList.getSelectedIndex() + 1;
+        
+        new Vocabulary().repaintTable(tableVocabularies, getLabelTotalRows(), "ASC", selectedLesson);
+        setUpTable();
     }//GEN-LAST:event_btnClearSearchTextActionPerformed
 
     private void cboxSearchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxSearchBoxActionPerformed
-        // TODO add your handling code here:
+        txtSearchBox.setText("");
+        int lessonId = cboxLessonList.getSelectedIndex() + 1;
+        int searchKey = cboxSearchBox.getSelectedIndex(); // 0 - Romaji, 1 - Jp, 2 - Mm
+        
+        txtSearchBox.requestFocus();
+        
+        if (searchKey == 0) txtSearchBox.setFont(new Font("src\\HtetPhyoNaing\\Resources\\Fonts\\cerebrisans-regular.ttf", 1, 20));
+        else if (searchKey == 1) txtSearchBox.setFont(new Font("src\\HtetPhyoNaing\\Resources\\FontsMHGKyokashotaiTHK-Light.ttf", 1, 20));
+                
+        Vocabulary vocabulary = new Vocabulary();
+        vocabulary.repaintTable(tableVocabularies, labelTotalRows, "ASC", lessonId);
+        
+        setUpTable();
     }//GEN-LAST:event_cboxSearchBoxActionPerformed
 
     private void cboxLessonListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboxLessonListPropertyChange
@@ -1029,6 +1208,8 @@ public class App extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         int searchKey = getCboxSearchBox().getSelectedIndex();
         String searchValue = getTxtSearchBox().getText();
+        
+        System.out.println(searchValue);
 
         if ("".equals(searchValue)) {
             getTxtSearchBox().requestFocus();
@@ -1106,6 +1287,18 @@ public class App extends javax.swing.JFrame {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnImportCSVActionPerformed
+
+    private void labelAppVersionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelAppVersionMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_labelAppVersionMouseClicked
+
+    private void labelAppVersionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelAppVersionMouseEntered
+        panelVersionMoreInfo.setVisible(true);
+    }//GEN-LAST:event_labelAppVersionMouseEntered
+
+    private void labelAppVersionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelAppVersionMouseExited
+        panelVersionMoreInfo.setVisible(false);
+    }//GEN-LAST:event_labelAppVersionMouseExited
 
     private void clearLabelsAndTextFieldsInCreateVoca() {
         getLabelVocabularyId().setVisible(false);
@@ -1203,9 +1396,17 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel labelAppInfoAbout;
+    private javax.swing.JLabel labelAppInfoAck;
+    private javax.swing.JLabel labelAppInfoAckBody;
+    private javax.swing.JLabel labelAppInfoDevelopedTime;
+    private javax.swing.JLabel labelAppInfoLanguage;
+    private javax.swing.JLabel labelAppInfoUIComponents;
+    private javax.swing.JLabel labelAppVersion;
     private javax.swing.JLabel labelCSVImportPath;
     private javax.swing.JLabel labelChooseLessonInVocaCreate;
     private javax.swing.JLabel labelCreateUpdateVocabulary;
+    private javax.swing.JLabel labelDeveloperMail;
     private javax.swing.JLabel labelFilterByLessonInFavVocaList;
     private javax.swing.JLabel labelFilterByLessonInVocaList;
     private javax.swing.JLabel labelId;
@@ -1219,6 +1420,7 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JLabel labelVocaInHiraganaKatakanaInVocaCreate;
     private javax.swing.JLabel labelVocabularyId;
     private javax.swing.JLabel msgCreateVocabulary;
+    private javax.swing.JPanel panelVersionMoreInfo;
     private javax.swing.JTabbedPane tabbedPaneVocabulary;
     private javax.swing.JTable tableFavoriteVocabularies;
     private javax.swing.JTable tableVocabularies;

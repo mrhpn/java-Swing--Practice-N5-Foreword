@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -50,10 +50,12 @@
                   </Group>
                   <Component id="labelPracticeChooseTypeOfPractice" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
                   <Component id="cboxPracticeChooseAllOrFav" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" min="-2" pref="499" max="-2" attributes="0"/>
                   <Component id="labelPracticeTotalRows" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" min="-2" pref="393" max="-2" attributes="0"/>
+                  <Component id="labelPracticeVocaJPAnswer" min="-2" pref="494" max="-2" attributes="0"/>
+                  <Component id="labelPracticeVocaMMAnswer" alignment="0" min="-2" pref="594" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="240" max="32767" attributes="0"/>
+              <EmptySpace pref="196" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -87,11 +89,15 @@
               </Group>
               <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
               <Component id="labelPracticeChooseTypeOfPracticeInfoMsg" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Component id="labelPracticeTotalRows" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="259" max="-2" attributes="0"/>
-              <EmptySpace pref="169" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="219" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="labelPracticeVocaJPAnswer" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="labelPracticeVocaMMAnswer" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace pref="138" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -340,5 +346,9 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="labelPracticeVocaJPAnswer">
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelPracticeVocaMMAnswer">
+    </Component>
   </SubComponents>
 </Form>
