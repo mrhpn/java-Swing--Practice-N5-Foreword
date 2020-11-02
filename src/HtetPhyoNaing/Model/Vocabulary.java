@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import net.proteanit.sql.DbUtils;
@@ -194,11 +197,17 @@ public class Vocabulary {
         return (count > 0);
     }
 
-    public void generate(int from, int to, JTable table, JLabel label) {
+    public void generate(int from, int to, int practiceType, JTable table, JLabel label) { 
         ResultSet resultSet;
+        String query = "";
+        
+        if (practiceType == 1) 
+            query = "SELECT name AS Vocabulary, meaning AS Meaning FROM vocabularies WHERE is_favorite = true AND lesson_id = " + from + " OR lesson_id = " + to;
+        else if (practiceType == 0)
+            query = "SELECT name AS Vocabulary, meaning AS Meaning FROM vocabularies WHERE lesson_id = " + from + " OR lesson_id = " + to;
         
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT name AS Vocabulary, meaning AS Meaning FROM vocabularies WHERE lesson_id = " + from + " OR lesson_id = " + to,
+                query,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             resultSet = statement.executeQuery();
@@ -212,6 +221,22 @@ public class Vocabulary {
         }
         catch(SQLException e) {
            System.out.println(e.getMessage());
+        }
+    }
+
+    public void setFavoriteLessons(JComboBox comboBox1, JComboBox comboBox2) {
+        ResultSet resultSet;
+        
+         try (PreparedStatement statement = connection.prepareStatement("SELECT DISTINCT lesson_id FROM vocabularies WHERE is_favorite = true;")) {
+            resultSet = statement.executeQuery();
+            
+            while(resultSet.next()) { 
+                comboBox1.addItem(("Lesson " + resultSet.getString("lesson_id")));
+                comboBox2.addItem(("Lesson " + resultSet.getString("lesson_id")));
+            }
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(Vocabulary.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

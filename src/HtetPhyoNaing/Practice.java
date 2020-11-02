@@ -13,6 +13,7 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -25,6 +26,20 @@ import javax.swing.table.TableModel;
  * @author GIC
  */
 public class Practice extends javax.swing.JPanel {
+
+    /**
+     * @return the labelPracticeTableDesc
+     */
+    public javax.swing.JLabel getLabelPracticeTableDesc() {
+        return labelPracticeTableDesc;
+    }
+
+    /**
+     * @param labelPracticeTableDesc the labelPracticeTableDesc to set
+     */
+    public void setLabelPracticeTableDesc(javax.swing.JLabel labelPracticeTableDesc) {
+        this.labelPracticeTableDesc = labelPracticeTableDesc;
+    }
 
     /**
      * @return the labelPracticeVocaJPAnswer
@@ -195,20 +210,6 @@ public class Practice extends javax.swing.JPanel {
     }
 
     /**
-     * @return the labelPracticeChooseTypeOfPracticeInfoMsg
-     */
-    public javax.swing.JLabel getLabelPracticeChooseTypeOfPracticeInfoMsg() {
-        return labelPracticeChooseTypeOfPracticeInfoMsg;
-    }
-
-    /**
-     * @param labelPracticeChooseTypeOfPracticeInfoMsg the labelPracticeChooseTypeOfPracticeInfoMsg to set
-     */
-    public void setLabelPracticeChooseTypeOfPracticeInfoMsg(javax.swing.JLabel labelPracticeChooseTypeOfPracticeInfoMsg) {
-        this.labelPracticeChooseTypeOfPracticeInfoMsg = labelPracticeChooseTypeOfPracticeInfoMsg;
-    }
-
-    /**
      * @return the labelPracticeChooseTypeOfPracticeTo
      */
     public javax.swing.JLabel getLabelPracticeChooseTypeOfPracticeTo() {
@@ -232,6 +233,8 @@ public class Practice extends javax.swing.JPanel {
     public Practice() {
         initComponents();
         this.setSize(820, 658);
+        
+        tablePracticeVoca.setDefaultEditor(Object.class, null);
     }
 
     /**
@@ -249,7 +252,6 @@ public class Practice extends javax.swing.JPanel {
         cboxPracticeFromLesson = new javax.swing.JComboBox<>();
         cboxPracticeLessonTo = new javax.swing.JComboBox<>();
         labelPracticeChooseTypeOfPracticeTo = new javax.swing.JLabel();
-        labelPracticeChooseTypeOfPracticeInfoMsg = new javax.swing.JLabel();
         btnPracticeVoca = new javax.swing.JButton();
         cboxPracticeFromWantToSee = new javax.swing.JComboBox<>();
         labelPracticeIWantToSee = new javax.swing.JLabel();
@@ -258,6 +260,7 @@ public class Practice extends javax.swing.JPanel {
         tablePracticeVoca = new javax.swing.JTable();
         labelPracticeVocaJPAnswer = new javax.swing.JLabel();
         labelPracticeVocaMMAnswer = new javax.swing.JLabel();
+        labelPracticeTableDesc = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(820, 658));
@@ -272,9 +275,11 @@ public class Practice extends javax.swing.JPanel {
         });
 
         labelPracticeChooseTypeOfPractice.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelPracticeChooseTypeOfPractice.setForeground(new java.awt.Color(94, 0, 126));
         labelPracticeChooseTypeOfPractice.setText("Choose type of practice");
 
         labelPracticeChooseTypeOfPracticeFrom.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelPracticeChooseTypeOfPracticeFrom.setForeground(new java.awt.Color(94, 0, 126));
         labelPracticeChooseTypeOfPracticeFrom.setText("From");
 
         cboxPracticeFromLesson.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
@@ -296,16 +301,17 @@ public class Practice extends javax.swing.JPanel {
         });
 
         labelPracticeChooseTypeOfPracticeTo.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelPracticeChooseTypeOfPracticeTo.setForeground(new java.awt.Color(94, 0, 126));
         labelPracticeChooseTypeOfPracticeTo.setText("To");
 
-        labelPracticeChooseTypeOfPracticeInfoMsg.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        labelPracticeChooseTypeOfPracticeInfoMsg.setText("If you choose same lesson for both range, you will be practicing only for that lesson.");
-
+        btnPracticeVoca.setBackground(new java.awt.Color(0, 0, 0));
         btnPracticeVoca.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         btnPracticeVoca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-go.png"))); // NOI18N
         btnPracticeVoca.setText("Start");
         btnPracticeVoca.setBorder(null);
+        btnPracticeVoca.setBorderPainted(false);
         btnPracticeVoca.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPracticeVoca.setOpaque(false);
         btnPracticeVoca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPracticeVocaActionPerformed(evt);
@@ -322,9 +328,11 @@ public class Practice extends javax.swing.JPanel {
         });
 
         labelPracticeIWantToSee.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelPracticeIWantToSee.setForeground(new java.awt.Color(94, 0, 126));
         labelPracticeIWantToSee.setText("I want to see");
 
         labelPracticeTotalRows.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelPracticeTotalRows.setForeground(new java.awt.Color(94, 0, 126));
         labelPracticeTotalRows.setText("Total Rows: 0");
 
         tablePracticeVoca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -340,16 +348,28 @@ public class Practice extends javax.swing.JPanel {
             }
         ));
         tablePracticeVoca.setAlignmentY(0.3F);
-        tablePracticeVoca.setGridColor(new java.awt.Color(204, 204, 204));
+        tablePracticeVoca.setColumnSelectionAllowed(true);
+        tablePracticeVoca.setFillsViewportHeight(true);
+        tablePracticeVoca.setFocusable(false);
+        tablePracticeVoca.setGridColor(new java.awt.Color(243, 235, 245));
+        tablePracticeVoca.setRequestFocusEnabled(false);
         tablePracticeVoca.setRowHeight(27);
         tablePracticeVoca.setSelectionBackground(new java.awt.Color(237, 226, 240));
         tablePracticeVoca.setSelectionForeground(new java.awt.Color(94, 0, 126));
+        tablePracticeVoca.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tablePracticeVoca.getTableHeader().setResizingAllowed(false);
+        tablePracticeVoca.getTableHeader().setReorderingAllowed(false);
         tablePracticeVoca.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablePracticeVocaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tablePracticeVoca);
+        tablePracticeVoca.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        labelPracticeTableDesc.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelPracticeTableDesc.setForeground(new java.awt.Color(153, 153, 153));
+        labelPracticeTableDesc.setText("You can check the answer by clicking the table row.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -358,28 +378,33 @@ public class Practice extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelPracticeChooseTypeOfPracticeInfoMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cboxPracticeFromLesson, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelPracticeChooseTypeOfPracticeFrom))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cboxPracticeLessonTo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelPracticeChooseTypeOfPracticeTo))
-                        .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cboxPracticeFromWantToSee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnPracticeVoca, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(labelPracticeIWantToSee)))
+                    .addComponent(labelPracticeVocaJPAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelPracticeVocaMMAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelPracticeChooseTypeOfPractice, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboxPracticeChooseAllOrFav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelPracticeTotalRows, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelPracticeVocaJPAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelPracticeVocaMMAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(labelPracticeTotalRows, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelPracticeTableDesc))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(labelPracticeChooseTypeOfPracticeFrom)
+                                    .addGap(79, 79, 79)
+                                    .addComponent(labelPracticeChooseTypeOfPracticeTo))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(cboxPracticeFromLesson, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cboxPracticeLessonTo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(24, 24, 24)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(labelPracticeIWantToSee)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(cboxPracticeFromWantToSee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(25, 25, 25)
+                                    .addComponent(btnPracticeVoca, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(196, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -387,42 +412,64 @@ public class Practice extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(labelPracticeChooseTypeOfPractice)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(cboxPracticeChooseAllOrFav, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelPracticeChooseTypeOfPracticeFrom)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboxPracticeFromLesson, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelPracticeChooseTypeOfPracticeTo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboxPracticeLessonTo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelPracticeChooseTypeOfPracticeFrom)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(labelPracticeChooseTypeOfPracticeTo)))
+                        .addGap(3, 3, 3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboxPracticeFromLesson, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboxPracticeLessonTo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelPracticeIWantToSee)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cboxPracticeFromWantToSee, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnPracticeVoca, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(7, 7, 7)
-                .addComponent(labelPracticeChooseTypeOfPracticeInfoMsg)
-                .addGap(21, 21, 21)
-                .addComponent(labelPracticeTotalRows)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelPracticeTotalRows)
+                    .addComponent(labelPracticeTableDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelPracticeVocaJPAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelPracticeVocaMMAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(labelPracticeVocaMMAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboxPracticeChooseAllOrFavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxPracticeChooseAllOrFavActionPerformed
-        // TODO add your handling code here:
+        cboxPracticeChooseAllorFav();
     }//GEN-LAST:event_cboxPracticeChooseAllOrFavActionPerformed
 
+    public void cboxPracticeChooseAllorFav() {
+        int practiceType = getCboxPracticeChooseAllOrFav().getSelectedIndex(); // 0 - All, 1 - Fav
+        
+        if (practiceType == 1) {
+            cboxPracticeFromLesson.removeAllItems();
+            cboxPracticeLessonTo.removeAllItems();
+            
+            Vocabulary vocabulary = new Vocabulary();
+            vocabulary.setFavoriteLessons(cboxPracticeFromLesson, cboxPracticeLessonTo);
+        }
+        else if (practiceType == 0) {
+            cboxPracticeFromLesson.removeAllItems();
+            cboxPracticeLessonTo.removeAllItems();
+            
+            for(int i = 1; i < 26; i++) {
+                cboxPracticeFromLesson.addItem("Lesson " + i);
+                cboxPracticeLessonTo.addItem("Lesson " + i);
+            }
+        }
+    }
+    
     private void cboxPracticeFromLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxPracticeFromLessonActionPerformed
 //        int from = cboxPracticeFromLesson.getSelectedIndex(); // 0 - Select(return)
 //        if (from == 0) btnPracticeVoca.setEnabled(false);
@@ -434,25 +481,15 @@ public class Practice extends javax.swing.JPanel {
     }//GEN-LAST:event_cboxPracticeLessonToActionPerformed
 
     private void btnPracticeVocaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPracticeVocaActionPerformed
-        int practiceType = cboxPracticeChooseAllOrFav.getSelectedIndex(); // 0 - All, 1 - Fav
+        int practiceType = getCboxPracticeChooseAllOrFav().getSelectedIndex(); // 0 - All, 1 - Fav
         int from = cboxPracticeFromLesson.getSelectedIndex() + 1;
         int to = cboxPracticeLessonTo.getSelectedIndex() + 1;
         int seen = cboxPracticeFromWantToSee.getSelectedIndex(); // 0 - myanmar, 1 - japanese
         
         tablePracticeVoca.setVisible(true);
         Vocabulary vocabulary = new Vocabulary();
-        vocabulary.generate(from, to, tablePracticeVoca, labelPracticeTotalRows);
+        vocabulary.generate(from, to, practiceType, tablePracticeVoca, labelPracticeTotalRows);
         setUpPracticeTable(seen);
-        
-        tableCellRenderer = new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                setForeground(getBackground());
-                return this;
-            }
-        };
-        tablePracticeVoca.getColumnModel().getColumn(seen).setCellRenderer(tableCellRenderer);
     }//GEN-LAST:event_btnPracticeVocaActionPerformed
 
     private void cboxPracticeFromWantToSeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxPracticeFromWantToSeeActionPerformed
@@ -461,28 +498,23 @@ public class Practice extends javax.swing.JPanel {
 
     private void tablePracticeVocaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePracticeVocaMouseClicked
         int row = tablePracticeVoca.getSelectedRow();
-        String jpAnswer = tablePracticeVoca.getModel().getValueAt(row, 0).toString();
-        String mmAnswer = tablePracticeVoca.getModel().getValueAt(row, 1).toString();
-        
-        getLabelPracticeVocaJPAnswer().setText(jpAnswer);
-        getLabelPracticeVocaMMAnswer().setText(mmAnswer);
+        if (row != -1) {
+            String jpAnswer = tablePracticeVoca.getModel().getValueAt(row, 0).toString();
+            String mmAnswer = tablePracticeVoca.getModel().getValueAt(row, 1).toString();
+
+            getLabelPracticeVocaJPAnswer().setText(jpAnswer);
+            getLabelPracticeVocaMMAnswer().setText(mmAnswer);
+        }
     }//GEN-LAST:event_tablePracticeVocaMouseClicked
       
     private void setUpPracticeTable(int seen) {        
         try {
             jpFont = Font.createFont(
-                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MS Gothic.ttf")).deriveFont(20f);
+                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MHGKyokashotaiTHK-Light.ttf")).deriveFont(20f);
             myanmarFont = Font.createFont(
-                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\Pyidaungsu-1.8_regular.ttf")).deriveFont(15f);
+                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\Pyidaungsu-2.5.3_Regular.ttf")).deriveFont(15f);
             
-//            tableCellRenderer = new DefaultTableCellRenderer() {
-//                @Override
-//                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-//                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-////                    setFont(jpFont);
-//                    return this;
-//                }
-//            };
+            int showColumn = 0;
             
             if(seen == 0) { // want to see Myanmar Meaning
                 tablePracticeVoca.setFont(myanmarFont);
@@ -490,6 +522,8 @@ public class Practice extends javax.swing.JPanel {
                 tablePracticeVoca.getColumnModel().getColumn(0).setMinWidth(0);
                 tablePracticeVoca.getColumnModel().getColumn(0).setMaxWidth(0);
                 tablePracticeVoca.getColumnModel().getColumn(0).setWidth(0);
+                
+                showColumn = 1;
             }
             else if (seen == 1) { // want to see Japanese Word
                 tablePracticeVoca.setFont(jpFont);
@@ -497,11 +531,22 @@ public class Practice extends javax.swing.JPanel {
                 tablePracticeVoca.getColumnModel().getColumn(1).setMinWidth(0);
                 tablePracticeVoca.getColumnModel().getColumn(1).setMaxWidth(0);
                 tablePracticeVoca.getColumnModel().getColumn(1).setWidth(0);
+                
+                showColumn = 0;
             }
             
-            // set font for table column which is Jp characters exist
-           
-//            tableFavoriteVocabularies.getColumnModel().getColumn(1).setCellRenderer(tableCellRenderer);
+            tableCellRenderer = new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                    setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+                    return this;
+                }
+            };
+            
+            tablePracticeVoca.getColumnModel().getColumn(showColumn).setCellRenderer(tableCellRenderer);
              
         } catch (IOException | FontFormatException e) {
             System.out.println(e.getMessage());
@@ -517,9 +562,9 @@ public class Practice extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelPracticeChooseTypeOfPractice;
     private javax.swing.JLabel labelPracticeChooseTypeOfPracticeFrom;
-    private javax.swing.JLabel labelPracticeChooseTypeOfPracticeInfoMsg;
     private javax.swing.JLabel labelPracticeChooseTypeOfPracticeTo;
     private javax.swing.JLabel labelPracticeIWantToSee;
+    private javax.swing.JLabel labelPracticeTableDesc;
     private javax.swing.JLabel labelPracticeTotalRows;
     private javax.swing.JLabel labelPracticeVocaJPAnswer;
     private javax.swing.JLabel labelPracticeVocaMMAnswer;
