@@ -114,7 +114,6 @@ public class App extends javax.swing.JFrame {
         tableVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
         tableVocabularies.getColumnModel().getColumn(0).setWidth(0);
         
-//        tableVocabularies.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         try {
             customFont = Font.createFont(
                     Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\cerebrisans-regular.ttf")).deriveFont(14f);
@@ -122,7 +121,6 @@ public class App extends javax.swing.JFrame {
                     Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MHGKyokashotaiTHK-Light.ttf")).deriveFont(22f);
             myanmarFont = Font.createFont(
                     Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\Pyidaungsu-1.8_regular.ttf")).deriveFont(15f);
-            
             
             titleFont = customFont.deriveFont(18f);
             subTitleFont = customFont.deriveFont(13f);
@@ -173,7 +171,6 @@ public class App extends javax.swing.JFrame {
     }
     
     private void setUpFavTable() {
-        
         tableFavoriteVocabularies.getColumnModel().getColumn(0).setMinWidth(0);
         tableFavoriteVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
         tableFavoriteVocabularies.getColumnModel().getColumn(0).setWidth(0);
@@ -182,9 +179,10 @@ public class App extends javax.swing.JFrame {
             customFont = Font.createFont(
                     Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\cerebrisans-regular.ttf")).deriveFont(14f);
             jpFont = Font.createFont(
-                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MS Gothic.ttf")).deriveFont(17f);
+                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MHGKyokashotaiTHK-Light.ttf")).deriveFont(22f);
             myanmarFont = Font.createFont(
                     Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\Pyidaungsu-2.5.3_Regular.ttf")).deriveFont(15f);
+            
             titleFont = customFont.deriveFont(18f);
             subTitleFont = customFont.deriveFont(13f);
             
@@ -805,7 +803,7 @@ public class App extends javax.swing.JFrame {
             }
         });
         tableFavoriteVocabularies.setAlignmentY(0.3F);
-        tableFavoriteVocabularies.setGridColor(new java.awt.Color(204, 204, 204));
+        tableFavoriteVocabularies.setGridColor(new java.awt.Color(243, 235, 245));
         tableFavoriteVocabularies.setRowHeight(27);
         tableFavoriteVocabularies.setSelectionBackground(new java.awt.Color(237, 226, 240));
         tableFavoriteVocabularies.setSelectionForeground(new java.awt.Color(94, 0, 126));
@@ -842,8 +840,8 @@ public class App extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cboxFavLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(13, 13, 13)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(214, Short.MAX_VALUE))
         );
 
         tabbedPaneVocabulary.addTab("Favorites", jPanel7);

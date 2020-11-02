@@ -822,8 +822,8 @@
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                          <Component id="jScrollPane3" min="-2" pref="391" max="-2" attributes="0"/>
-                          <EmptySpace pref="198" max="32767" attributes="0"/>
+                          <Component id="jScrollPane3" min="-2" pref="375" max="-2" attributes="0"/>
+                          <EmptySpace pref="214" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -946,7 +946,7 @@
                           </TableColumnModel>
                         </Property>
                         <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                          <Color blue="f5" green="eb" red="f3" type="rgb"/>
                         </Property>
                         <Property name="rowHeight" type="int" value="27"/>
                         <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
