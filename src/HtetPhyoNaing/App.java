@@ -57,6 +57,8 @@ public class App extends javax.swing.JFrame {
     private Font subTitleFont;
     private Font leadFont;
     private final Practice practicePanel;
+    
+    private Color VERY_DARK_GREEN = new Color(0,153,0);
 
     /**
      * Creates new form App
@@ -266,6 +268,8 @@ public class App extends javax.swing.JFrame {
         txtRequiredRomaji.setFont(subTitleFont);
         txtRequiredMeaning.setFont(subTitleFont);
         
+        labelCsv.setFont(customFont);
+        
         labelAppInfoLanguage.setFont(customFont);
         labelAppInfoUIComponents.setFont(customFont);
         labelAppInfoDevelopedTime.setFont(customFont);
@@ -351,6 +355,7 @@ public class App extends javax.swing.JFrame {
         btnImportCSV = new javax.swing.JButton();
         labelCSVImportPath = new javax.swing.JLabel();
         txtRequiredRomaji = new javax.swing.JLabel();
+        labelCsv = new javax.swing.JLabel();
         panelVersionMoreInfo = new javax.swing.JPanel();
         labelAppInfoLanguage = new javax.swing.JLabel();
         labelAppInfoDevelopedTime = new javax.swing.JLabel();
@@ -515,7 +520,6 @@ public class App extends javax.swing.JFrame {
         btnSearch.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-search.png"))); // NOI18N
         btnSearch.setText("Search");
-        btnSearch.setBorder(null);
         btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSearch.setMaximumSize(new java.awt.Dimension(101, 35));
         btnSearch.setMinimumSize(new java.awt.Dimension(101, 35));
@@ -917,11 +921,14 @@ public class App extends javax.swing.JFrame {
         labelCSVImportPath.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         labelCSVImportPath.setMaximumSize(new java.awt.Dimension(400, 0));
         labelCSVImportPath.setPreferredSize(new java.awt.Dimension(200, 0));
-        jPanel8.add(labelCSVImportPath, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 450, 430, 31));
+        jPanel8.add(labelCSVImportPath, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 461, 430, 20));
 
         txtRequiredRomaji.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
         txtRequiredRomaji.setForeground(new java.awt.Color(255, 51, 51));
         jPanel8.add(txtRequiredRomaji, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, 86, 15));
+
+        labelCsv.setForeground(new java.awt.Color(0, 153, 51));
+        jPanel8.add(labelCsv, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 444, 250, 20));
 
         tabbedPaneVocabulary.addTab("Vocabulary", jPanel8);
 
@@ -1035,6 +1042,8 @@ public class App extends javax.swing.JFrame {
                 labelId.setVisible(false);
                 getLabelVocabularyId().setVisible(false);
                 getTxtVocabularyName().requestFocus();
+                labelCSVImportPath.setText("");
+                labelCsv.setText("");
                 break;
             default:
                 break;
@@ -1270,23 +1279,54 @@ public class App extends javax.swing.JFrame {
         File file = fileChooser.getSelectedFile();
         
         String filePath = file.getAbsolutePath();
-        if(filePath.length() > 55) {
-            labelCSVImportPath.setText("..." + filePath.substring(filePath.length() - 55));
+        if(filePath.length() > 50) {
+            labelCSVImportPath.setText("..." + filePath.substring(filePath.length() - 50));
         } else {
             labelCSVImportPath.setText(filePath);
         }
+        labelCSVImportPath.setForeground(Color.BLACK);
+        labelCsv.setText("Reading and importing data from...");
+        labelCsv.setForeground(VERY_DARK_GREEN);
         
-        try {
+        try {            
             BufferedReader br = new BufferedReader(new FileReader(filePath));
             String line;
+            String firstRow;
+            String[] headers;
             String[] values;
+            int totalRows = 0;
             
+            // header row is ignored
+            firstRow = br.readLine();
+            
+            // check header row exists
+            headers = firstRow.split(",");
+            if (headers.length != 4
+                || !"Vocabulary".equals(headers[0])
+                || !"Romaji".equals(headers[1])
+                || !"Meaning".equals(headers[2])
+                || !"Lesson".equals(headers[3])) {
+                labelCSVImportPath.setText("Something is not right! Please try again later.");
+                labelCSVImportPath.setForeground(Color.red);
+                labelCSVImportPath.setFont(customFont);
+                labelCsv.setText("");
+                return;
+            }
+            
+            // read from second line
             while((line = br.readLine()) != null) {
                 values = line.split(",");
                 
                 Vocabulary vocabulary = new Vocabulary(values[0], values[1], values[2], values[3], false);
                 vocabulary.insert();
+                
+                totalRows++;
             }
+            
+            // assumed importing is successfully completed
+            labelCsv.setText("");
+            labelCSVImportPath.setText("Successfully imported " + totalRows + " rows!");
+            labelCSVImportPath.setForeground(VERY_DARK_GREEN);
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
@@ -1412,6 +1452,7 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JLabel labelCSVImportPath;
     private javax.swing.JLabel labelChooseLessonInVocaCreate;
     private javax.swing.JLabel labelCreateUpdateVocabulary;
+    private javax.swing.JLabel labelCsv;
     private javax.swing.JLabel labelDeveloperMail;
     private javax.swing.JLabel labelFilterByLessonInFavVocaList;
     private javax.swing.JLabel labelFilterByLessonInVocaList;
