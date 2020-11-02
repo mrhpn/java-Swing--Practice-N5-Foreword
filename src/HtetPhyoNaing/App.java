@@ -262,6 +262,10 @@ public class App extends javax.swing.JFrame {
         labelAppVersion.setFont(subTitleFont);
         txtSearchBox.setFont(customFont);
         
+        txtRequiredName.setFont(subTitleFont);
+        txtRequiredRomaji.setFont(subTitleFont);
+        txtRequiredMeaning.setFont(subTitleFont);
+        
         labelAppInfoLanguage.setFont(customFont);
         labelAppInfoUIComponents.setFont(customFont);
         labelAppInfoDevelopedTime.setFont(customFont);
@@ -294,13 +298,6 @@ public class App extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        panelVersionMoreInfo = new javax.swing.JPanel();
-        labelAppInfoLanguage = new javax.swing.JLabel();
-        labelAppInfoDevelopedTime = new javax.swing.JLabel();
-        labelAppInfoAbout = new javax.swing.JLabel();
-        labelAppInfoUIComponents = new javax.swing.JLabel();
-        labelAppInfoAck = new javax.swing.JLabel();
-        labelAppInfoAckBody = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         labelTitle = new javax.swing.JLabel();
@@ -344,8 +341,6 @@ public class App extends javax.swing.JFrame {
         labelCreateUpdateVocabulary = new javax.swing.JLabel();
         msgCreateVocabulary = new javax.swing.JLabel();
         txtRequiredName = new javax.swing.JLabel();
-        txtRequiredRomaji = new javax.swing.JLabel();
-        txtRequiredPronounciation = new javax.swing.JLabel();
         txtVocabularyMeaning = new javax.swing.JTextField();
         txtRequiredMeaning = new javax.swing.JLabel();
         labelId = new javax.swing.JLabel();
@@ -355,6 +350,14 @@ public class App extends javax.swing.JFrame {
         labelImportVocabulary = new javax.swing.JLabel();
         btnImportCSV = new javax.swing.JButton();
         labelCSVImportPath = new javax.swing.JLabel();
+        txtRequiredRomaji = new javax.swing.JLabel();
+        panelVersionMoreInfo = new javax.swing.JPanel();
+        labelAppInfoLanguage = new javax.swing.JLabel();
+        labelAppInfoDevelopedTime = new javax.swing.JLabel();
+        labelAppInfoAbout = new javax.swing.JLabel();
+        labelAppInfoUIComponents = new javax.swing.JLabel();
+        labelAppInfoAck = new javax.swing.JLabel();
+        labelAppInfoAckBody = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Foreword");
@@ -377,61 +380,6 @@ public class App extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(245, 245, 245));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        panelVersionMoreInfo.setBackground(new java.awt.Color(126, 63, 155));
-
-        labelAppInfoLanguage.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoLanguage.setText("Language: Java");
-
-        labelAppInfoDevelopedTime.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoDevelopedTime.setText("Developed time: 2 weeks");
-
-        labelAppInfoAbout.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoAbout.setText("About: Japanese Vocabulary Trainer");
-
-        labelAppInfoUIComponents.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoUIComponents.setText("UI Components: Swing");
-
-        labelAppInfoAck.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoAck.setText("Acknowledgement:");
-
-        labelAppInfoAckBody.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoAckBody.setText("Thanks a million to Tutor Ma Nyunt Nyunt Hlaing, Ma Su Su Lin and my sister Hnin Hnin for data entry.");
-
-        javax.swing.GroupLayout panelVersionMoreInfoLayout = new javax.swing.GroupLayout(panelVersionMoreInfo);
-        panelVersionMoreInfo.setLayout(panelVersionMoreInfoLayout);
-        panelVersionMoreInfoLayout.setHorizontalGroup(
-            panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelVersionMoreInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelAppInfoLanguage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelAppInfoDevelopedTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelAppInfoAbout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelAppInfoUIComponents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelAppInfoAck, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelAppInfoAckBody, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelVersionMoreInfoLayout.setVerticalGroup(
-            panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelVersionMoreInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelAppInfoLanguage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelAppInfoUIComponents)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelAppInfoDevelopedTime)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelAppInfoAbout)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelAppInfoAck)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelAppInfoAckBody)
-                .addGap(34, 34, 34))
-        );
-
-        jPanel1.add(panelVersionMoreInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 386, 680, 170));
 
         jPanel2.setBackground(new java.awt.Color(94, 0, 126));
 
@@ -720,7 +668,7 @@ public class App extends javax.swing.JFrame {
                             .addGap(7, 7, 7)
                             .addComponent(btnDeleteVocabulary))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(278, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -827,7 +775,7 @@ public class App extends javax.swing.JFrame {
                                 .addGap(2, 2, 2)
                                 .addComponent(labelFilterByLessonInFavVocaList))))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(277, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -850,28 +798,33 @@ public class App extends javax.swing.JFrame {
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelChooseLessonInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelChooseLessonInVocaCreate.setForeground(new java.awt.Color(94, 0, 126));
         labelChooseLessonInVocaCreate.setText("Choose Lesson");
-        jPanel8.add(labelChooseLessonInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 57, -1, -1));
+        jPanel8.add(labelChooseLessonInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
 
         txtVocabularyName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtVocabularyName.setMinimumSize(new java.awt.Dimension(6, 31));
         txtVocabularyName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtVocabularyNameActionPerformed(evt);
             }
         });
-        jPanel8.add(txtVocabularyName, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 153, 284, 35));
+        jPanel8.add(txtVocabularyName, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 284, 40));
 
         labelVocaInHiraganaKatakanaInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelVocaInHiraganaKatakanaInVocaCreate.setForeground(new java.awt.Color(94, 0, 126));
         labelVocaInHiraganaKatakanaInVocaCreate.setText("Vocabulary in Hiragana/Katakana");
-        jPanel8.add(labelVocaInHiraganaKatakanaInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 130, -1, -1));
+        jPanel8.add(labelVocaInHiraganaKatakanaInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
 
         labelRomajiInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelRomajiInVocaCreate.setForeground(new java.awt.Color(94, 0, 126));
         labelRomajiInVocaCreate.setText("Romaji");
-        jPanel8.add(labelRomajiInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 130, -1, -1));
+        jPanel8.add(labelRomajiInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, -1, -1));
 
         labelMeaningInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelMeaningInVocaCreate.setForeground(new java.awt.Color(94, 0, 126));
         labelMeaningInVocaCreate.setText("Meaning");
-        jPanel8.add(labelMeaningInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 217, -1, -1));
+        jPanel8.add(labelMeaningInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
 
         btnGoVocabulary.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         btnGoVocabulary.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-go.png"))); // NOI18N
@@ -882,7 +835,7 @@ public class App extends javax.swing.JFrame {
                 btnGoVocabularyActionPerformed(evt);
             }
         });
-        jPanel8.add(btnGoVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, 100, 40));
+        jPanel8.add(btnGoVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 90, 40));
 
         txtVocabularyRomaji.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
         txtVocabularyRomaji.addActionListener(new java.awt.event.ActionListener() {
@@ -890,37 +843,30 @@ public class App extends javax.swing.JFrame {
                 txtVocabularyRomajiActionPerformed(evt);
             }
         });
-        jPanel8.add(txtVocabularyRomaji, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 153, 287, 37));
+        jPanel8.add(txtVocabularyRomaji, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, 287, 40));
 
         cboxLessonInCreateVocabulary.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         cboxLessonInCreateVocabulary.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
-        cboxLessonInCreateVocabulary.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cboxLessonInCreateVocabulary.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cboxLessonInCreateVocabulary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboxLessonInCreateVocabularyActionPerformed(evt);
             }
         });
-        jPanel8.add(cboxLessonInCreateVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 80, 94, 32));
+        jPanel8.add(cboxLessonInCreateVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 94, 32));
 
         labelCreateUpdateVocabulary.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
         labelCreateUpdateVocabulary.setText("Create/Update Vocabulary");
         jPanel8.add(labelCreateUpdateVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 26, -1, -1));
 
+        msgCreateVocabulary.setBackground(new java.awt.Color(0, 204, 51));
         msgCreateVocabulary.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
-        msgCreateVocabulary.setForeground(new java.awt.Color(0, 153, 102));
-        jPanel8.add(msgCreateVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 310, 246, 29));
+        msgCreateVocabulary.setForeground(new java.awt.Color(0, 204, 51));
+        jPanel8.add(msgCreateVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 246, 29));
 
         txtRequiredName.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
         txtRequiredName.setForeground(new java.awt.Color(255, 51, 51));
-        jPanel8.add(txtRequiredName, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 194, 86, 17));
-
-        txtRequiredRomaji.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
-        txtRequiredRomaji.setForeground(new java.awt.Color(255, 51, 51));
-        jPanel8.add(txtRequiredRomaji, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 196, 86, 15));
-
-        txtRequiredPronounciation.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
-        txtRequiredPronounciation.setForeground(new java.awt.Color(255, 51, 51));
-        jPanel8.add(txtRequiredPronounciation, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 288, 86, 14));
+        jPanel8.add(txtRequiredName, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 86, 15));
 
         txtVocabularyMeaning.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
         txtVocabularyMeaning.addActionListener(new java.awt.event.ActionListener() {
@@ -928,33 +874,34 @@ public class App extends javax.swing.JFrame {
                 txtVocabularyMeaningActionPerformed(evt);
             }
         });
-        jPanel8.add(txtVocabularyMeaning, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 240, 284, 37));
+        jPanel8.add(txtVocabularyMeaning, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 284, 40));
 
         txtRequiredMeaning.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
         txtRequiredMeaning.setForeground(new java.awt.Color(255, 51, 51));
-        jPanel8.add(txtRequiredMeaning, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 288, 86, 14));
+        jPanel8.add(txtRequiredMeaning, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 86, 14));
 
         labelId.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         labelId.setText("Id:");
-        jPanel8.add(labelId, new org.netbeans.lib.awtextra.AbsoluteConstraints(224, 308, 28, 38));
+        jPanel8.add(labelId, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 28, 38));
 
         labelVocabularyId.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         labelVocabularyId.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jPanel8.add(labelVocabularyId, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 308, 36, 38));
+        jPanel8.add(labelVocabularyId, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 36, 38));
 
         checkBoxMarkAsFavorite.setBackground(new java.awt.Color(255, 255, 255));
+        checkBoxMarkAsFavorite.setForeground(new java.awt.Color(94, 0, 126));
         checkBoxMarkAsFavorite.setText("Mark as favorite");
         checkBoxMarkAsFavorite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxMarkAsFavoriteActionPerformed(evt);
             }
         });
-        jPanel8.add(checkBoxMarkAsFavorite, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 308, 139, 31));
-        jPanel8.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 404, 769, 10));
+        jPanel8.add(checkBoxMarkAsFavorite, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, 139, 31));
+        jPanel8.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 769, 10));
 
         labelImportVocabulary.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
         labelImportVocabulary.setText("Bulk Create Vocabulary");
-        jPanel8.add(labelImportVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, -1, -1));
+        jPanel8.add(labelImportVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, -1, -1));
 
         btnImportCSV.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         btnImportCSV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-import-csv.png"))); // NOI18N
@@ -965,17 +912,76 @@ public class App extends javax.swing.JFrame {
                 btnImportCSVActionPerformed(evt);
             }
         });
-        jPanel8.add(btnImportCSV, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 456, -1, 40));
+        jPanel8.add(btnImportCSV, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, -1, 40));
 
         labelCSVImportPath.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         labelCSVImportPath.setMaximumSize(new java.awt.Dimension(400, 0));
         labelCSVImportPath.setPreferredSize(new java.awt.Dimension(200, 0));
-        jPanel8.add(labelCSVImportPath, new org.netbeans.lib.awtextra.AbsoluteConstraints(189, 465, 430, 31));
+        jPanel8.add(labelCSVImportPath, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 450, 430, 31));
+
+        txtRequiredRomaji.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
+        txtRequiredRomaji.setForeground(new java.awt.Color(255, 51, 51));
+        jPanel8.add(txtRequiredRomaji, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, 86, 15));
 
         tabbedPaneVocabulary.addTab("Vocabulary", jPanel8);
 
         jPanel1.add(tabbedPaneVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
         tabbedPaneVocabulary.getAccessibleContext().setAccessibleName("List");
+
+        panelVersionMoreInfo.setBackground(new java.awt.Color(126, 63, 155));
+
+        labelAppInfoLanguage.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoLanguage.setText("Language: Java");
+
+        labelAppInfoDevelopedTime.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoDevelopedTime.setText("Developed time: 2 weeks");
+
+        labelAppInfoAbout.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoAbout.setText("About: Japanese Vocabulary Trainer");
+
+        labelAppInfoUIComponents.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoUIComponents.setText("UI Components: Swing");
+
+        labelAppInfoAck.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoAck.setText("Acknowledgement:");
+
+        labelAppInfoAckBody.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoAckBody.setText("Thanks a million to Tutor Ma Nyunt Nyunt Hlaing, Ma Su Su Lin and my sister Hnin Hnin for data entry.");
+
+        javax.swing.GroupLayout panelVersionMoreInfoLayout = new javax.swing.GroupLayout(panelVersionMoreInfo);
+        panelVersionMoreInfo.setLayout(panelVersionMoreInfoLayout);
+        panelVersionMoreInfoLayout.setHorizontalGroup(
+            panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelVersionMoreInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelAppInfoLanguage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoDevelopedTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoAbout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoUIComponents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoAck, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoAckBody, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelVersionMoreInfoLayout.setVerticalGroup(
+            panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelVersionMoreInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelAppInfoLanguage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoUIComponents)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoDevelopedTime)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoAbout)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoAck)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoAckBody)
+                .addGap(34, 34, 34))
+        );
+
+        jPanel1.add(panelVersionMoreInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 386, 680, 170));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1129,19 +1135,22 @@ public class App extends javax.swing.JFrame {
         Integer id = (Integer) tableModel.getValueAt(selectedRow, 0);
         String name = (String) tableModel.getValueAt(selectedRow, 1);
         String romaji = (String) tableModel.getValueAt(selectedRow, 2);
-        // String jpMm = (String) tableModel.getValueAt(selectedRow, 3);
         String meaning = (String) tableModel.getValueAt(selectedRow, 3);
-
+        
+        String favoriteText = btnFavoriteVocabulary.getText();
+        Boolean isFavorite = false;
+        if ("Favorited".equals(favoriteText)) isFavorite = true;
+        
         getTabbedPaneVocabulary().setSelectedIndex(2);
 
         getTxtVocabularyName().setText(name);
         getTxtVocabularyRomaji().setText(romaji);
-        // getTxtVocabularyJpMm().setText(jpMm);
         getTxtVocabularyMeaning().setText(meaning);
         getCboxLessonInCreateVocabulary().setSelectedIndex(getCboxLessonList().getSelectedIndex());
         labelId.setVisible(true);
         getLabelVocabularyId().setVisible(true);
         getLabelVocabularyId().setText(id.toString());
+        checkBoxMarkAsFavorite.setSelected(isFavorite);
     }//GEN-LAST:event_btnUpdateVocabularyActionPerformed
 
     private void btnDeleteVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteVocabularyActionPerformed
@@ -1302,7 +1311,6 @@ public class App extends javax.swing.JFrame {
         getLabelVocabularyId().setVisible(false);
         getTxtRequiredName().setText("");
         getTxtRequiredRomaji().setText("");
-        getTxtRequiredPronounciation().setText("");
         getTxtRequiredMeaning().setText("");
         getTxtVocabularyName().setText("");
         getTxtVocabularyRomaji().setText("");
@@ -1424,7 +1432,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JTable tableVocabularies;
     private javax.swing.JLabel txtRequiredMeaning;
     private javax.swing.JLabel txtRequiredName;
-    private javax.swing.JLabel txtRequiredPronounciation;
     private javax.swing.JLabel txtRequiredRomaji;
     private javax.swing.JTextField txtSearchBox;
     private javax.swing.JTextField txtVocabularyMeaning;
@@ -1584,13 +1591,6 @@ public class App extends javax.swing.JFrame {
      */
     public javax.swing.JLabel getTxtRequiredName() {
         return txtRequiredName;
-    }
-
-    /**
-     * @return the txtRequiredPronounciation
-     */
-    public javax.swing.JLabel getTxtRequiredPronounciation() {
-        return txtRequiredPronounciation;
     }
 
     /**
