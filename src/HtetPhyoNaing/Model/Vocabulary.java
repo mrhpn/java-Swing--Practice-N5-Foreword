@@ -51,6 +51,7 @@ public class Vocabulary {
         
         try (PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO vocabularies (name, romaji, meaning, lesson_id, is_favorite) VALUES (?,?,?,?,?)")) {
+            
             statement.setString(1, name);            
             statement.setString(2, romaji);
             statement.setString(3, meaning);
@@ -202,9 +203,14 @@ public class Vocabulary {
         String query = "";
         
         if (practiceType == 1) 
-            query = "SELECT name AS Vocabulary, meaning AS Meaning FROM vocabularies WHERE is_favorite = true AND lesson_id = " + from + " OR lesson_id = " + to;
+            query = "SELECT name AS Vocabulary, meaning AS Meaning FROM vocabularies WHERE is_favorite = true AND";
         else if (practiceType == 0)
-            query = "SELECT name AS Vocabulary, meaning AS Meaning FROM vocabularies WHERE lesson_id = " + from + " OR lesson_id = " + to;
+            query = "SELECT name AS Vocabulary, meaning AS Meaning FROM vocabularies WHERE";
+
+        if (from == to) query = query + " lesson_id = " + from;
+        else if (from != to) query = query + " (lesson_id = " + from + " OR lesson_id = " + to + ")";
+        
+        System.out.println(query);
         
         try(PreparedStatement statement = connection.prepareStatement(
                 query,

@@ -481,10 +481,23 @@ public class Practice extends javax.swing.JPanel {
     }//GEN-LAST:event_cboxPracticeLessonToActionPerformed
 
     private void btnPracticeVocaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPracticeVocaActionPerformed
+        int from, to;
+        
         int practiceType = getCboxPracticeChooseAllOrFav().getSelectedIndex(); // 0 - All, 1 - Fav
-        int from = cboxPracticeFromLesson.getSelectedIndex() + 1;
-        int to = cboxPracticeLessonTo.getSelectedIndex() + 1;
         int seen = cboxPracticeFromWantToSee.getSelectedIndex(); // 0 - myanmar, 1 - japanese
+        
+        if (practiceType == 1) {
+            from = Integer.parseInt(cboxPracticeFromLesson.getSelectedItem().toString().split(" ")[1]);
+            to = Integer.parseInt(cboxPracticeLessonTo.getSelectedItem().toString().split(" ")[1]);
+        }
+        else {
+            from = cboxPracticeFromLesson.getSelectedIndex() + 1;
+            to = cboxPracticeLessonTo.getSelectedIndex() + 1;
+        }
+        
+        System.out.println("from " + from);
+        System.out.println("to " + to);
+        System.out.println("type " + practiceType);
         
         tablePracticeVoca.setVisible(true);
         Vocabulary vocabulary = new Vocabulary();

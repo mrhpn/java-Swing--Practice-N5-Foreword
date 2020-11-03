@@ -293,7 +293,7 @@ public class App extends javax.swing.JFrame {
         practicePanel.getCboxPracticeFromWantToSee().setFont(customFont);
         practicePanel.getLabelPracticeVocaJPAnswer().setFont(jpFont);
         practicePanel.getLabelPracticeVocaMMAnswer().setFont(myanmarFont);
-        practicePanel.getLabelPracticeTableDesc().setFont(subTitleFont);
+        practicePanel.getLabelPracticeTableDesc().setFont(customFont);
     }
 
     /**
@@ -619,7 +619,7 @@ public class App extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tableVocabularies);
 
         cboxLessonList.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        cboxLessonList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
+        cboxLessonList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
         cboxLessonList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboxLessonListActionPerformed(evt);
@@ -774,7 +774,7 @@ public class App extends javax.swing.JFrame {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         cboxFavLessonList.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        cboxFavLessonList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
+        cboxFavLessonList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
         cboxFavLessonList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboxFavLessonListActionPerformed(evt);
@@ -911,7 +911,7 @@ public class App extends javax.swing.JFrame {
         jPanel8.add(txtVocabularyRomaji, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, 287, 40));
 
         cboxLessonInCreateVocabulary.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        cboxLessonInCreateVocabulary.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
+        cboxLessonInCreateVocabulary.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
         cboxLessonInCreateVocabulary.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cboxLessonInCreateVocabulary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1227,6 +1227,8 @@ public class App extends javax.swing.JFrame {
 
     private void cboxLessonListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxLessonListActionPerformed
         int selectedLesson = getCboxLessonList().getSelectedIndex() + 1;
+        
+        System.out.println(selectedLesson);
 
         Vocabulary vocabulary = new Vocabulary();
         vocabulary.repaintTable(getTableVocabularies(), getLabelTotalRows(), "ASC", selectedLesson);
@@ -1237,8 +1239,6 @@ public class App extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         int searchKey = getCboxSearchBox().getSelectedIndex();
         String searchValue = getTxtSearchBox().getText();
-        
-        System.out.println(searchValue);
 
         if ("".equals(searchValue)) {
             getTxtSearchBox().requestFocus();
@@ -1265,6 +1265,8 @@ public class App extends javax.swing.JFrame {
 
     private void cboxFavLessonListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxFavLessonListActionPerformed
         int selectedLesson = cboxFavLessonList.getSelectedIndex();
+        
+        System.out.println(selectedLesson);
         Vocabulary vocabulary = new Vocabulary();
         vocabulary.repaintFavTable(tableFavoriteVocabularies, labelTotalRowsFav, selectedLesson);
         setUpFavTable();
