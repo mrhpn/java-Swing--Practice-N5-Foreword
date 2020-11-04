@@ -58,106 +58,6 @@
         <Property name="useNullLayout" type="boolean" value="false"/>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="panelVersionMoreInfo">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="9b" green="3f" red="7e" type="rgb"/>
-            </Property>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="110" y="386" width="680" height="170"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelAppInfoLanguage" max="32767" attributes="0"/>
-                          <Component id="labelAppInfoDevelopedTime" alignment="0" max="32767" attributes="0"/>
-                          <Component id="labelAppInfoAbout" alignment="0" max="32767" attributes="0"/>
-                          <Component id="labelAppInfoUIComponents" alignment="0" max="32767" attributes="0"/>
-                          <Component id="labelAppInfoAck" alignment="0" max="32767" attributes="0"/>
-                          <Component id="labelAppInfoAckBody" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labelAppInfoLanguage" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labelAppInfoUIComponents" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labelAppInfoDevelopedTime" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labelAppInfoAbout" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labelAppInfoAck" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labelAppInfoAckBody" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="labelAppInfoLanguage">
-              <Properties>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Language: Java"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="labelAppInfoDevelopedTime">
-              <Properties>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Developed time: 2 weeks"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="labelAppInfoAbout">
-              <Properties>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="About: Japanese Vocabulary Trainer"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="labelAppInfoUIComponents">
-              <Properties>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="UI Components: Swing"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="labelAppInfoAck">
-              <Properties>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Acknowledgement:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="labelAppInfoAckBody">
-              <Properties>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Thanks a million to Tutor Ma Nyunt Nyunt Hlaing, Ma Su Su Lin and my sister Hnin Hnin for data entry."/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -400,10 +300,10 @@
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="labelTotalRows" min="-2" pref="162" max="-2" attributes="0"/>
+                                          <Component id="labelTotalRowsInListPage" min="-2" pref="162" max="-2" attributes="0"/>
                                           <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="cboxLessonList" min="-2" pref="104" max="-2" attributes="0"/>
+                                              <Component id="cboxLessonsInListPage" min="-2" pref="104" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
                                                   <EmptySpace min="120" pref="120" max="-2" attributes="0"/>
                                                   <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
@@ -412,16 +312,16 @@
                                           <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <Component id="labelFilterByLessonInVocaList" min="-2" pref="121" max="-2" attributes="0"/>
+                                          <Component id="labelFilterByLessonInListPage" min="-2" pref="121" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="labelSearchInAllLessonsInVocaList" min="-2" pref="162" max="-2" attributes="0"/>
+                                      <Component id="labelSearchInAllLessonsInListPage" min="-2" pref="162" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="cboxSearchBox" min="-2" pref="89" max="-2" attributes="0"/>
                                           <EmptySpace pref="7" max="32767" attributes="0"/>
-                                          <Component id="txtSearchBox" min="-2" pref="137" max="-2" attributes="0"/>
+                                          <Component id="txtSearchBoxInListPage" min="-2" pref="137" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -450,7 +350,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="labelTotalRows" min="-2" pref="24" max="-2" attributes="0"/>
+                                  <Component id="labelTotalRowsInListPage" min="-2" pref="24" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
@@ -459,12 +359,12 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="labelFilterByLessonInVocaList" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                                      <Component id="labelSearchInAllLessonsInVocaList" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelFilterByLessonInListPage" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                                      <Component id="labelSearchInAllLessonsInListPage" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="cboxLessonList" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                                      <Component id="cboxLessonsInListPage" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                                       <Component id="jSeparator1" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -472,7 +372,7 @@
                                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="btnSearch" min="-2" pref="34" max="-2" attributes="0"/>
-                                      <Component id="txtSearchBox" min="-2" pref="34" max="-2" attributes="0"/>
+                                      <Component id="txtSearchBoxInListPage" min="-2" pref="34" max="-2" attributes="0"/>
                                       <Component id="btnClearSearchText" alignment="0" min="-2" pref="34" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -491,14 +391,14 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JTextField" name="txtSearchBox">
+                <Component class="javax.swing.JTextField" name="txtSearchBoxInListPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Pyidaungsu" size="14" style="0"/>
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchBoxActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchBoxInListPageActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnSearch">
@@ -602,7 +502,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JComboBox" name="cboxLessonList">
+                <Component class="javax.swing.JComboBox" name="cboxLessonsInListPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -638,8 +538,8 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxLessonListActionPerformed"/>
-                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="cboxLessonListPropertyChange"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxLessonsInListPageActionPerformed"/>
+                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="cboxLessonsInListPagePropertyChange"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -669,7 +569,7 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelTotalRows">
+                <Component class="javax.swing.JLabel" name="labelTotalRowsInListPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="16" style="0"/>
@@ -725,7 +625,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateVocabularyActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelFilterByLessonInVocaList">
+                <Component class="javax.swing.JLabel" name="labelFilterByLessonInListPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -737,7 +637,7 @@
                     <Property name="verticalAlignment" type="int" value="3"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelSearchInAllLessonsInVocaList">
+                <Component class="javax.swing.JLabel" name="labelSearchInAllLessonsInListPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -789,16 +689,16 @@
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="labelTotalRowsFav" min="-2" pref="162" max="-2" attributes="0"/>
+                                  <Component id="labelTotalRowsInFavoritePage" min="-2" pref="162" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="447" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="cboxFavLessonList" min="-2" pref="104" max="-2" attributes="0"/>
+                                          <Component id="cboxFavoriteLessonsInFavoritePage" min="-2" pref="104" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                                          <Component id="labelFilterByLessonInFavVocaList" min="-2" max="-2" attributes="0"/>
+                                          <Component id="labelFilterByLessonInFavoritePage" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -813,11 +713,11 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="labelTotalRowsFav" min="-2" pref="24" max="-2" attributes="0"/>
+                              <Component id="labelTotalRowsInFavoritePage" min="-2" pref="24" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="labelFilterByLessonInFavVocaList" min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="labelFilterByLessonInFavoritePage" min="-2" pref="22" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cboxFavLessonList" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="cboxFavoriteLessonsInFavoritePage" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
@@ -828,7 +728,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JComboBox" name="cboxFavLessonList">
+                <Component class="javax.swing.JComboBox" name="cboxFavoriteLessonsInFavoritePage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -865,14 +765,14 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxFavLessonListActionPerformed"/>
-                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="cboxFavLessonListPropertyChange"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxFavoriteLessonsInFavoritePageActionPerformed"/>
+                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="cboxFavoriteLessonsInFavoritePagePropertyChange"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelFilterByLessonInFavVocaList">
+                <Component class="javax.swing.JLabel" name="labelFilterByLessonInFavoritePage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -884,7 +784,7 @@
                     <Property name="verticalAlignment" type="int" value="3"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelTotalRowsFav">
+                <Component class="javax.swing.JLabel" name="labelTotalRowsInFavoritePage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="16" style="0"/>
@@ -983,7 +883,7 @@
                 <Property name="useNullLayout" type="boolean" value="false"/>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="labelChooseLessonInVocaCreate">
+                <Component class="javax.swing.JLabel" name="labelChooseLessonInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -999,7 +899,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtVocabularyName">
+                <Component class="javax.swing.JTextField" name="txtVocabularyNameInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="18" style="0"/>
@@ -1009,7 +909,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtVocabularyNameActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtVocabularyNameInVocabularyPageActionPerformed"/>
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -1017,7 +917,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelVocaInHiraganaKatakanaInVocaCreate">
+                <Component class="javax.swing.JLabel" name="labelHiraganaKatakanaInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -1033,7 +933,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelRomajiInVocaCreate">
+                <Component class="javax.swing.JLabel" name="labelRomajiInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -1049,7 +949,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelMeaningInVocaCreate">
+                <Component class="javax.swing.JLabel" name="labelMeaningInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -1087,14 +987,14 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtVocabularyRomaji">
+                <Component class="javax.swing.JTextField" name="txtVocabularyRomajiInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Pyidaungsu" size="14" style="0"/>
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtVocabularyRomajiActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtVocabularyRomajiInVocabularyPageActionPerformed"/>
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -1102,7 +1002,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="cboxLessonInCreateVocabulary">
+                <Component class="javax.swing.JComboBox" name="cboxLessonsInCreateUpdateVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -1141,7 +1041,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxLessonInCreateVocabularyActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxLessonsInCreateUpdateVocabularyPageActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1152,7 +1052,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelCreateUpdateVocabulary">
+                <Component class="javax.swing.JLabel" name="labelTitleCreateUpdateInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="20" style="0"/>
@@ -1165,7 +1065,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="msgCreateVocabulary">
+                <Component class="javax.swing.JLabel" name="labelVocabularyCreatedOrUpdatedMessageInVocabularyPage">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="33" green="cc" red="0" type="rgb"/>
@@ -1183,7 +1083,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="txtRequiredName">
+                <Component class="javax.swing.JLabel" name="txtRequiredNameInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="12" style="2"/>
@@ -1198,14 +1098,14 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtVocabularyMeaning">
+                <Component class="javax.swing.JTextField" name="txtVocabularyMeaningInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Pyidaungsu" size="14" style="0"/>
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtVocabularyMeaningActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtVocabularyMeaningInVocabularyPageActionPerformed"/>
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -1213,7 +1113,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="txtRequiredMeaning">
+                <Component class="javax.swing.JLabel" name="txtRequiredMeaningInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="12" style="2"/>
@@ -1228,7 +1128,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelId">
+                <Component class="javax.swing.JLabel" name="labelIdInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="18" style="0"/>
@@ -1241,7 +1141,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelVocabularyId">
+                <Component class="javax.swing.JLabel" name="labelVocabularyIdInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="18" style="0"/>
@@ -1254,7 +1154,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JCheckBox" name="checkBoxMarkAsFavorite">
+                <Component class="javax.swing.JCheckBox" name="checkBoxMarkAsFavoriteInVocabularyPage">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -1265,7 +1165,7 @@
                     <Property name="text" type="java.lang.String" value="Mark as favorite"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkBoxMarkAsFavoriteActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkBoxMarkAsFavoriteInVocabularyPageActionPerformed"/>
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -1280,7 +1180,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelImportVocabulary">
+                <Component class="javax.swing.JLabel" name="labelImportVocabularyInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="20" style="0"/>
@@ -1315,7 +1215,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelCSVImportPath">
+                <Component class="javax.swing.JLabel" name="labelCSVImportPathInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="14" style="0"/>
@@ -1333,7 +1233,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="txtRequiredRomaji">
+                <Component class="javax.swing.JLabel" name="txtRequiredRomajiInVocabularyPage">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Century" size="12" style="2"/>
@@ -1348,7 +1248,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelCsv">
+                <Component class="javax.swing.JLabel" name="labelCsvInVocabularyPage">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="33" green="99" red="0" type="rgb"/>
@@ -1362,6 +1262,106 @@
                 </Component>
               </SubComponents>
             </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="panelVersionMoreInfo">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="9b" green="3f" red="7e" type="rgb"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="110" y="386" width="680" height="170"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="labelAppInfoLanguage" max="32767" attributes="0"/>
+                          <Component id="labelAppInfoDevelopedTime" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelAppInfoAbout" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelAppInfoUIComponents" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelAppInfoAck" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelAppInfoAckBody" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelAppInfoLanguage" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelAppInfoUIComponents" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelAppInfoDevelopedTime" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelAppInfoAbout" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelAppInfoAck" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelAppInfoAckBody" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="labelAppInfoLanguage">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Language: Java"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelAppInfoDevelopedTime">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Developed time: 2 weeks"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelAppInfoAbout">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="About: Japanese Vocabulary Trainer"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelAppInfoUIComponents">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="UI Components: Swing"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelAppInfoAck">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Acknowledgement:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelAppInfoAckBody">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Thanks a million to Tutor Ma Nyunt Nyunt Hlaing, Ma Su Su Lin and my sister Hnin Hnin for data entry."/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

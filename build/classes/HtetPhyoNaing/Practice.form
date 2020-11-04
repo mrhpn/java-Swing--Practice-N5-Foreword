@@ -27,37 +27,37 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="labelPracticeVocaJPAnswer" min="-2" pref="494" max="-2" attributes="0"/>
-                  <Component id="labelPracticeVocaMMAnswer" min="-2" pref="594" max="-2" attributes="0"/>
-                  <Component id="labelPracticeChooseTypeOfPractice" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
-                  <Component id="cboxPracticeChooseAllOrFav" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelJPAnswerInPracticePage" min="-2" pref="494" max="-2" attributes="0"/>
+                  <Component id="labelMMAnswerInPracticePage" min="-2" pref="594" max="-2" attributes="0"/>
+                  <Component id="labelChooseTypeOfPracticeInPracticePage" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
+                  <Component id="cboxChooseAllOrFavInPracticePage" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="labelPracticeTotalRows" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="labelTotalRowsInPracticePage" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="labelPracticeTableDesc" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelTableDescInPracticePage" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="labelPracticeChooseTypeOfPracticeFrom" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelChooseTypeOfPracticeFromInPracticePage" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="79" pref="79" max="-2" attributes="0"/>
-                                  <Component id="labelPracticeChooseTypeOfPracticeTo" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelChooseTypeOfPracticeToInPracticePage" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="cboxPracticeFromLesson" min="-2" pref="100" max="-2" attributes="0"/>
+                                  <Component id="cboxFromLessonInPracticePage" min="-2" pref="100" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cboxPracticeLessonTo" min="-2" pref="121" max="-2" attributes="0"/>
+                                  <Component id="cboxToLessonInPracticePage" min="-2" pref="121" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="labelPracticeIWantToSee" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelIWantToSeeInPracticePage" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="cboxPracticeFromWantToSee" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cboxIWantToSeeInPracticePage" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                                  <Component id="btnPracticeVoca" min="-2" pref="101" max="-2" attributes="0"/>
+                                  <Component id="btnStartInPracticePage" min="-2" pref="101" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -71,51 +71,51 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-              <Component id="labelPracticeChooseTypeOfPractice" min="-2" max="-2" attributes="0"/>
+              <Component id="labelChooseTypeOfPracticeInPracticePage" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-              <Component id="cboxPracticeChooseAllOrFav" min="-2" pref="32" max="-2" attributes="0"/>
+              <Component id="cboxChooseAllOrFavInPracticePage" min="-2" pref="32" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelPracticeChooseTypeOfPracticeFrom" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelChooseTypeOfPracticeFromInPracticePage" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                              <Component id="labelPracticeChooseTypeOfPracticeTo" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelChooseTypeOfPracticeToInPracticePage" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cboxPracticeFromLesson" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="cboxPracticeLessonTo" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="cboxFromLessonInPracticePage" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="cboxToLessonInPracticePage" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="labelPracticeIWantToSee" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelIWantToSeeInPracticePage" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="cboxPracticeFromWantToSee" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="btnPracticeVoca" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="cboxIWantToSeeInPracticePage" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="btnStartInPracticePage" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="labelPracticeTotalRows" min="-2" max="-2" attributes="0"/>
-                  <Component id="labelPracticeTableDesc" min="-2" pref="17" max="-2" attributes="0"/>
+                  <Component id="labelTotalRowsInPracticePage" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelTableDescInPracticePage" min="-2" pref="17" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="240" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-              <Component id="labelPracticeVocaJPAnswer" min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="labelJPAnswerInPracticePage" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="labelPracticeVocaMMAnswer" min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="labelMMAnswerInPracticePage" min="-2" pref="30" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JComboBox" name="cboxPracticeChooseAllOrFav">
+    <Component class="javax.swing.JComboBox" name="cboxChooseAllOrFavInPracticePage">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century" size="14" style="0"/>
@@ -131,13 +131,13 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxPracticeChooseAllOrFavActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxChooseAllOrFavInPracticePageActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelPracticeChooseTypeOfPractice">
+    <Component class="javax.swing.JLabel" name="labelChooseTypeOfPracticeInPracticePage">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century" size="14" style="0"/>
@@ -148,7 +148,7 @@
         <Property name="text" type="java.lang.String" value="Choose type of practice"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelPracticeChooseTypeOfPracticeFrom">
+    <Component class="javax.swing.JLabel" name="labelChooseTypeOfPracticeFromInPracticePage">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century" size="14" style="0"/>
@@ -159,7 +159,7 @@
         <Property name="text" type="java.lang.String" value="From"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cboxPracticeFromLesson">
+    <Component class="javax.swing.JComboBox" name="cboxFromLessonInPracticePage">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century" size="14" style="0"/>
@@ -199,13 +199,13 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxPracticeFromLessonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxFromLessonInPracticePageActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cboxPracticeLessonTo">
+    <Component class="javax.swing.JComboBox" name="cboxToLessonInPracticePage">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century" size="14" style="0"/>
@@ -245,13 +245,13 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxPracticeLessonToActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxToLessonInPracticePageActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelPracticeChooseTypeOfPracticeTo">
+    <Component class="javax.swing.JLabel" name="labelChooseTypeOfPracticeToInPracticePage">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century" size="14" style="0"/>
@@ -262,7 +262,7 @@
         <Property name="text" type="java.lang.String" value="To"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnPracticeVoca">
+    <Component class="javax.swing.JButton" name="btnStartInPracticePage">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
@@ -284,10 +284,10 @@
         <Property name="opaque" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPracticeVocaActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStartInPracticePageActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cboxPracticeFromWantToSee">
+    <Component class="javax.swing.JComboBox" name="cboxIWantToSeeInPracticePage">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century" size="14" style="0"/>
@@ -303,13 +303,13 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxPracticeFromWantToSeeActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxIWantToSeeInPracticePageActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelPracticeIWantToSee">
+    <Component class="javax.swing.JLabel" name="labelIWantToSeeInPracticePage">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century" size="14" style="0"/>
@@ -320,7 +320,7 @@
         <Property name="text" type="java.lang.String" value="I want to see"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelPracticeTotalRows">
+    <Component class="javax.swing.JLabel" name="labelTotalRowsInPracticePage">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century" size="14" style="0"/>
@@ -377,11 +377,11 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="labelPracticeVocaJPAnswer">
+    <Component class="javax.swing.JLabel" name="labelJPAnswerInPracticePage">
     </Component>
-    <Component class="javax.swing.JLabel" name="labelPracticeVocaMMAnswer">
+    <Component class="javax.swing.JLabel" name="labelMMAnswerInPracticePage">
     </Component>
-    <Component class="javax.swing.JLabel" name="labelPracticeTableDesc">
+    <Component class="javax.swing.JLabel" name="labelTableDescInPracticePage">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century" size="14" style="0"/>

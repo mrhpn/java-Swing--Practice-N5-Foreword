@@ -168,14 +168,14 @@ public class Vocabulary {
     }
 
     public Boolean isFavorite(Integer id) { 
+        ResultSet isFavorite;
         Boolean isFav = false;
         
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT is_favorite FROM vocabularies WHERE id=" + id);) {
-            ResultSet isFavorite = statement.executeQuery();
-            while(isFavorite.next()) {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT is_favorite FROM vocabularies WHERE id=" + id);) {
+            isFavorite = statement.executeQuery();
+            
+            while(isFavorite.next())
                 isFav = isFavorite.getBoolean("is_favorite");
-            }
         }
         catch(SQLException e) {
             System.out.println(e.getMessage());
@@ -209,8 +209,6 @@ public class Vocabulary {
 
         if (from == to) query = query + " lesson_id = " + from;
         else if (from != to) query = query + " (lesson_id = " + from + " OR lesson_id = " + to + ")";
-        
-        System.out.println(query);
         
         try(PreparedStatement statement = connection.prepareStatement(
                 query,

@@ -8,15 +8,9 @@ package HtetPhyoNaing;
 import HtetPhyoNaing.Model.Vocabulary;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.LayoutManager;
 import java.awt.Point;
-import java.awt.RenderingHints;
 import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.BufferedReader;
@@ -24,7 +18,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -32,7 +25,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
@@ -55,13 +47,14 @@ public class App extends javax.swing.JFrame {
     private Font myanmarFont;
     private Font titleFont;
     private Font subTitleFont;
-    private Font leadFont;
     private final Practice practicePanel;
     
-    private Color VERY_DARK_GREEN = new Color(0,153,0);
+    private final Color VERY_DARK_GREEN = new Color(0,153,0);
 
     /**
      * Creates new form App
+     * @throws java.io.IOException
+     * @throws java.awt.FontFormatException
      */
     public App() throws IOException, FontFormatException {
         initComponents();
@@ -71,209 +64,118 @@ public class App extends javax.swing.JFrame {
         practicePanel = new Practice();
         tabbedPaneVocabulary.addTab("Practice", practicePanel);
         
-        configureShowOnTableRowSelectionButtons();
-        setUpTable();
+        createFonts();
+        showButtonsOnTableRowSelected();
+        setUpTable(tableVocabularies);
         setUpFonts();
         panelVersionMoreInfo.setVisible(false);
     }
     
-    private void configureShowOnTableRowSelectionButtons() {
-        btnUpdateVocabulary.setVisible(false);
-        btnDeleteVocabulary.setVisible(false);
-        btnFavoriteVocabulary.setVisible(false);
-                    
-        ListSelectionModel listSelectionModel = tableVocabularies.getSelectionModel();
-        listSelectionModel.addListSelectionListener((ListSelectionEvent e) -> {
-            if(!listSelectionModel.isSelectionEmpty()) {
-                btnUpdateVocabulary.setVisible(true);
-                btnDeleteVocabulary.setVisible(true);
-                btnFavoriteVocabulary.setVisible(true);
-                
-                int selectedRow = tableVocabularies.getSelectedRow();
-                TableModel tableModel = tableVocabularies.getModel();
-                Integer id = (Integer) tableModel.getValueAt(selectedRow, 0);
-                
-                Vocabulary vocabulary = new Vocabulary();
-                boolean isFavorite = vocabulary.isFavorite(id);
-                if (isFavorite) {
-                    btnFavoriteVocabulary.setText("Favorited");
-                    btnFavoriteVocabulary.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\img-favoried.png"));
-                } else {
-                    btnFavoriteVocabulary.setText("Favorite");
-                    btnFavoriteVocabulary.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\img-btn-favorite.png"));
-                }
-                
-            } else {
-                btnUpdateVocabulary.setVisible(false);
-                btnDeleteVocabulary.setVisible(false);
-                btnFavoriteVocabulary.setVisible(false);
+    private void createFonts() {
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("HtetPhyoNaing/Resources/Fonts/cerebrisans-regular.ttf")).deriveFont(14f);
+            jpFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("HtetPhyoNaing/Resources/Fonts/MHGKyokashotaiTHK-Light.ttf")).deriveFont(22f);
+            myanmarFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("HtetPhyoNaing/Resources/Fonts/Pyidaungsu-1.8_regular.ttf")).deriveFont(15f);
+            
+            titleFont = customFont.deriveFont(18f);
+            subTitleFont = customFont.deriveFont(13f);
+        } catch (IOException | FontFormatException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    private void setUpTable(JTable table) {
+        // hide id column
+        table.getColumnModel().getColumn(0).setMinWidth(0);
+        table.getColumnModel().getColumn(0).setMaxWidth(0);
+        table.getColumnModel().getColumn(0).setWidth(0);
+        
+        // disable table to be edited
+        table.setDefaultEditor(Object.class, null);
+        
+        // custom table cell renderer for Japanese column
+        tableCellRendererForJp = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setFont(getJpFont());
+                setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+                return this;
             }
-        });
-    }
-    
-    private void setUpTable() {
-        tableVocabularies.getColumnModel().getColumn(0).setMinWidth(0);
-        tableVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
-        tableVocabularies.getColumnModel().getColumn(0).setWidth(0);
+        };
         
-        tableVocabularies.setDefaultEditor(Object.class, null);
+        // custom table cell renderer for romoji column
+        tableCellRendererForRomoji = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setFont(customFont);
+                setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+                return this;
+            }
+        };
         
-        try {
-            customFont = Font.createFont(
-                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\cerebrisans-regular.ttf")).deriveFont(14f);
-            jpFont = Font.createFont(
-                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MHGKyokashotaiTHK-Light.ttf")).deriveFont(22f);
-            myanmarFont = Font.createFont(
-                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\Pyidaungsu-1.8_regular.ttf")).deriveFont(15f);
-            
-            titleFont = customFont.deriveFont(18f);
-            subTitleFont = customFont.deriveFont(13f);
-            
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(customFont);
-            
-            jpFont.deriveFont(Font.BOLD);
-            
-            tableCellRendererForJp = new DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    setFont(jpFont);
-                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-                    return this;
-                }
-            };
-            
-            tableCellRendererForRomoji = new DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    setFont(customFont);
-                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-                    return this;
-                }
-            };
-            
-            tableCellRendererForMm = new DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    setFont(myanmarFont);
-                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-                    return this;
-                }
-            };
-            
-            tableVocabularies.getColumnModel().getColumn(1).setCellRenderer(tableCellRendererForJp);
-            tableVocabularies.getColumnModel().getColumn(2).setCellRenderer(tableCellRendererForRomoji);
-            tableVocabularies.getColumnModel().getColumn(3).setCellRenderer(tableCellRendererForMm);
-            
-            txtSearchBox.setFont(jpFont);
-        } catch (IOException | FontFormatException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    
-    private void setUpFavTable() {
-        tableFavoriteVocabularies.getColumnModel().getColumn(0).setMinWidth(0);
-        tableFavoriteVocabularies.getColumnModel().getColumn(0).setMaxWidth(0);
-        tableFavoriteVocabularies.getColumnModel().getColumn(0).setWidth(0);
+        // custom table cell renderer for Myanmar column
+        tableCellRendererForMm = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setFont(getMyanmarFont());
+                setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+                return this;
+            }
+        };
         
-        tableFavoriteVocabularies.setDefaultEditor(Object.class, null);
-        
-        try {
-            customFont = Font.createFont(
-                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\cerebrisans-regular.ttf")).deriveFont(14f);
-            jpFont = Font.createFont(
-                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\MHGKyokashotaiTHK-Light.ttf")).deriveFont(22f);
-            myanmarFont = Font.createFont(
-                    Font.TRUETYPE_FONT, new File("src\\HtetPhyoNaing\\Resources\\Fonts\\Pyidaungsu-2.5.3_Regular.ttf")).deriveFont(15f);
-            
-            titleFont = customFont.deriveFont(18f);
-            subTitleFont = customFont.deriveFont(13f);
-            
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(customFont);
-            
-            tableCellRendererForJp = new DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    setFont(jpFont);
-                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-                    return this;
-                }
-            };
-            
-            tableCellRendererForRomoji = new DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    setFont(customFont);
-                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-                    return this;
-                }
-            };
-            
-            tableCellRendererForMm = new DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    setFont(myanmarFont);
-                    setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-                    return this;
-                }
-            };
-            
-            tableFavoriteVocabularies.getColumnModel().getColumn(1).setCellRenderer(tableCellRendererForJp);
-            tableFavoriteVocabularies.getColumnModel().getColumn(2).setCellRenderer(tableCellRendererForRomoji);
-            tableFavoriteVocabularies.getColumnModel().getColumn(3).setCellRenderer(tableCellRendererForMm);
-        } catch (IOException | FontFormatException e) {
-            System.out.println(e.getMessage());
-        }
+        // apply custom table cell renderers to table
+        table.getColumnModel().getColumn(1).setCellRenderer(tableCellRendererForJp);
+        table.getColumnModel().getColumn(2).setCellRenderer(tableCellRendererForRomoji);
+        table.getColumnModel().getColumn(3).setCellRenderer(tableCellRendererForMm);
     }
     
     private void setUpFonts() {
-        tabbedPaneVocabulary.setFont(customFont);
-        labelTotalRows.setFont(customFont);
-        labelFilterByLessonInVocaList.setFont(customFont);
-        cboxLessonList.setFont(customFont);
-        labelSearchInAllLessonsInVocaList.setFont(customFont);
-        cboxSearchBox.setFont(customFont);
-        labelCreateUpdateVocabulary.setFont(titleFont);
+        // List page
         btnSearch.setFont(customFont);
         btnUpdateVocabulary.setFont(customFont);
         btnDeleteVocabulary.setFont(customFont);
         btnFavoriteVocabulary.setFont(customFont);
-        labelChooseLessonInVocaCreate.setFont(customFont);
-        cboxLessonInCreateVocabulary.setFont(customFont);
-        labelVocaInHiraganaKatakanaInVocaCreate.setFont(customFont);
-        labelRomajiInVocaCreate.setFont(customFont);
-        // labelPronounciationInVocaCreate.setFont(customFont);
-        labelMeaningInVocaCreate.setFont(customFont);
+        // Vocabulary Page
         btnGoVocabulary.setFont(customFont);
-        txtVocabularyName.setFont(jpFont);
-        labelId.setFont(customFont);
-        labelVocabularyId.setFont(customFont);            
-        msgCreateVocabulary.setFont(customFont);
-        checkBoxMarkAsFavorite.setFont(customFont);
-        labelTotalRowsFav.setFont(customFont);
-        labelFilterByLessonInFavVocaList.setFont(customFont);
-        labelImportVocabulary.setFont(titleFont);
         btnImportCSV.setFont(customFont);
-        labelCSVImportPath.setFont(customFont);
-        cboxFavLessonList.setFont(customFont);
-        txtVocabularyMeaning.setFont(myanmarFont);
+        
+        // List Page
+        cboxLessonsInListPage.setFont(customFont);
+        cboxSearchBox.setFont(customFont);
+        // Vocabulary Page
+        cboxLessonsInCreateUpdateVocabularyPage.setFont(customFont);
+        // Faborites Page
+        cboxFavoriteLessonsInFavoritePage.setFont(customFont);
+        
+        // Vocabulary Page
+        checkBoxMarkAsFavoriteInVocabularyPage.setFont(customFont);
+        
+        // List Page
+        labelTotalRowsInListPage.setFont(customFont);
+        labelFilterByLessonInListPage.setFont(customFont);
+        labelSearchInAllLessonsInListPage.setFont(customFont);
+        
+        // Vocabulary Page
+        labelTitleCreateUpdateInVocabularyPage.setFont(titleFont);
+        labelChooseLessonInVocabularyPage.setFont(customFont);
+        labelHiraganaKatakanaInVocabularyPage.setFont(customFont);
+        labelRomajiInVocabularyPage.setFont(customFont);
+        labelMeaningInVocabularyPage.setFont(customFont);
+        labelIdInVocabularyPage.setFont(customFont);
+        labelVocabularyIdInVocabularyPage.setFont(customFont);
+        labelImportVocabularyInVocabularyPage.setFont(titleFont);
+        labelCSVImportPathInVocabularyPage.setFont(customFont);
+        labelCsvInVocabularyPage.setFont(customFont);
+        labelVocabularyCreatedOrUpdatedMessageInVocabularyPage.setFont(customFont);
+        // Favorites Page
+        labelTotalRowsInFavoritePage.setFont(customFont);
+        labelFilterByLessonInFavoritePage.setFont(customFont);
+        // App
         labelDeveloperMail.setFont(subTitleFont);
         labelAppVersion.setFont(subTitleFont);
-        txtSearchBox.setFont(customFont);
-        
-        txtRequiredName.setFont(subTitleFont);
-        txtRequiredRomaji.setFont(subTitleFont);
-        txtRequiredMeaning.setFont(subTitleFont);
-        
-        labelCsv.setFont(customFont);
-        
         labelAppInfoLanguage.setFont(customFont);
         labelAppInfoUIComponents.setFont(customFont);
         labelAppInfoDevelopedTime.setFont(customFont);
@@ -281,21 +183,81 @@ public class App extends javax.swing.JFrame {
         labelAppInfoAck.setFont(customFont);
         labelAppInfoAckBody.setFont(customFont);
         
+        // App
+        tabbedPaneVocabulary.setFont(customFont);
+        
+        // Vocabulary Page
+        txtVocabularyNameInVocabularyPage.setFont(getJpFont());
+        txtVocabularyMeaningInVocabularyPage.setFont(getMyanmarFont());
+        txtSearchBoxInListPage.setFont(customFont);
+        txtRequiredNameInVocabularyPage.setFont(subTitleFont);
+        txtRequiredRomajiInVocabularyPage.setFont(subTitleFont);
+        txtRequiredMeaningInVocabularyPage.setFont(subTitleFont);
+        
+        // Practice Page
+        practicePanel.getBtnPracticeVoca().setFont(customFont);
+        
+        practicePanel.getCboxPracticeChooseAllOrFav().setFont(customFont);
+        practicePanel.getCboxPracticeFromLesson().setFont(customFont);
+        practicePanel.getCboxPracticeLessonTo().setFont(customFont);
+        practicePanel.getCboxPracticeFromWantToSee().setFont(customFont);
+        
         practicePanel.getLabelPracticeChooseTypeOfPractice().setFont(customFont);
         practicePanel.getLabelPracticeChooseTypeOfPracticeFrom().setFont(customFont);
         practicePanel.getLabelPracticeChooseTypeOfPracticeTo().setFont(customFont);
         practicePanel.getLabelPracticeTotalRows().setFont(customFont);
-        practicePanel.getCboxPracticeChooseAllOrFav().setFont(customFont);
-        practicePanel.getCboxPracticeFromLesson().setFont(customFont);
-        practicePanel.getCboxPracticeLessonTo().setFont(customFont);
-        practicePanel.getBtnPracticeVoca().setFont(customFont);
         practicePanel.getLabelPracticeIWantToSee().setFont(customFont);
-        practicePanel.getCboxPracticeFromWantToSee().setFont(customFont);
-        practicePanel.getLabelPracticeVocaJPAnswer().setFont(jpFont);
-        practicePanel.getLabelPracticeVocaMMAnswer().setFont(myanmarFont);
+        practicePanel.getLabelPracticeVocaJPAnswer().setFont(getJpFont());
+        practicePanel.getLabelPracticeVocaMMAnswer().setFont(getMyanmarFont());
         practicePanel.getLabelPracticeTableDesc().setFont(customFont);
     }
 
+    private void clearLabelsAndTextFieldsInCreateVoca() {
+        getLabelVocabularyId().setVisible(false);
+        getTxtRequiredName().setText("");
+        getTxtRequiredRomaji().setText("");
+        getTxtRequiredMeaning().setText("");
+        getTxtVocabularyName().setText("");
+        getTxtVocabularyRomaji().setText("");
+        getTxtVocabularyMeaning().setText("");
+        getMsgCreateVocabulary().setText("");
+    }
+        
+    private void showButtonsOnTableRowSelected() {
+        btnUpdateVocabulary.setVisible(false);
+        btnDeleteVocabulary.setVisible(false);
+        btnFavoriteVocabulary.setVisible(false);
+                    
+        ListSelectionModel listSelectionModel = tableVocabularies.getSelectionModel();
+        listSelectionModel.addListSelectionListener((ListSelectionEvent e) -> {
+            if(!listSelectionModel.isSelectionEmpty()) {
+                
+                // if a table row is selected, these following buttons are visible.
+                btnUpdateVocabulary.setVisible(true);
+                btnDeleteVocabulary.setVisible(true);
+                btnFavoriteVocabulary.setVisible(true);
+                
+                // get id of selected row to determine it is favorite or not, for the state of favorite button
+                int selectedRow = tableVocabularies.getSelectedRow();
+                TableModel tableModel = tableVocabularies.getModel();
+                Integer id = (Integer) tableModel.getValueAt(selectedRow, 0);
+                
+                Vocabulary vocabulary = new Vocabulary();
+                boolean isFavorite = vocabulary.isFavorite(id);
+                
+                // change state of favorite button
+                if (isFavorite) {
+                    btnFavoriteVocabulary.setText("Favorited");
+                    btnFavoriteVocabulary.setIcon(new ImageIcon(getClass().getClassLoader().getResource("HtetPhyoNaing/Resources/Images/img-favoried.png")));
+                } else {
+                    btnFavoriteVocabulary.setText("Favorite");
+                    btnFavoriteVocabulary.setIcon(new ImageIcon(getClass().getClassLoader().getResource("HtetPhyoNaing/Resources/Images/img-btn-favorite.png")));
+                }
+                
+            }
+        });
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -306,13 +268,6 @@ public class App extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        panelVersionMoreInfo = new javax.swing.JPanel();
-        labelAppInfoLanguage = new javax.swing.JLabel();
-        labelAppInfoDevelopedTime = new javax.swing.JLabel();
-        labelAppInfoAbout = new javax.swing.JLabel();
-        labelAppInfoUIComponents = new javax.swing.JLabel();
-        labelAppInfoAck = new javax.swing.JLabel();
-        labelAppInfoAckBody = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         labelTitle = new javax.swing.JLabel();
@@ -324,49 +279,56 @@ public class App extends javax.swing.JFrame {
         btnMinimizeWindow = new javax.swing.JLabel();
         tabbedPaneVocabulary = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
-        txtSearchBox = new javax.swing.JTextField();
+        txtSearchBoxInListPage = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableVocabularies = new javax.swing.JTable();
-        cboxLessonList = new javax.swing.JComboBox<>();
+        cboxLessonsInListPage = new javax.swing.JComboBox<>();
         jSeparator1 = new javax.swing.JSeparator();
         cboxSearchBox = new javax.swing.JComboBox<>();
-        labelTotalRows = new javax.swing.JLabel();
+        labelTotalRowsInListPage = new javax.swing.JLabel();
         btnClearSearchText = new javax.swing.JButton();
         btnDeleteVocabulary = new javax.swing.JButton();
         btnUpdateVocabulary = new javax.swing.JButton();
-        labelFilterByLessonInVocaList = new javax.swing.JLabel();
-        labelSearchInAllLessonsInVocaList = new javax.swing.JLabel();
+        labelFilterByLessonInListPage = new javax.swing.JLabel();
+        labelSearchInAllLessonsInListPage = new javax.swing.JLabel();
         btnFavoriteVocabulary = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
-        cboxFavLessonList = new javax.swing.JComboBox<>();
-        labelFilterByLessonInFavVocaList = new javax.swing.JLabel();
-        labelTotalRowsFav = new javax.swing.JLabel();
+        cboxFavoriteLessonsInFavoritePage = new javax.swing.JComboBox<>();
+        labelFilterByLessonInFavoritePage = new javax.swing.JLabel();
+        labelTotalRowsInFavoritePage = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableFavoriteVocabularies = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
-        labelChooseLessonInVocaCreate = new javax.swing.JLabel();
-        txtVocabularyName = new javax.swing.JTextField();
-        labelVocaInHiraganaKatakanaInVocaCreate = new javax.swing.JLabel();
-        labelRomajiInVocaCreate = new javax.swing.JLabel();
-        labelMeaningInVocaCreate = new javax.swing.JLabel();
+        labelChooseLessonInVocabularyPage = new javax.swing.JLabel();
+        txtVocabularyNameInVocabularyPage = new javax.swing.JTextField();
+        labelHiraganaKatakanaInVocabularyPage = new javax.swing.JLabel();
+        labelRomajiInVocabularyPage = new javax.swing.JLabel();
+        labelMeaningInVocabularyPage = new javax.swing.JLabel();
         btnGoVocabulary = new javax.swing.JButton();
-        txtVocabularyRomaji = new javax.swing.JTextField();
-        cboxLessonInCreateVocabulary = new javax.swing.JComboBox<>();
-        labelCreateUpdateVocabulary = new javax.swing.JLabel();
-        msgCreateVocabulary = new javax.swing.JLabel();
-        txtRequiredName = new javax.swing.JLabel();
-        txtVocabularyMeaning = new javax.swing.JTextField();
-        txtRequiredMeaning = new javax.swing.JLabel();
-        labelId = new javax.swing.JLabel();
-        labelVocabularyId = new javax.swing.JLabel();
-        checkBoxMarkAsFavorite = new javax.swing.JCheckBox();
+        txtVocabularyRomajiInVocabularyPage = new javax.swing.JTextField();
+        cboxLessonsInCreateUpdateVocabularyPage = new javax.swing.JComboBox<>();
+        labelTitleCreateUpdateInVocabularyPage = new javax.swing.JLabel();
+        labelVocabularyCreatedOrUpdatedMessageInVocabularyPage = new javax.swing.JLabel();
+        txtRequiredNameInVocabularyPage = new javax.swing.JLabel();
+        txtVocabularyMeaningInVocabularyPage = new javax.swing.JTextField();
+        txtRequiredMeaningInVocabularyPage = new javax.swing.JLabel();
+        labelIdInVocabularyPage = new javax.swing.JLabel();
+        labelVocabularyIdInVocabularyPage = new javax.swing.JLabel();
+        checkBoxMarkAsFavoriteInVocabularyPage = new javax.swing.JCheckBox();
         jSeparator2 = new javax.swing.JSeparator();
-        labelImportVocabulary = new javax.swing.JLabel();
+        labelImportVocabularyInVocabularyPage = new javax.swing.JLabel();
         btnImportCSV = new javax.swing.JButton();
-        labelCSVImportPath = new javax.swing.JLabel();
-        txtRequiredRomaji = new javax.swing.JLabel();
-        labelCsv = new javax.swing.JLabel();
+        labelCSVImportPathInVocabularyPage = new javax.swing.JLabel();
+        txtRequiredRomajiInVocabularyPage = new javax.swing.JLabel();
+        labelCsvInVocabularyPage = new javax.swing.JLabel();
+        panelVersionMoreInfo = new javax.swing.JPanel();
+        labelAppInfoLanguage = new javax.swing.JLabel();
+        labelAppInfoDevelopedTime = new javax.swing.JLabel();
+        labelAppInfoAbout = new javax.swing.JLabel();
+        labelAppInfoUIComponents = new javax.swing.JLabel();
+        labelAppInfoAck = new javax.swing.JLabel();
+        labelAppInfoAckBody = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Foreword");
@@ -389,61 +351,6 @@ public class App extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(245, 245, 245));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        panelVersionMoreInfo.setBackground(new java.awt.Color(126, 63, 155));
-
-        labelAppInfoLanguage.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoLanguage.setText("Language: Java");
-
-        labelAppInfoDevelopedTime.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoDevelopedTime.setText("Developed time: 2 weeks");
-
-        labelAppInfoAbout.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoAbout.setText("About: Japanese Vocabulary Trainer");
-
-        labelAppInfoUIComponents.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoUIComponents.setText("UI Components: Swing");
-
-        labelAppInfoAck.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoAck.setText("Acknowledgement:");
-
-        labelAppInfoAckBody.setForeground(new java.awt.Color(255, 255, 255));
-        labelAppInfoAckBody.setText("Thanks a million to Tutor Ma Nyunt Nyunt Hlaing, Ma Su Su Lin and my sister Hnin Hnin for data entry.");
-
-        javax.swing.GroupLayout panelVersionMoreInfoLayout = new javax.swing.GroupLayout(panelVersionMoreInfo);
-        panelVersionMoreInfo.setLayout(panelVersionMoreInfoLayout);
-        panelVersionMoreInfoLayout.setHorizontalGroup(
-            panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelVersionMoreInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelAppInfoLanguage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelAppInfoDevelopedTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelAppInfoAbout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelAppInfoUIComponents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelAppInfoAck, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelAppInfoAckBody, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelVersionMoreInfoLayout.setVerticalGroup(
-            panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelVersionMoreInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelAppInfoLanguage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelAppInfoUIComponents)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelAppInfoDevelopedTime)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelAppInfoAbout)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelAppInfoAck)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelAppInfoAckBody)
-                .addGap(34, 34, 34))
-        );
-
-        jPanel1.add(panelVersionMoreInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 386, 680, 170));
 
         jPanel2.setBackground(new java.awt.Color(94, 0, 126));
 
@@ -568,10 +475,10 @@ public class App extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        txtSearchBox.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
-        txtSearchBox.addActionListener(new java.awt.event.ActionListener() {
+        txtSearchBoxInListPage.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
+        txtSearchBoxInListPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchBoxActionPerformed(evt);
+                txtSearchBoxInListPageActionPerformed(evt);
             }
         });
 
@@ -618,16 +525,16 @@ public class App extends javax.swing.JFrame {
         tableVocabularies.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tableVocabularies);
 
-        cboxLessonList.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        cboxLessonList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
-        cboxLessonList.addActionListener(new java.awt.event.ActionListener() {
+        cboxLessonsInListPage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        cboxLessonsInListPage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
+        cboxLessonsInListPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboxLessonListActionPerformed(evt);
+                cboxLessonsInListPageActionPerformed(evt);
             }
         });
-        cboxLessonList.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        cboxLessonsInListPage.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cboxLessonListPropertyChange(evt);
+                cboxLessonsInListPagePropertyChange(evt);
             }
         });
 
@@ -641,8 +548,8 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        labelTotalRows.setFont(new java.awt.Font("Century", 0, 16)); // NOI18N
-        labelTotalRows.setText("jLabel1");
+        labelTotalRowsInListPage.setFont(new java.awt.Font("Century", 0, 16)); // NOI18N
+        labelTotalRowsInListPage.setText("jLabel1");
 
         btnClearSearchText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/close.png"))); // NOI18N
         btnClearSearchText.setToolTipText("Clear search box text");
@@ -673,15 +580,15 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        labelFilterByLessonInVocaList.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        labelFilterByLessonInVocaList.setForeground(new java.awt.Color(94, 0, 126));
-        labelFilterByLessonInVocaList.setText("Filter by Lesson");
-        labelFilterByLessonInVocaList.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        labelFilterByLessonInListPage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelFilterByLessonInListPage.setForeground(new java.awt.Color(94, 0, 126));
+        labelFilterByLessonInListPage.setText("Filter by Lesson");
+        labelFilterByLessonInListPage.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
-        labelSearchInAllLessonsInVocaList.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        labelSearchInAllLessonsInVocaList.setForeground(new java.awt.Color(94, 0, 126));
-        labelSearchInAllLessonsInVocaList.setText("Search in All Lessons");
-        labelSearchInAllLessonsInVocaList.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        labelSearchInAllLessonsInListPage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelSearchInAllLessonsInListPage.setForeground(new java.awt.Color(94, 0, 126));
+        labelSearchInAllLessonsInListPage.setText("Search in All Lessons");
+        labelSearchInAllLessonsInListPage.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         btnFavoriteVocabulary.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         btnFavoriteVocabulary.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-favorite.png"))); // NOI18N
@@ -703,23 +610,23 @@ public class App extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(labelTotalRows, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(labelTotalRowsInListPage, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cboxLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cboxLessonsInListPage, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addGap(120, 120, 120)
                                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(10, 10, 10))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addComponent(labelFilterByLessonInVocaList, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(labelFilterByLessonInListPage, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)))
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(labelSearchInAllLessonsInVocaList, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelSearchInAllLessonsInListPage, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(cboxSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                                .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtSearchBoxInListPage, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -740,24 +647,24 @@ public class App extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(labelTotalRows, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(labelTotalRowsInListPage, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(cboxSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelFilterByLessonInVocaList, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelSearchInAllLessonsInVocaList))
+                            .addComponent(labelFilterByLessonInListPage, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelSearchInAllLessonsInListPage))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cboxLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboxLessonsInListPage, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSearchBoxInListPage, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnClearSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -773,26 +680,26 @@ public class App extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
-        cboxFavLessonList.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        cboxFavLessonList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
-        cboxFavLessonList.addActionListener(new java.awt.event.ActionListener() {
+        cboxFavoriteLessonsInFavoritePage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        cboxFavoriteLessonsInFavoritePage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
+        cboxFavoriteLessonsInFavoritePage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboxFavLessonListActionPerformed(evt);
+                cboxFavoriteLessonsInFavoritePageActionPerformed(evt);
             }
         });
-        cboxFavLessonList.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        cboxFavoriteLessonsInFavoritePage.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cboxFavLessonListPropertyChange(evt);
+                cboxFavoriteLessonsInFavoritePagePropertyChange(evt);
             }
         });
 
-        labelFilterByLessonInFavVocaList.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        labelFilterByLessonInFavVocaList.setForeground(new java.awt.Color(94, 0, 126));
-        labelFilterByLessonInFavVocaList.setText("Filter by Lesson");
-        labelFilterByLessonInFavVocaList.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        labelFilterByLessonInFavoritePage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelFilterByLessonInFavoritePage.setForeground(new java.awt.Color(94, 0, 126));
+        labelFilterByLessonInFavoritePage.setText("Filter by Lesson");
+        labelFilterByLessonInFavoritePage.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
-        labelTotalRowsFav.setFont(new java.awt.Font("Century", 0, 16)); // NOI18N
-        labelTotalRowsFav.setText("jLabel1");
+        labelTotalRowsInFavoritePage.setFont(new java.awt.Font("Century", 0, 16)); // NOI18N
+        labelTotalRowsInFavoritePage.setText("jLabel1");
 
         tableFavoriteVocabularies.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableFavoriteVocabularies.setModel(new javax.swing.table.DefaultTableModel(
@@ -830,15 +737,15 @@ public class App extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(labelTotalRowsFav, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelTotalRowsInFavoritePage, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(447, 447, 447)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(cboxFavLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cboxFavoriteLessonsInFavoritePage, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(1, 1, 1))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
-                                .addComponent(labelFilterByLessonInFavVocaList))))
+                                .addComponent(labelFilterByLessonInFavoritePage))))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(277, Short.MAX_VALUE))
         );
@@ -847,11 +754,11 @@ public class App extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(labelTotalRowsFav, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelTotalRowsInFavoritePage, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(labelFilterByLessonInFavVocaList, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelFilterByLessonInFavoritePage, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboxFavLessonList, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cboxFavoriteLessonsInFavoritePage, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(13, 13, 13)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(214, Short.MAX_VALUE))
@@ -862,34 +769,34 @@ public class App extends javax.swing.JFrame {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        labelChooseLessonInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        labelChooseLessonInVocaCreate.setForeground(new java.awt.Color(94, 0, 126));
-        labelChooseLessonInVocaCreate.setText("Choose Lesson");
-        jPanel8.add(labelChooseLessonInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+        labelChooseLessonInVocabularyPage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelChooseLessonInVocabularyPage.setForeground(new java.awt.Color(94, 0, 126));
+        labelChooseLessonInVocabularyPage.setText("Choose Lesson");
+        jPanel8.add(labelChooseLessonInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
 
-        txtVocabularyName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtVocabularyName.setMinimumSize(new java.awt.Dimension(6, 31));
-        txtVocabularyName.addActionListener(new java.awt.event.ActionListener() {
+        txtVocabularyNameInVocabularyPage.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtVocabularyNameInVocabularyPage.setMinimumSize(new java.awt.Dimension(6, 31));
+        txtVocabularyNameInVocabularyPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtVocabularyNameActionPerformed(evt);
+                txtVocabularyNameInVocabularyPageActionPerformed(evt);
             }
         });
-        jPanel8.add(txtVocabularyName, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 284, 40));
+        jPanel8.add(txtVocabularyNameInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 284, 40));
 
-        labelVocaInHiraganaKatakanaInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        labelVocaInHiraganaKatakanaInVocaCreate.setForeground(new java.awt.Color(94, 0, 126));
-        labelVocaInHiraganaKatakanaInVocaCreate.setText("Vocabulary in Hiragana/Katakana");
-        jPanel8.add(labelVocaInHiraganaKatakanaInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
+        labelHiraganaKatakanaInVocabularyPage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelHiraganaKatakanaInVocabularyPage.setForeground(new java.awt.Color(94, 0, 126));
+        labelHiraganaKatakanaInVocabularyPage.setText("Vocabulary in Hiragana/Katakana");
+        jPanel8.add(labelHiraganaKatakanaInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
 
-        labelRomajiInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        labelRomajiInVocaCreate.setForeground(new java.awt.Color(94, 0, 126));
-        labelRomajiInVocaCreate.setText("Romaji");
-        jPanel8.add(labelRomajiInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, -1, -1));
+        labelRomajiInVocabularyPage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelRomajiInVocabularyPage.setForeground(new java.awt.Color(94, 0, 126));
+        labelRomajiInVocabularyPage.setText("Romaji");
+        jPanel8.add(labelRomajiInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, -1, -1));
 
-        labelMeaningInVocaCreate.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        labelMeaningInVocaCreate.setForeground(new java.awt.Color(94, 0, 126));
-        labelMeaningInVocaCreate.setText("Meaning");
-        jPanel8.add(labelMeaningInVocaCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
+        labelMeaningInVocabularyPage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelMeaningInVocabularyPage.setForeground(new java.awt.Color(94, 0, 126));
+        labelMeaningInVocabularyPage.setText("Meaning");
+        jPanel8.add(labelMeaningInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
 
         btnGoVocabulary.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         btnGoVocabulary.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-go.png"))); // NOI18N
@@ -902,71 +809,71 @@ public class App extends javax.swing.JFrame {
         });
         jPanel8.add(btnGoVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 90, 40));
 
-        txtVocabularyRomaji.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
-        txtVocabularyRomaji.addActionListener(new java.awt.event.ActionListener() {
+        txtVocabularyRomajiInVocabularyPage.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
+        txtVocabularyRomajiInVocabularyPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtVocabularyRomajiActionPerformed(evt);
+                txtVocabularyRomajiInVocabularyPageActionPerformed(evt);
             }
         });
-        jPanel8.add(txtVocabularyRomaji, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, 287, 40));
+        jPanel8.add(txtVocabularyRomajiInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, 287, 40));
 
-        cboxLessonInCreateVocabulary.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        cboxLessonInCreateVocabulary.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
-        cboxLessonInCreateVocabulary.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        cboxLessonInCreateVocabulary.addActionListener(new java.awt.event.ActionListener() {
+        cboxLessonsInCreateUpdateVocabularyPage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        cboxLessonsInCreateUpdateVocabularyPage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5", "Lesson 6", "Lesson 7", "Lesson 8", "Lesson 9", "Lesson 10", "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15", "Lesson 16", "Lesson 17", "Lesson 18", "Lesson 19", "Lesson 20", "Lesson 21", "Lesson 22", "Lesson 23", "Lesson 24", "Lesson 25" }));
+        cboxLessonsInCreateUpdateVocabularyPage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        cboxLessonsInCreateUpdateVocabularyPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboxLessonInCreateVocabularyActionPerformed(evt);
+                cboxLessonsInCreateUpdateVocabularyPageActionPerformed(evt);
             }
         });
-        jPanel8.add(cboxLessonInCreateVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 94, 32));
+        jPanel8.add(cboxLessonsInCreateUpdateVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 94, 32));
 
-        labelCreateUpdateVocabulary.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
-        labelCreateUpdateVocabulary.setText("Create/Update Vocabulary");
-        jPanel8.add(labelCreateUpdateVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 26, -1, -1));
+        labelTitleCreateUpdateInVocabularyPage.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
+        labelTitleCreateUpdateInVocabularyPage.setText("Create/Update Vocabulary");
+        jPanel8.add(labelTitleCreateUpdateInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 26, -1, -1));
 
-        msgCreateVocabulary.setBackground(new java.awt.Color(0, 204, 51));
-        msgCreateVocabulary.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
-        msgCreateVocabulary.setForeground(new java.awt.Color(0, 204, 51));
-        jPanel8.add(msgCreateVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 246, 29));
+        labelVocabularyCreatedOrUpdatedMessageInVocabularyPage.setBackground(new java.awt.Color(0, 204, 51));
+        labelVocabularyCreatedOrUpdatedMessageInVocabularyPage.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
+        labelVocabularyCreatedOrUpdatedMessageInVocabularyPage.setForeground(new java.awt.Color(0, 204, 51));
+        jPanel8.add(labelVocabularyCreatedOrUpdatedMessageInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 246, 29));
 
-        txtRequiredName.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
-        txtRequiredName.setForeground(new java.awt.Color(255, 51, 51));
-        jPanel8.add(txtRequiredName, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 86, 15));
+        txtRequiredNameInVocabularyPage.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
+        txtRequiredNameInVocabularyPage.setForeground(new java.awt.Color(255, 51, 51));
+        jPanel8.add(txtRequiredNameInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 86, 15));
 
-        txtVocabularyMeaning.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
-        txtVocabularyMeaning.addActionListener(new java.awt.event.ActionListener() {
+        txtVocabularyMeaningInVocabularyPage.setFont(new java.awt.Font("Pyidaungsu", 0, 14)); // NOI18N
+        txtVocabularyMeaningInVocabularyPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtVocabularyMeaningActionPerformed(evt);
+                txtVocabularyMeaningInVocabularyPageActionPerformed(evt);
             }
         });
-        jPanel8.add(txtVocabularyMeaning, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 284, 40));
+        jPanel8.add(txtVocabularyMeaningInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 284, 40));
 
-        txtRequiredMeaning.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
-        txtRequiredMeaning.setForeground(new java.awt.Color(255, 51, 51));
-        jPanel8.add(txtRequiredMeaning, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 86, 14));
+        txtRequiredMeaningInVocabularyPage.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
+        txtRequiredMeaningInVocabularyPage.setForeground(new java.awt.Color(255, 51, 51));
+        jPanel8.add(txtRequiredMeaningInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 86, 14));
 
-        labelId.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
-        labelId.setText("Id:");
-        jPanel8.add(labelId, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 28, 38));
+        labelIdInVocabularyPage.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
+        labelIdInVocabularyPage.setText("Id:");
+        jPanel8.add(labelIdInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 28, 38));
 
-        labelVocabularyId.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
-        labelVocabularyId.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jPanel8.add(labelVocabularyId, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 36, 38));
+        labelVocabularyIdInVocabularyPage.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
+        labelVocabularyIdInVocabularyPage.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jPanel8.add(labelVocabularyIdInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 36, 38));
 
-        checkBoxMarkAsFavorite.setBackground(new java.awt.Color(255, 255, 255));
-        checkBoxMarkAsFavorite.setForeground(new java.awt.Color(94, 0, 126));
-        checkBoxMarkAsFavorite.setText("Mark as favorite");
-        checkBoxMarkAsFavorite.addActionListener(new java.awt.event.ActionListener() {
+        checkBoxMarkAsFavoriteInVocabularyPage.setBackground(new java.awt.Color(255, 255, 255));
+        checkBoxMarkAsFavoriteInVocabularyPage.setForeground(new java.awt.Color(94, 0, 126));
+        checkBoxMarkAsFavoriteInVocabularyPage.setText("Mark as favorite");
+        checkBoxMarkAsFavoriteInVocabularyPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxMarkAsFavoriteActionPerformed(evt);
+                checkBoxMarkAsFavoriteInVocabularyPageActionPerformed(evt);
             }
         });
-        jPanel8.add(checkBoxMarkAsFavorite, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, 139, 31));
+        jPanel8.add(checkBoxMarkAsFavoriteInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, 139, 31));
         jPanel8.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 769, 10));
 
-        labelImportVocabulary.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
-        labelImportVocabulary.setText("Bulk Create Vocabulary");
-        jPanel8.add(labelImportVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, -1, -1));
+        labelImportVocabularyInVocabularyPage.setFont(new java.awt.Font("Century", 0, 20)); // NOI18N
+        labelImportVocabularyInVocabularyPage.setText("Bulk Create Vocabulary");
+        jPanel8.add(labelImportVocabularyInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, -1, -1));
 
         btnImportCSV.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         btnImportCSV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HtetPhyoNaing/Resources/Images/img-btn-import-csv.png"))); // NOI18N
@@ -979,22 +886,77 @@ public class App extends javax.swing.JFrame {
         });
         jPanel8.add(btnImportCSV, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, -1, 40));
 
-        labelCSVImportPath.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        labelCSVImportPath.setMaximumSize(new java.awt.Dimension(400, 0));
-        labelCSVImportPath.setPreferredSize(new java.awt.Dimension(200, 0));
-        jPanel8.add(labelCSVImportPath, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 461, 430, 20));
+        labelCSVImportPathInVocabularyPage.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        labelCSVImportPathInVocabularyPage.setMaximumSize(new java.awt.Dimension(400, 0));
+        labelCSVImportPathInVocabularyPage.setPreferredSize(new java.awt.Dimension(200, 0));
+        jPanel8.add(labelCSVImportPathInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 461, 430, 20));
 
-        txtRequiredRomaji.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
-        txtRequiredRomaji.setForeground(new java.awt.Color(255, 51, 51));
-        jPanel8.add(txtRequiredRomaji, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, 86, 15));
+        txtRequiredRomajiInVocabularyPage.setFont(new java.awt.Font("Century", 2, 12)); // NOI18N
+        txtRequiredRomajiInVocabularyPage.setForeground(new java.awt.Color(255, 51, 51));
+        jPanel8.add(txtRequiredRomajiInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, 86, 15));
 
-        labelCsv.setForeground(new java.awt.Color(0, 153, 51));
-        jPanel8.add(labelCsv, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 444, 250, 20));
+        labelCsvInVocabularyPage.setForeground(new java.awt.Color(0, 153, 51));
+        jPanel8.add(labelCsvInVocabularyPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 444, 250, 20));
 
         tabbedPaneVocabulary.addTab("Vocabulary", jPanel8);
 
         jPanel1.add(tabbedPaneVocabulary, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
         tabbedPaneVocabulary.getAccessibleContext().setAccessibleName("List");
+
+        panelVersionMoreInfo.setBackground(new java.awt.Color(126, 63, 155));
+
+        labelAppInfoLanguage.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoLanguage.setText("Language: Java");
+
+        labelAppInfoDevelopedTime.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoDevelopedTime.setText("Developed time: 2 weeks");
+
+        labelAppInfoAbout.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoAbout.setText("About: Japanese Vocabulary Trainer");
+
+        labelAppInfoUIComponents.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoUIComponents.setText("UI Components: Swing");
+
+        labelAppInfoAck.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoAck.setText("Acknowledgement:");
+
+        labelAppInfoAckBody.setForeground(new java.awt.Color(255, 255, 255));
+        labelAppInfoAckBody.setText("Thanks a million to Tutor Ma Nyunt Nyunt Hlaing, Ma Su Su Lin and my sister Hnin Hnin for data entry.");
+
+        javax.swing.GroupLayout panelVersionMoreInfoLayout = new javax.swing.GroupLayout(panelVersionMoreInfo);
+        panelVersionMoreInfo.setLayout(panelVersionMoreInfoLayout);
+        panelVersionMoreInfoLayout.setHorizontalGroup(
+            panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelVersionMoreInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelAppInfoLanguage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoDevelopedTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoAbout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoUIComponents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoAck, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelAppInfoAckBody, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelVersionMoreInfoLayout.setVerticalGroup(
+            panelVersionMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelVersionMoreInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelAppInfoLanguage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoUIComponents)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoDevelopedTime)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoAbout)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoAck)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelAppInfoAckBody)
+                .addGap(34, 34, 34))
+        );
+
+        jPanel1.add(panelVersionMoreInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 386, 680, 170));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1031,25 +993,24 @@ public class App extends javax.swing.JFrame {
         
         switch (getTabbedPaneVocabulary().getSelectedIndex()) {
             case 0:
-                int selectedLesson = cboxLessonList.getSelectedIndex() + 1;
-                if ("".equals(txtSearchBox.getText())) {
+                int selectedLesson = cboxLessonsInListPage.getSelectedIndex() + 1;
+                if ("".equals(txtSearchBoxInListPage.getText())) {
                     new Vocabulary().repaintTable(tableVocabularies, getLabelTotalRows(), "ASC", selectedLesson);
-                    setUpTable();
+                    setUpTable(tableVocabularies);
                 }
                 break;
-                //haha
             case 1:
-                int selectedFavLesson = cboxFavLessonList.getSelectedIndex();
+                int selectedFavLesson = cboxFavoriteLessonsInFavoritePage.getSelectedIndex();
                 vocabulary = new Vocabulary();
-                vocabulary.repaintFavTable(tableFavoriteVocabularies, labelTotalRowsFav, selectedFavLesson);
-                setUpFavTable();
+                vocabulary.repaintFavTable(tableFavoriteVocabularies, labelTotalRowsInFavoritePage, selectedFavLesson);
+                setUpTable(tableFavoriteVocabularies);
                 break;
             case 2:
-                labelId.setVisible(false);
+                labelIdInVocabularyPage.setVisible(false);
                 getLabelVocabularyId().setVisible(false);
                 getTxtVocabularyName().requestFocus();
-                labelCSVImportPath.setText("");
-                labelCsv.setText("");
+                labelCSVImportPathInVocabularyPage.setText("");
+                labelCsvInVocabularyPage.setText("");
                 break;
             case 3:
                 int fromLesson = practicePanel.getCboxPracticeFromLesson().getSelectedIndex();
@@ -1062,26 +1023,26 @@ public class App extends javax.swing.JFrame {
                 break;
         }
 
-        labelId.setVisible(false);
+        labelIdInVocabularyPage.setVisible(false);
         clearLabelsAndTextFieldsInCreateVoca();
     }//GEN-LAST:event_tabbedPaneVocabularyStateChanged
 
     
-    private void checkBoxMarkAsFavoriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxMarkAsFavoriteActionPerformed
+    private void checkBoxMarkAsFavoriteInVocabularyPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxMarkAsFavoriteInVocabularyPageActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_checkBoxMarkAsFavoriteActionPerformed
+    }//GEN-LAST:event_checkBoxMarkAsFavoriteInVocabularyPageActionPerformed
 
-    private void txtVocabularyMeaningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVocabularyMeaningActionPerformed
+    private void txtVocabularyMeaningInVocabularyPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVocabularyMeaningInVocabularyPageActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtVocabularyMeaningActionPerformed
+    }//GEN-LAST:event_txtVocabularyMeaningInVocabularyPageActionPerformed
 
-    private void cboxLessonInCreateVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxLessonInCreateVocabularyActionPerformed
+    private void cboxLessonsInCreateUpdateVocabularyPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxLessonsInCreateUpdateVocabularyPageActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cboxLessonInCreateVocabularyActionPerformed
+    }//GEN-LAST:event_cboxLessonsInCreateUpdateVocabularyPageActionPerformed
 
-    private void txtVocabularyRomajiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVocabularyRomajiActionPerformed
+    private void txtVocabularyRomajiInVocabularyPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVocabularyRomajiInVocabularyPageActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtVocabularyRomajiActionPerformed
+    }//GEN-LAST:event_txtVocabularyRomajiInVocabularyPageActionPerformed
 
     private void btnGoVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoVocabularyActionPerformed
         String id =  getLabelVocabularyId().getText();
@@ -1089,7 +1050,7 @@ public class App extends javax.swing.JFrame {
         String romaji = getTxtVocabularyRomaji().getText();
         String meaning = getTxtVocabularyMeaning().getText();
         String lessonId = getCboxLessonInCreateVocabulary().getSelectedIndex() + 1 + "";
-        Boolean isFavorite = checkBoxMarkAsFavorite.isSelected();
+        Boolean isFavorite = checkBoxMarkAsFavoriteInVocabularyPage.isSelected();
 
         if ("".equals(name)) getTxtRequiredName().setText("Required");
         else getTxtRequiredName().setText("");
@@ -1117,9 +1078,9 @@ public class App extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGoVocabularyActionPerformed
 
-    private void txtVocabularyNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVocabularyNameActionPerformed
+    private void txtVocabularyNameInVocabularyPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVocabularyNameInVocabularyPageActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtVocabularyNameActionPerformed
+    }//GEN-LAST:event_txtVocabularyNameInVocabularyPageActionPerformed
 
     private void btnMinimizeWindowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeWindowMouseClicked
         this.setState(JFrame.ICONIFIED);
@@ -1141,10 +1102,10 @@ public class App extends javax.swing.JFrame {
         if(isToggledFavorite) {
             if (isFavorite) {
                 btnFavoriteVocabulary.setText("Favorite");
-                btnFavoriteVocabulary.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\img-btn-favorite.png"));
+                btnFavoriteVocabulary.setIcon(new ImageIcon(getClass().getClassLoader().getResource("HtetPhyoNaing/Resources/Images/img-btn-favorite.png")));
             } else {
                 btnFavoriteVocabulary.setText("Favorited");
-                btnFavoriteVocabulary.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\img-favoried.png"));
+                btnFavoriteVocabulary.setIcon(new ImageIcon(getClass().getClassLoader().getResource("HtetPhyoNaing/Resources/Images/img-favoried.png")));
             }
         }
     }//GEN-LAST:event_btnFavoriteVocabularyActionPerformed
@@ -1169,10 +1130,10 @@ public class App extends javax.swing.JFrame {
         getTxtVocabularyRomaji().setText(romaji);
         getTxtVocabularyMeaning().setText(meaning);
         getCboxLessonInCreateVocabulary().setSelectedIndex(getCboxLessonList().getSelectedIndex());
-        labelId.setVisible(true);
+        labelIdInVocabularyPage.setVisible(true);
         getLabelVocabularyId().setVisible(true);
         getLabelVocabularyId().setText(id.toString());
-        checkBoxMarkAsFavorite.setSelected(isFavorite);
+        checkBoxMarkAsFavoriteInVocabularyPage.setSelected(isFavorite);
     }//GEN-LAST:event_btnUpdateVocabularyActionPerformed
 
     private void btnDeleteVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteVocabularyActionPerformed
@@ -1193,48 +1154,46 @@ public class App extends javax.swing.JFrame {
             Vocabulary vocabulary = new Vocabulary();
             vocabulary.repaintTable(getTableVocabularies(), getLabelTotalRows(), "ASC", selectedLesson);
 
-            setUpTable();
+            setUpTable(tableVocabularies);
         }
     }//GEN-LAST:event_btnDeleteVocabularyActionPerformed
 
     private void btnClearSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearSearchTextActionPerformed
         getTxtSearchBox().setText("");
-        int selectedLesson = cboxLessonList.getSelectedIndex() + 1;
+        int selectedLesson = cboxLessonsInListPage.getSelectedIndex() + 1;
         
         new Vocabulary().repaintTable(tableVocabularies, getLabelTotalRows(), "ASC", selectedLesson);
-        setUpTable();
+        setUpTable(tableVocabularies);
     }//GEN-LAST:event_btnClearSearchTextActionPerformed
 
     private void cboxSearchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxSearchBoxActionPerformed
-        txtSearchBox.setText("");
-        int lessonId = cboxLessonList.getSelectedIndex() + 1;
-        int searchKey = cboxSearchBox.getSelectedIndex(); // 0 - Romaji, 1 - Jp, 2 - Mm
+        txtSearchBoxInListPage.setText("");
+        int lessonId = cboxLessonsInListPage.getSelectedIndex() + 1;
+        int searchKey = cboxSearchBox.getSelectedIndex(); // 0 - Romaji, 1 - Jp
         
-        txtSearchBox.requestFocus();
+        txtSearchBoxInListPage.requestFocus();
         
-        if (searchKey == 0) txtSearchBox.setFont(new Font("src\\HtetPhyoNaing\\Resources\\Fonts\\cerebrisans-regular.ttf", 1, 20));
-        else if (searchKey == 1) txtSearchBox.setFont(new Font("src\\HtetPhyoNaing\\Resources\\FontsMHGKyokashotaiTHK-Light.ttf", 1, 20));
+        if (searchKey == 0) txtSearchBoxInListPage.setFont(customFont);
+        else if (searchKey == 1) txtSearchBoxInListPage.setFont(getJpFont());
                 
         Vocabulary vocabulary = new Vocabulary();
-        vocabulary.repaintTable(tableVocabularies, labelTotalRows, "ASC", lessonId);
+        vocabulary.repaintTable(tableVocabularies, labelTotalRowsInListPage, "ASC", lessonId);
         
-        setUpTable();
+        setUpTable(tableVocabularies);
     }//GEN-LAST:event_cboxSearchBoxActionPerformed
 
-    private void cboxLessonListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboxLessonListPropertyChange
+    private void cboxLessonsInListPagePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboxLessonsInListPagePropertyChange
 
-    }//GEN-LAST:event_cboxLessonListPropertyChange
+    }//GEN-LAST:event_cboxLessonsInListPagePropertyChange
 
-    private void cboxLessonListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxLessonListActionPerformed
+    private void cboxLessonsInListPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxLessonsInListPageActionPerformed
         int selectedLesson = getCboxLessonList().getSelectedIndex() + 1;
-        
-        System.out.println(selectedLesson);
 
         Vocabulary vocabulary = new Vocabulary();
         vocabulary.repaintTable(getTableVocabularies(), getLabelTotalRows(), "ASC", selectedLesson);
 
-        setUpTable();
-    }//GEN-LAST:event_cboxLessonListActionPerformed
+        setUpTable(tableVocabularies);
+    }//GEN-LAST:event_cboxLessonsInListPageActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         int searchKey = getCboxSearchBox().getSelectedIndex();
@@ -1252,40 +1211,40 @@ public class App extends javax.swing.JFrame {
         Vocabulary vocabulary = new Vocabulary();
         vocabulary.repaintTable(getTableVocabularies(), getLabelTotalRows(), targetColumn, searchValue);
 
-        setUpTable();
+        setUpTable(tableVocabularies);
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void txtSearchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchBoxActionPerformed
+    private void txtSearchBoxInListPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchBoxInListPageActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchBoxActionPerformed
+    }//GEN-LAST:event_txtSearchBoxInListPageActionPerformed
 
-    private void cboxFavLessonListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboxFavLessonListPropertyChange
+    private void cboxFavoriteLessonsInFavoritePagePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboxFavoriteLessonsInFavoritePagePropertyChange
         // TODO add your handling code here:
-    }//GEN-LAST:event_cboxFavLessonListPropertyChange
+    }//GEN-LAST:event_cboxFavoriteLessonsInFavoritePagePropertyChange
 
-    private void cboxFavLessonListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxFavLessonListActionPerformed
-        int selectedLesson = cboxFavLessonList.getSelectedIndex();
+    private void cboxFavoriteLessonsInFavoritePageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxFavoriteLessonsInFavoritePageActionPerformed
+        int selectedLesson = cboxFavoriteLessonsInFavoritePage.getSelectedIndex();
         
-        System.out.println(selectedLesson);
         Vocabulary vocabulary = new Vocabulary();
-        vocabulary.repaintFavTable(tableFavoriteVocabularies, labelTotalRowsFav, selectedLesson);
-        setUpFavTable();
-    }//GEN-LAST:event_cboxFavLessonListActionPerformed
+        vocabulary.repaintFavTable(tableFavoriteVocabularies, labelTotalRowsInFavoritePage, selectedLesson);
+        
+        setUpTable(tableFavoriteVocabularies);
+    }//GEN-LAST:event_cboxFavoriteLessonsInFavoritePageActionPerformed
 
     private void btnCloseWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseEntered
-        btnCloseWindow.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\img-btn-close.png"));
+        btnCloseWindow.setIcon(new ImageIcon(getClass().getClassLoader().getResource("HtetPhyoNaing/Resources/Images/img-btn-close.png")));
     }//GEN-LAST:event_btnCloseWindowMouseEntered
 
     private void btnCloseWindowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseExited
-        btnCloseWindow.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\close.png"));
+        btnCloseWindow.setIcon(new ImageIcon(getClass().getClassLoader().getResource("HtetPhyoNaing/Resources/Images/close.png")));
     }//GEN-LAST:event_btnCloseWindowMouseExited
 
     private void btnMinimizeWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeWindowMouseEntered
-       btnMinimizeWindow.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\img-btn-minimize.png"));
+       btnMinimizeWindow.setIcon(new ImageIcon(getClass().getClassLoader().getResource("HtetPhyoNaing/Resources/Images/img-btn-minimize.png")));
     }//GEN-LAST:event_btnMinimizeWindowMouseEntered
 
     private void btnMinimizeWindowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeWindowMouseExited
-       btnMinimizeWindow.setIcon(new ImageIcon("src\\HtetPhyoNaing\\Resources\\Images\\img-btn-minimize_1.png"));
+       btnMinimizeWindow.setIcon(new ImageIcon(getClass().getClassLoader().getResource("HtetPhyoNaing/Resources/Images/img-btn-minimize_1.png")));
     }//GEN-LAST:event_btnMinimizeWindowMouseExited
 
     private void btnImportCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportCSVActionPerformed
@@ -1294,14 +1253,12 @@ public class App extends javax.swing.JFrame {
         File file = fileChooser.getSelectedFile();
         
         String filePath = file.getAbsolutePath();
-        if(filePath.length() > 50) {
-            labelCSVImportPath.setText("..." + filePath.substring(filePath.length() - 50));
-        } else {
-            labelCSVImportPath.setText(filePath);
-        }
-        labelCSVImportPath.setForeground(Color.BLACK);
-        labelCsv.setText("Reading and importing data from...");
-        labelCsv.setForeground(VERY_DARK_GREEN);
+        if(filePath.length() > 50) labelCSVImportPathInVocabularyPage.setText("..." + filePath.substring(filePath.length() - 50));
+        else labelCSVImportPathInVocabularyPage.setText(filePath);
+        
+        labelCSVImportPathInVocabularyPage.setForeground(Color.BLACK);
+        labelCsvInVocabularyPage.setText("Reading and importing data from...");
+        labelCsvInVocabularyPage.setForeground(VERY_DARK_GREEN);
         
         try {            
             BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -1321,10 +1278,10 @@ public class App extends javax.swing.JFrame {
                 || !"Romaji".equals(headers[1])
                 || !"Meaning".equals(headers[2])
                 || !"Lesson".equals(headers[3])) {
-                labelCSVImportPath.setText("Something is not right! Please try again later.");
-                labelCSVImportPath.setForeground(Color.red);
-                labelCSVImportPath.setFont(customFont);
-                labelCsv.setText("");
+                labelCSVImportPathInVocabularyPage.setText("Something is not right! Please try again later.");
+                labelCSVImportPathInVocabularyPage.setForeground(Color.red);
+                labelCSVImportPathInVocabularyPage.setFont(customFont);
+                labelCsvInVocabularyPage.setText("");
                 return;
             }
             
@@ -1339,9 +1296,9 @@ public class App extends javax.swing.JFrame {
             }
             
             // assumed importing is successfully completed
-            labelCsv.setText("");
-            labelCSVImportPath.setText("Successfully imported " + totalRows + " rows!");
-            labelCSVImportPath.setForeground(VERY_DARK_GREEN);
+            labelCsvInVocabularyPage.setText("");
+            labelCSVImportPathInVocabularyPage.setText("Successfully imported " + totalRows + " rows!");
+            labelCSVImportPathInVocabularyPage.setForeground(VERY_DARK_GREEN);
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
@@ -1361,17 +1318,6 @@ public class App extends javax.swing.JFrame {
     private void labelAppVersionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelAppVersionMouseExited
         panelVersionMoreInfo.setVisible(false);
     }//GEN-LAST:event_labelAppVersionMouseExited
-
-    private void clearLabelsAndTextFieldsInCreateVoca() {
-        getLabelVocabularyId().setVisible(false);
-        getTxtRequiredName().setText("");
-        getTxtRequiredRomaji().setText("");
-        getTxtRequiredMeaning().setText("");
-        getTxtVocabularyName().setText("");
-        getTxtVocabularyRomaji().setText("");
-        getTxtVocabularyMeaning().setText("");
-        getMsgCreateVocabulary().setText("");
-    }
     
     /**
      * @param args the command line arguments
@@ -1407,21 +1353,13 @@ public class App extends javax.swing.JFrame {
                 UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels(); 
                 try {
                     UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (UnsupportedLookAndFeelException ex) {
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                     Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
                 try {
                     new App().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (FontFormatException ex) {
+                } catch (IOException | FontFormatException ex) {
                     Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -1441,11 +1379,11 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateVocabulary;
     private javax.swing.JLabel btnVocabulary;
-    private javax.swing.JComboBox<String> cboxFavLessonList;
-    private javax.swing.JComboBox<String> cboxLessonInCreateVocabulary;
-    private javax.swing.JComboBox<String> cboxLessonList;
+    private javax.swing.JComboBox<String> cboxFavoriteLessonsInFavoritePage;
+    private javax.swing.JComboBox<String> cboxLessonsInCreateUpdateVocabularyPage;
+    private javax.swing.JComboBox<String> cboxLessonsInListPage;
     private javax.swing.JComboBox<String> cboxSearchBox;
-    private javax.swing.JCheckBox checkBoxMarkAsFavorite;
+    private javax.swing.JCheckBox checkBoxMarkAsFavoriteInVocabularyPage;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1464,35 +1402,35 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JLabel labelAppInfoLanguage;
     private javax.swing.JLabel labelAppInfoUIComponents;
     private javax.swing.JLabel labelAppVersion;
-    private javax.swing.JLabel labelCSVImportPath;
-    private javax.swing.JLabel labelChooseLessonInVocaCreate;
-    private javax.swing.JLabel labelCreateUpdateVocabulary;
-    private javax.swing.JLabel labelCsv;
+    private javax.swing.JLabel labelCSVImportPathInVocabularyPage;
+    private javax.swing.JLabel labelChooseLessonInVocabularyPage;
+    private javax.swing.JLabel labelCsvInVocabularyPage;
     private javax.swing.JLabel labelDeveloperMail;
-    private javax.swing.JLabel labelFilterByLessonInFavVocaList;
-    private javax.swing.JLabel labelFilterByLessonInVocaList;
-    private javax.swing.JLabel labelId;
-    private javax.swing.JLabel labelImportVocabulary;
-    private javax.swing.JLabel labelMeaningInVocaCreate;
-    private javax.swing.JLabel labelRomajiInVocaCreate;
-    private javax.swing.JLabel labelSearchInAllLessonsInVocaList;
+    private javax.swing.JLabel labelFilterByLessonInFavoritePage;
+    private javax.swing.JLabel labelFilterByLessonInListPage;
+    private javax.swing.JLabel labelHiraganaKatakanaInVocabularyPage;
+    private javax.swing.JLabel labelIdInVocabularyPage;
+    private javax.swing.JLabel labelImportVocabularyInVocabularyPage;
+    private javax.swing.JLabel labelMeaningInVocabularyPage;
+    private javax.swing.JLabel labelRomajiInVocabularyPage;
+    private javax.swing.JLabel labelSearchInAllLessonsInListPage;
     private javax.swing.JLabel labelTitle;
-    private javax.swing.JLabel labelTotalRows;
-    private javax.swing.JLabel labelTotalRowsFav;
-    private javax.swing.JLabel labelVocaInHiraganaKatakanaInVocaCreate;
-    private javax.swing.JLabel labelVocabularyId;
-    private javax.swing.JLabel msgCreateVocabulary;
+    private javax.swing.JLabel labelTitleCreateUpdateInVocabularyPage;
+    private javax.swing.JLabel labelTotalRowsInFavoritePage;
+    private javax.swing.JLabel labelTotalRowsInListPage;
+    private javax.swing.JLabel labelVocabularyCreatedOrUpdatedMessageInVocabularyPage;
+    private javax.swing.JLabel labelVocabularyIdInVocabularyPage;
     private javax.swing.JPanel panelVersionMoreInfo;
     private javax.swing.JTabbedPane tabbedPaneVocabulary;
     private javax.swing.JTable tableFavoriteVocabularies;
     private javax.swing.JTable tableVocabularies;
-    private javax.swing.JLabel txtRequiredMeaning;
-    private javax.swing.JLabel txtRequiredName;
-    private javax.swing.JLabel txtRequiredRomaji;
-    private javax.swing.JTextField txtSearchBox;
-    private javax.swing.JTextField txtVocabularyMeaning;
-    private javax.swing.JTextField txtVocabularyName;
-    private javax.swing.JTextField txtVocabularyRomaji;
+    private javax.swing.JLabel txtRequiredMeaningInVocabularyPage;
+    private javax.swing.JLabel txtRequiredNameInVocabularyPage;
+    private javax.swing.JLabel txtRequiredRomajiInVocabularyPage;
+    private javax.swing.JTextField txtSearchBoxInListPage;
+    private javax.swing.JTextField txtVocabularyMeaningInVocabularyPage;
+    private javax.swing.JTextField txtVocabularyNameInVocabularyPage;
+    private javax.swing.JTextField txtVocabularyRomajiInVocabularyPage;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -1534,14 +1472,14 @@ public class App extends javax.swing.JFrame {
      * @return the cboxLessonInCreateVocabulary
      */
     public javax.swing.JComboBox<String> getCboxLessonInCreateVocabulary() {
-        return cboxLessonInCreateVocabulary;
+        return cboxLessonsInCreateUpdateVocabularyPage;
     }
 
     /**
      * @return the cboxLessonList
      */
     public javax.swing.JComboBox<String> getCboxLessonList() {
-        return cboxLessonList;
+        return cboxLessonsInListPage;
     }
 
     /**
@@ -1555,70 +1493,70 @@ public class App extends javax.swing.JFrame {
      * @return the labelChooseLessonInVocaCreate
      */
     public javax.swing.JLabel getLabelChooseLessonInVocaCreate() {
-        return labelChooseLessonInVocaCreate;
+        return labelChooseLessonInVocabularyPage;
     }
 
     /**
      * @return the labelCreateUpdateVocabulary
      */
     public javax.swing.JLabel getLabelCreateUpdateVocabulary() {
-        return labelCreateUpdateVocabulary;
+        return labelTitleCreateUpdateInVocabularyPage;
     }
 
     /**
      * @return the labelFilterByLessonInVocaList
      */
     public javax.swing.JLabel getLabelFilterByLessonInVocaList() {
-        return labelFilterByLessonInVocaList;
+        return labelFilterByLessonInListPage;
     }
 
     /**
      * @return the labelMeaningInVocaCreate
      */
     public javax.swing.JLabel getLabelMeaningInVocaCreate() {
-        return labelMeaningInVocaCreate;
+        return labelMeaningInVocabularyPage;
     }
 
     /**
      * @return the labelRomajiInVocaCreate
      */
     public javax.swing.JLabel getLabelRomajiInVocaCreate() {
-        return labelRomajiInVocaCreate;
+        return labelRomajiInVocabularyPage;
     }
 
     /**
      * @return the labelSearchInAllLessonsInVocaList
      */
     public javax.swing.JLabel getLabelSearchInAllLessonsInVocaList() {
-        return labelSearchInAllLessonsInVocaList;
+        return labelSearchInAllLessonsInListPage;
     }
 
     /**
      * @return the labelTotalRows
      */
     public javax.swing.JLabel getLabelTotalRows() {
-        return labelTotalRows;
+        return labelTotalRowsInListPage;
     }
 
     /**
      * @return the labelVocaInHiraganaKatakanaInVocaCreate
      */
     public javax.swing.JLabel getLabelVocaInHiraganaKatakanaInVocaCreate() {
-        return labelVocaInHiraganaKatakanaInVocaCreate;
+        return labelHiraganaKatakanaInVocabularyPage;
     }
 
     /**
      * @return the labelVocabularyId
      */
     public javax.swing.JLabel getLabelVocabularyId() {
-        return labelVocabularyId;
+        return labelVocabularyIdInVocabularyPage;
     }
 
     /**
      * @return the msgCreateVocabulary
      */
     public javax.swing.JLabel getMsgCreateVocabulary() {
-        return msgCreateVocabulary;
+        return labelVocabularyCreatedOrUpdatedMessageInVocabularyPage;
     }
 
     /**
@@ -1639,48 +1577,76 @@ public class App extends javax.swing.JFrame {
      * @return the txtRequiredMeaning
      */
     public javax.swing.JLabel getTxtRequiredMeaning() {
-        return txtRequiredMeaning;
+        return txtRequiredMeaningInVocabularyPage;
     }
 
     /**
      * @return the txtRequiredName
      */
     public javax.swing.JLabel getTxtRequiredName() {
-        return txtRequiredName;
+        return txtRequiredNameInVocabularyPage;
     }
 
     /**
      * @return the txtRequiredRomaji
      */
     public javax.swing.JLabel getTxtRequiredRomaji() {
-        return txtRequiredRomaji;
+        return txtRequiredRomajiInVocabularyPage;
     }
 
     /**
      * @return the txtSearchBox
      */
     public javax.swing.JTextField getTxtSearchBox() {
-        return txtSearchBox;
+        return txtSearchBoxInListPage;
     }
 
     /**
      * @return the txtVocabularyMeaning
      */
     public javax.swing.JTextField getTxtVocabularyMeaning() {
-        return txtVocabularyMeaning;
+        return txtVocabularyMeaningInVocabularyPage;
     }
 
     /**
      * @return the txtVocabularyName
      */
     public javax.swing.JTextField getTxtVocabularyName() {
-        return txtVocabularyName;
+        return txtVocabularyNameInVocabularyPage;
     }
 
     /**
      * @return the txtVocabularyRomaji
      */
     public javax.swing.JTextField getTxtVocabularyRomaji() {
-        return txtVocabularyRomaji;
+        return txtVocabularyRomajiInVocabularyPage;
+    }
+    
+     /**
+     * @return the jpFont
+     */
+    public Font getJpFont() {
+        return jpFont;
+    }
+
+    /**
+     * @param jpFont the jpFont to set
+     */
+    public void setJpFont(Font jpFont) {
+        this.jpFont = jpFont;
+    }
+
+    /**
+     * @return the myanmarFont
+     */
+    public Font getMyanmarFont() {
+        return myanmarFont;
+    }
+
+    /**
+     * @param myanmarFont the myanmarFont to set
+     */
+    public void setMyanmarFont(Font myanmarFont) {
+        this.myanmarFont = myanmarFont;
     }
 }
