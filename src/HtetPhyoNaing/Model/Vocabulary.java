@@ -210,6 +210,9 @@ public class Vocabulary {
         if (from == to) query = query + " lesson_id = " + from;
         else if (from != to) query = query + " (lesson_id = " + from + " OR lesson_id = " + to + ")";
         
+        // generate randomly
+        query = query + " ORDER BY RANDOM()";
+        
         try(PreparedStatement statement = connection.prepareStatement(
                 query,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
